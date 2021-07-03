@@ -4,6 +4,9 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>modelo.Diagnostico</class>
     <class>modelo.Pedido</class>
+    <class>modelo.Examen</class>
+    <class>modelo.Laboratorio</class>
+    <class>modelo.Categoria</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sistemahospitalario?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
