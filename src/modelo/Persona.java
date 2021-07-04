@@ -48,7 +48,10 @@ public class Persona implements Serializable {
     
     @OneToOne(mappedBy = "persona", cascade = CascadeType.REFRESH, fetch= FetchType.LAZY)
     private Cuenta cuenta;
-
+    
+    @OneToOne(mappedBy="persona",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private HistorialClinico historial_clinico;
+    
     public Cuenta getCuenta() {
         return cuenta;
     }
@@ -56,8 +59,6 @@ public class Persona implements Serializable {
     public void setCuenta(Cuenta cuenta) {
         this.cuenta = cuenta;
     }
-    
-    
     
     public Rol getRol() {
         return rol;
@@ -162,6 +163,14 @@ public class Persona implements Serializable {
 
     public void setId_persona(Long id_persona) {
         this.id_persona = id_persona;
+    }
+
+    public HistorialClinico getHistorial_clinico() {
+        return historial_clinico;
+    }
+
+    public void setHistorial_clinico(HistorialClinico historial_clinico) {
+        this.historial_clinico = historial_clinico;
     }
 
     @Override
