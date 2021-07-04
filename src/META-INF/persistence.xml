@@ -10,6 +10,10 @@
     <class>modelo.HistorialClinico</class>
     <class>modelo.Consulta</class>
     <class>modelo.Receta</class>
+    <class>modelo.Persona</class>
+    <class>modelo.Rol</class>
+    <class>modelo.Cuenta</class>
+    <class>modelo.Medico</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sistemahospitalario?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
