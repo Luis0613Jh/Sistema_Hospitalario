@@ -25,11 +25,9 @@ public class Receta implements Serializable {
     private String fecha;
     
     @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
-    @JoinColumn(name="consulta", nullable = false,referencedColumnName = "id_consulta")
+    @JoinColumn(name="id_consulta", nullable = false,referencedColumnName = "id_consulta")
     private Consulta consulta;
     
-    
-
     public Consulta getConsulta() {
         return consulta;
     }
@@ -61,8 +59,6 @@ public class Receta implements Serializable {
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
-
-       
     
     public Long getId_receta() {
         return id_receta;

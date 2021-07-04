@@ -34,7 +34,11 @@ public class Consulta implements Serializable {
     @OneToOne(mappedBy="consulta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Receta receta;
     
+    @OneToOne(mappedBy="consulta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Diagnostico diagnostico;
     
+    @OneToOne(mappedBy="consulta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Pedido pedido;
 
     public Receta getRecera() {
         return receta;
@@ -44,8 +48,6 @@ public class Consulta implements Serializable {
         this.receta = recera;
     }
     
-    
-    
     public HistorialClinico getHistorial_clinico() {
         return historial_clinico;
     }
@@ -53,7 +55,6 @@ public class Consulta implements Serializable {
     public void setHistorial_clinico(HistorialClinico historial_clinico) {
         this.historial_clinico = historial_clinico;
     }
-
     
     public Long getId_paciente() {
         return id_paciente;
@@ -87,8 +88,6 @@ public class Consulta implements Serializable {
         this.fecha_cita = fecha_cita;
     }
     
-    
-
     public Long getId_consulta() {
         return id_consulta;
     }
@@ -97,6 +96,30 @@ public class Consulta implements Serializable {
         this.id_consulta = id_consulta;
     }
 
+    public Receta getReceta() {
+        return receta;
+    }
+
+    public void setReceta(Receta receta) {
+        this.receta = receta;
+    }
+
+    public Diagnostico getDiagnostico() {
+        return diagnostico;
+    }
+
+    public void setDiagnostico(Diagnostico diagnostico) {
+        this.diagnostico = diagnostico;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

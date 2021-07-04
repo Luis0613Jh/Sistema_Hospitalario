@@ -39,7 +39,10 @@ public class Examen implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_laboratorio",nullable = false, referencedColumnName = "id_laboratorio")      
     )
     private List<Laboratorio>listaLab = new ArrayList<Laboratorio>();
-     
+    
+    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @JoinColumn(name ="id_pedido",nullable = false, referencedColumnName = "id_pedido" )
+    private Pedido pedido;
      
     public List<Laboratorio> getListaExamen() {
         return listaLab;
@@ -89,6 +92,22 @@ public class Examen implements Serializable {
         this.id_examen = id_examen;
     }
 
+    public List<Laboratorio> getListaLab() {
+        return listaLab;
+    }
+
+    public void setListaLab(List<Laboratorio> listaLab) {
+        this.listaLab = listaLab;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

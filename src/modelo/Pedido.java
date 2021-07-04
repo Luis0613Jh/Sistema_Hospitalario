@@ -2,10 +2,17 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +24,14 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_pedido;
     private String fecha_pedido;
+    
+    @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @JoinColumn(name="id_consulta", nullable = false,referencedColumnName = "id_consulta")
+    private Consulta consulta;
 
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Examen>listaExamen = new ArrayList<Examen>();
+    
     public Long getId_pedido() {
         return id_pedido;
     }
@@ -34,7 +48,22 @@ public class Pedido implements Serializable {
         this.fecha_pedido = fecha_pedido;
     }
 
-    
+    public Consulta getConsulta() {
+        return consulta;
+    }
+
+    public void setConsulta(Consulta consulta) {
+        this.consulta = consulta;
+    }
+
+    public List<Examen> getListaExamen() {
+        return listaExamen;
+    }
+
+    public void setListaExamen(List<Examen> listaExamen) {
+        this.listaExamen = listaExamen;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

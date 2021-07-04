@@ -2,10 +2,14 @@
 package modelo;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +26,10 @@ public class Diagnostico implements Serializable {
     private Long id_medico;
     private String motivo_consulta;
 
+    @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @JoinColumn(name="id_consulta", nullable = false,referencedColumnName = "id_consulta")
+    private Consulta consulta;
+    
     public Long getId_diagnostico() {
         return id_diagnostico;
     }
@@ -68,6 +76,14 @@ public class Diagnostico implements Serializable {
 
     public void setMotivo_consulta(String motivo_consulta) {
         this.motivo_consulta = motivo_consulta;
+    }
+
+    public Consulta getConsulta() {
+        return consulta;
+    }
+
+    public void setConsulta(Consulta consulta) {
+        this.consulta = consulta;
     }
 
     @Override
