@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,9 +24,11 @@ public class HistorialClinico implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_historial_clinico;
     private Long id_paciente;
-    private String[] enfermedad;
-    private String[] enfermedad_hereditaria;
+    private String enfermedad;
+    private String enfermedad_hereditaria;
     private String observacion;
+    private String tipo_sangre;
+    private String habitos;
     
     @OneToMany(mappedBy="historial_clinico",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Consulta>ListarConsulta=new ArrayList<Consulta>();
@@ -52,20 +53,36 @@ public class HistorialClinico implements Serializable {
         this.id_paciente = id_paciente;
     }
 
-    public String[] getEnfermedad() {
+    public String getEnfermedad() {
         return enfermedad;
     }
 
-    public void setEnfermedad(String[] enfermedad) {
+    public void setEnfermedad(String enfermedad) {
         this.enfermedad = enfermedad;
     }
 
-    public String[] getEnfermedad_hereditaria() {
+    public String getEnfermedad_hereditaria() {
         return enfermedad_hereditaria;
     }
 
-    public void setEnfermedad_hereditaria(String[] enfermedad_hereditaria) {
+    public void setEnfermedad_hereditaria(String enfermedad_hereditaria) {
         this.enfermedad_hereditaria = enfermedad_hereditaria;
+    }
+
+    public String getTipo_sangre() {
+        return tipo_sangre;
+    }
+
+    public void setTipo_sangre(String tipo_sangre) {
+        this.tipo_sangre = tipo_sangre;
+    }
+
+    public String getHabitos() {
+        return habitos;
+    }
+
+    public void setHabitos(String habitos) {
+        this.habitos = habitos;
     }
 
     public String getObservacion() {

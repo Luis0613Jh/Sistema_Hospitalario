@@ -24,6 +24,7 @@ public class Pedido implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_pedido;
     private String fecha_pedido;
+    private String estado_pedido;
     
     @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     @JoinColumn(name="id_consulta", nullable = false,referencedColumnName = "id_consulta")
@@ -54,6 +55,14 @@ public class Pedido implements Serializable {
 
     public void setConsulta(Consulta consulta) {
         this.consulta = consulta;
+    }
+
+    public String getEstado_pedido() {
+        return estado_pedido;
+    }
+
+    public void setEstado_pedido(String estado_pedido) {
+        this.estado_pedido = estado_pedido;
     }
 
     public List<Examen> getListaExamen() {

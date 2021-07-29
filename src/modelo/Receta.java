@@ -2,7 +2,6 @@ package modelo;
 
 import java.io.Serializable;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,8 +19,7 @@ public class Receta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_receta;
-    private String[] medicamento;
-    private String[] indicaciones;
+    private String indicaciones;
     private String fecha;
     
     @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
@@ -35,23 +33,15 @@ public class Receta implements Serializable {
     public void setConsulta(Consulta consulta) {
         this.consulta = consulta;
     }    
-    
-    public String[] getMedicamento() {
-        return medicamento;
-    }
 
-    public void setMedicamento(String[] medicamento) {
-        this.medicamento = medicamento;
-    }
-
-    public String[] getIndicaciones() {
+    public String getIndicaciones() {
         return indicaciones;
     }
 
-    public void setIndicaciones(String[] indicaciones) {
+    public void setIndicaciones(String indicaciones) {
         this.indicaciones = indicaciones;
     }
-
+    
     public String getFecha() {
         return fecha;
     }
