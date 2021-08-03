@@ -12,14 +12,15 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import modelo.HistorialClinico;
 import modelo.Receta;
+import modelo.HistorialClinico;
 import modelo.Diagnostico;
 import modelo.Pedido;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import modelo.Consulta;
 
 /**
@@ -31,26 +32,40 @@ public class ConsultaJpaController implements Serializable {
     public ConsultaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Consulta consulta) {
+    public void create(Consulta consulta) throws IllegalOrphanException {
+        List<String> illegalOrphanMessages = null;
+        Receta recetaOrphanCheck = consulta.getReceta();
+        if (recetaOrphanCheck != null) {
+            Consulta oldConsultaOfReceta = recetaOrphanCheck.getConsulta();
+            if (oldConsultaOfReceta != null) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("The Receta " + recetaOrphanCheck + " already has an item of type Consulta whose receta column cannot be null. Please make another selection for the receta field.");
+            }
+        }
+        if (illegalOrphanMessages != null) {
+            throw new IllegalOrphanException(illegalOrphanMessages);
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            HistorialClinico historial_clinico = consulta.getHistorial_clinico();
-            if (historial_clinico != null) {
-                historial_clinico = em.getReference(historial_clinico.getClass(), historial_clinico.getId_historial_clinico());
-                consulta.setHistorial_clinico(historial_clinico);
-            }
             Receta receta = consulta.getReceta();
             if (receta != null) {
                 receta = em.getReference(receta.getClass(), receta.getId_receta());
                 consulta.setReceta(receta);
+            }
+            HistorialClinico historial_clinico = consulta.getHistorial_clinico();
+            if (historial_clinico != null) {
+                historial_clinico = em.getReference(historial_clinico.getClass(), historial_clinico.getId_historial_clinico());
+                consulta.setHistorial_clinico(historial_clinico);
             }
             Diagnostico diagnostico = consulta.getDiagnostico();
             if (diagnostico != null) {
@@ -63,18 +78,13 @@ public class ConsultaJpaController implements Serializable {
                 consulta.setPedido(pedido);
             }
             em.persist(consulta);
+            if (receta != null) {
+                receta.setConsulta(consulta);
+                receta = em.merge(receta);
+            }
             if (historial_clinico != null) {
                 historial_clinico.getListarConsulta().add(consulta);
                 historial_clinico = em.merge(historial_clinico);
-            }
-            if (receta != null) {
-                Consulta oldConsultaOfReceta = receta.getConsulta();
-                if (oldConsultaOfReceta != null) {
-                    oldConsultaOfReceta.setReceta(null);
-                    oldConsultaOfReceta = em.merge(oldConsultaOfReceta);
-                }
-                receta.setConsulta(consulta);
-                receta = em.merge(receta);
             }
             if (diagnostico != null) {
                 Consulta oldConsultaOfDiagnostico = diagnostico.getConsulta();
@@ -108,20 +118,23 @@ public class ConsultaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Consulta persistentConsulta = em.find(Consulta.class, consulta.getId_consulta());
-            HistorialClinico historial_clinicoOld = persistentConsulta.getHistorial_clinico();
-            HistorialClinico historial_clinicoNew = consulta.getHistorial_clinico();
             Receta recetaOld = persistentConsulta.getReceta();
             Receta recetaNew = consulta.getReceta();
+            HistorialClinico historial_clinicoOld = persistentConsulta.getHistorial_clinico();
+            HistorialClinico historial_clinicoNew = consulta.getHistorial_clinico();
             Diagnostico diagnosticoOld = persistentConsulta.getDiagnostico();
             Diagnostico diagnosticoNew = consulta.getDiagnostico();
             Pedido pedidoOld = persistentConsulta.getPedido();
             Pedido pedidoNew = consulta.getPedido();
             List<String> illegalOrphanMessages = null;
-            if (recetaOld != null && !recetaOld.equals(recetaNew)) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
+            if (recetaNew != null && !recetaNew.equals(recetaOld)) {
+                Consulta oldConsultaOfReceta = recetaNew.getConsulta();
+                if (oldConsultaOfReceta != null) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("The Receta " + recetaNew + " already has an item of type Consulta whose receta column cannot be null. Please make another selection for the receta field.");
                 }
-                illegalOrphanMessages.add("You must retain Receta " + recetaOld + " since its consulta field is not nullable.");
             }
             if (diagnosticoOld != null && !diagnosticoOld.equals(diagnosticoNew)) {
                 if (illegalOrphanMessages == null) {
@@ -138,13 +151,13 @@ public class ConsultaJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (historial_clinicoNew != null) {
-                historial_clinicoNew = em.getReference(historial_clinicoNew.getClass(), historial_clinicoNew.getId_historial_clinico());
-                consulta.setHistorial_clinico(historial_clinicoNew);
-            }
             if (recetaNew != null) {
                 recetaNew = em.getReference(recetaNew.getClass(), recetaNew.getId_receta());
                 consulta.setReceta(recetaNew);
+            }
+            if (historial_clinicoNew != null) {
+                historial_clinicoNew = em.getReference(historial_clinicoNew.getClass(), historial_clinicoNew.getId_historial_clinico());
+                consulta.setHistorial_clinico(historial_clinicoNew);
             }
             if (diagnosticoNew != null) {
                 diagnosticoNew = em.getReference(diagnosticoNew.getClass(), diagnosticoNew.getId_diagnostico());
@@ -155,6 +168,14 @@ public class ConsultaJpaController implements Serializable {
                 consulta.setPedido(pedidoNew);
             }
             consulta = em.merge(consulta);
+            if (recetaOld != null && !recetaOld.equals(recetaNew)) {
+                recetaOld.setConsulta(null);
+                recetaOld = em.merge(recetaOld);
+            }
+            if (recetaNew != null && !recetaNew.equals(recetaOld)) {
+                recetaNew.setConsulta(consulta);
+                recetaNew = em.merge(recetaNew);
+            }
             if (historial_clinicoOld != null && !historial_clinicoOld.equals(historial_clinicoNew)) {
                 historial_clinicoOld.getListarConsulta().remove(consulta);
                 historial_clinicoOld = em.merge(historial_clinicoOld);
@@ -162,15 +183,6 @@ public class ConsultaJpaController implements Serializable {
             if (historial_clinicoNew != null && !historial_clinicoNew.equals(historial_clinicoOld)) {
                 historial_clinicoNew.getListarConsulta().add(consulta);
                 historial_clinicoNew = em.merge(historial_clinicoNew);
-            }
-            if (recetaNew != null && !recetaNew.equals(recetaOld)) {
-                Consulta oldConsultaOfReceta = recetaNew.getConsulta();
-                if (oldConsultaOfReceta != null) {
-                    oldConsultaOfReceta.setReceta(null);
-                    oldConsultaOfReceta = em.merge(oldConsultaOfReceta);
-                }
-                recetaNew.setConsulta(consulta);
-                recetaNew = em.merge(recetaNew);
             }
             if (diagnosticoNew != null && !diagnosticoNew.equals(diagnosticoOld)) {
                 Consulta oldConsultaOfDiagnostico = diagnosticoNew.getConsulta();
@@ -220,13 +232,6 @@ public class ConsultaJpaController implements Serializable {
                 throw new NonexistentEntityException("The consulta with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Receta recetaOrphanCheck = consulta.getReceta();
-            if (recetaOrphanCheck != null) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Consulta (" + consulta + ") cannot be destroyed since the Receta " + recetaOrphanCheck + " in its receta field has a non-nullable consulta field.");
-            }
             Diagnostico diagnosticoOrphanCheck = consulta.getDiagnostico();
             if (diagnosticoOrphanCheck != null) {
                 if (illegalOrphanMessages == null) {
@@ -243,6 +248,11 @@ public class ConsultaJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            Receta receta = consulta.getReceta();
+            if (receta != null) {
+                receta.setConsulta(null);
+                receta = em.merge(receta);
             }
             HistorialClinico historial_clinico = consulta.getHistorial_clinico();
             if (historial_clinico != null) {

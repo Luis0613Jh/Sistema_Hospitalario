@@ -5,17 +5,19 @@
  */
 package controlador;
 
+import controlador.exceptions.IllegalOrphanException;
 import controlador.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.Consulta;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import modelo.Receta;
 
 /**
@@ -45,7 +47,12 @@ public class RecetaJpaController implements Serializable {
             }
             em.persist(receta);
             if (consulta != null) {
-                consulta.getReceta().add(receta);
+                Receta oldRecetaOfConsulta = consulta.getReceta();
+                if (oldRecetaOfConsulta != null) {
+                    oldRecetaOfConsulta.setConsulta(null);
+                    oldRecetaOfConsulta = em.merge(oldRecetaOfConsulta);
+                }
+                consulta.setReceta(receta);
                 consulta = em.merge(consulta);
             }
             em.getTransaction().commit();
@@ -56,7 +63,7 @@ public class RecetaJpaController implements Serializable {
         }
     }
 
-    public void edit(Receta receta) throws NonexistentEntityException, Exception {
+    public void edit(Receta receta) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -64,17 +71,28 @@ public class RecetaJpaController implements Serializable {
             Receta persistentReceta = em.find(Receta.class, receta.getId_receta());
             Consulta consultaOld = persistentReceta.getConsulta();
             Consulta consultaNew = receta.getConsulta();
+            List<String> illegalOrphanMessages = null;
+            if (consultaOld != null && !consultaOld.equals(consultaNew)) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("You must retain Consulta " + consultaOld + " since its receta field is not nullable.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
+            }
             if (consultaNew != null) {
                 consultaNew = em.getReference(consultaNew.getClass(), consultaNew.getId_consulta());
                 receta.setConsulta(consultaNew);
             }
             receta = em.merge(receta);
-            if (consultaOld != null && !consultaOld.equals(consultaNew)) {
-                consultaOld.getReceta().remove(receta);
-                consultaOld = em.merge(consultaOld);
-            }
             if (consultaNew != null && !consultaNew.equals(consultaOld)) {
-                consultaNew.getReceta().add(receta);
+                Receta oldRecetaOfConsulta = consultaNew.getReceta();
+                if (oldRecetaOfConsulta != null) {
+                    oldRecetaOfConsulta.setConsulta(null);
+                    oldRecetaOfConsulta = em.merge(oldRecetaOfConsulta);
+                }
+                consultaNew.setReceta(receta);
                 consultaNew = em.merge(consultaNew);
             }
             em.getTransaction().commit();
@@ -94,7 +112,7 @@ public class RecetaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -106,10 +124,16 @@ public class RecetaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The receta with id " + id + " no longer exists.", enfe);
             }
-            Consulta consulta = receta.getConsulta();
-            if (consulta != null) {
-                consulta.getReceta().remove(receta);
-                consulta = em.merge(consulta);
+            List<String> illegalOrphanMessages = null;
+            Consulta consultaOrphanCheck = receta.getConsulta();
+            if (consultaOrphanCheck != null) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Receta (" + receta + ") cannot be destroyed since the Consulta " + consultaOrphanCheck + " in its consulta field has a non-nullable receta field.");
+            }
+            if (illegalOrphanMessages != null) {
+                throw new IllegalOrphanException(illegalOrphanMessages);
             }
             em.remove(receta);
             em.getTransaction().commit();
