@@ -40,12 +40,12 @@ public class Consulta implements Serializable {
     @OneToOne(mappedBy="consulta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Pedido pedido;
 
-    public Receta getRecera() {
+    public Receta getReceta() {
         return receta;
     }
 
-    public void setRecera(Receta recera) {
-        this.receta = recera;
+    public void setReceta(Receta receta) {
+        this.receta = receta;
     }
     
     public HistorialClinico getHistorial_clinico() {
@@ -94,14 +94,6 @@ public class Consulta implements Serializable {
 
     public void setId_consulta(Long id_consulta) {
         this.id_consulta = id_consulta;
-    }
-
-    public Receta getReceta() {
-        return receta;
-    }
-
-    public void setReceta(Receta receta) {
-        this.receta = receta;
     }
 
     public Diagnostico getDiagnostico() {
