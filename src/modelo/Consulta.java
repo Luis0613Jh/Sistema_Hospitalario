@@ -1,4 +1,3 @@
-
 package modelo;
 
 import java.io.Serializable;
@@ -31,8 +30,11 @@ public class Consulta implements Serializable {
     @JoinColumn(name = "id_historial_clinico", nullable=false,referencedColumnName="id_historial_clinico")
     private HistorialClinico historial_clinico;
     
-    @OneToOne(mappedBy="consulta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+   
+     @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+     @JoinColumn(name="id_receta", nullable = false,referencedColumnName = "id_receta")
     private Receta receta;
+    
     
     @OneToOne(mappedBy="consulta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Diagnostico diagnostico;
@@ -40,13 +42,7 @@ public class Consulta implements Serializable {
     @OneToOne(mappedBy="consulta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Pedido pedido;
 
-    public Receta getRecera() {
-        return receta;
-    }
-
-    public void setRecera(Receta recera) {
-        this.receta = recera;
-    }
+  
     
     public HistorialClinico getHistorial_clinico() {
         return historial_clinico;

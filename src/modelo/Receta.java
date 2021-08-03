@@ -1,3 +1,4 @@
+  
 package modelo;
 
 import java.io.Serializable;
@@ -22,9 +23,9 @@ public class Receta implements Serializable {
     private String indicaciones;
     private String fecha;
     
-    @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
-    @JoinColumn(name="id_consulta", nullable = false,referencedColumnName = "id_consulta")
+    @OneToOne(mappedBy="receta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Consulta consulta;
+    
     
     public Consulta getConsulta() {
         return consulta;
