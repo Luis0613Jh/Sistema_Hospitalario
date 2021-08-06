@@ -38,7 +38,8 @@ public class Persona implements Serializable {
     private String celular;
     private String contacto_auxiliar;
     private String estado_civil;
-    private String estado="activo";
+    private String estado;
+    private String estado_disponibilidad;
     
     //name = Nombre del dato en la tabla persona
     //referencedColumnName = Nombre de La tabla a la que se va a conectar
@@ -173,6 +174,14 @@ public class Persona implements Serializable {
         this.historial_clinico = historial_clinico;
     }
 
+    public String getEstado_disponibilidad() {
+        return estado_disponibilidad;
+    }
+
+    public void setEstado_disponibilidad(String estado_disponibilidad) {
+        this.estado_disponibilidad = estado_disponibilidad;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -195,7 +204,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Persona[ id=" + id_persona + " ]";
+        return nombre + apellido + " - " + cedula;
     }
     
 }

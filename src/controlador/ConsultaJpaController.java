@@ -29,15 +29,21 @@ import modelo.Consulta;
  */
 public class ConsultaJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public ConsultaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
 
+    public ConsultaJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    
     public void create(Consulta consulta) throws IllegalOrphanException {
         List<String> illegalOrphanMessages = null;
         Receta recetaOrphanCheck = consulta.getReceta();

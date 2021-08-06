@@ -28,15 +28,21 @@ import modelo.Persona;
  */
 public class PersonaJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public PersonaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
 
+    public PersonaJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    
     public void create(Persona persona) {
         EntityManager em = null;
         try {
@@ -262,4 +268,17 @@ public class PersonaJpaController implements Serializable {
         }
     }
     
+    public List<Persona> getLaboratoristas(String idRol, String estado) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("SELECT e "
+                    + "FROM Persona e " 
+                    + "WHERE (e.id_rol = ?13 and e.estado_disponibilidad = ?12)")
+                    .setParameter(12, estado)
+                    .setParameter(13, idRol);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

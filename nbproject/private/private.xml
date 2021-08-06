@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/luis0/OneDrive/Documentos/Universidad/Cuarto%20Ciclo/Asignaturas/Diseño%20de%20Software/Proyecto%20Final/Repositorio%20Github/Sistema_Hospitalario/src/modelo/Receta.java</file>
-            <file>file:/C:/Users/luis0/OneDrive/Documentos/Universidad/Cuarto%20Ciclo/Asignaturas/Diseño%20de%20Software/Proyecto%20Final/Repositorio%20Github/Sistema_Hospitalario/src/modelo/Laboratorio.java</file>
-            <file>file:/C:/Users/luis0/OneDrive/Documentos/Universidad/Cuarto%20Ciclo/Asignaturas/Diseño%20de%20Software/Proyecto%20Final/Repositorio%20Github/Sistema_Hospitalario/src/controlador/RecetaJpaController.java</file>
-            <file>file:/C:/Users/luis0/OneDrive/Documentos/Universidad/Cuarto%20Ciclo/Asignaturas/Diseño%20de%20Software/Proyecto%20Final/Repositorio%20Github/Sistema_Hospitalario/src/controlador/DAO/LaboratorioControlador.java</file>
-            <file>file:/C:/Users/luis0/OneDrive/Documentos/Universidad/Cuarto%20Ciclo/Asignaturas/Diseño%20de%20Software/Proyecto%20Final/Repositorio%20Github/Sistema_Hospitalario/src/controlador/LaboratorioJpaController.java</file>
-            <file>file:/C:/Users/luis0/OneDrive/Documentos/Universidad/Cuarto%20Ciclo/Asignaturas/Diseño%20de%20Software/Proyecto%20Final/Repositorio%20Github/Sistema_Hospitalario/src/modelo/Consulta.java</file>
+            <file>file:/C:/Users/luis0/OneDrive/Documentos/Universidad/Cuarto%20Ciclo/Asignaturas/Diseño%20de%20Software/Proyecto%20Final/Repositorio%20Github/Sistema_Hospitalario/src/controlador/PedidoJpaController.java</file>
+            <file>file:/C:/Users/luis0/OneDrive/Documentos/Universidad/Cuarto%20Ciclo/Asignaturas/Diseño%20de%20Software/Proyecto%20Final/Repositorio%20Github/Sistema_Hospitalario/src/modelo/tabla/PedidosTabla.java</file>
+            <file>file:/C:/Users/luis0/OneDrive/Documentos/Universidad/Cuarto%20Ciclo/Asignaturas/Diseño%20de%20Software/Proyecto%20Final/Repositorio%20Github/Sistema_Hospitalario/src/vista/Frm_GestionarPedido.java</file>
+            <file>file:/C:/Users/luis0/OneDrive/Documentos/Universidad/Cuarto%20Ciclo/Asignaturas/Diseño%20de%20Software/Proyecto%20Final/Repositorio%20Github/Sistema_Hospitalario/src/controlador/DAO/PedidoDAO.java</file>
         </group>
     </open-files>
 </project-private>

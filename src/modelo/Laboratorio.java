@@ -20,11 +20,12 @@ public class Laboratorio implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_laboratorio;
     private String nombre_lab;
     private String descripcion_lab;
     private String id_encargado;
+    private String estado;
 
    @ManyToMany(mappedBy = "listaLab",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Examen>listaExamen = new ArrayList<Examen>();
@@ -36,7 +37,6 @@ public class Laboratorio implements Serializable {
     public void setListaExamen(List<Examen> listaExamen) {
         this.listaExamen = listaExamen;
     }
-    
     
     public String getNombre_lab() {
         return nombre_lab;
@@ -70,6 +70,14 @@ public class Laboratorio implements Serializable {
         this.id_laboratorio = id_laboratorio;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -92,7 +100,7 @@ public class Laboratorio implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Laboratorio[ id=" + id_laboratorio + " ]";
+        return nombre_lab;
     }
     
 }

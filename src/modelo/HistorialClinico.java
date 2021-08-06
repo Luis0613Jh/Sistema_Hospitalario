@@ -23,7 +23,6 @@ public class HistorialClinico implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_historial_clinico;
-    private Long id_paciente;
     private String enfermedad;
     private String enfermedad_hereditaria;
     private String observacion;
@@ -43,14 +42,6 @@ public class HistorialClinico implements Serializable {
 
     public void setListarConsulta(List<Consulta> ListarConsulta) {
         this.ListarConsulta = ListarConsulta;
-    }
-    
-    public Long getId_paciente() {
-        return id_paciente;
-    }
-
-    public void setId_paciente(Long id_paciente) {
-        this.id_paciente = id_paciente;
     }
 
     public String getEnfermedad() {

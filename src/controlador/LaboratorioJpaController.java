@@ -25,10 +25,15 @@ import modelo.Laboratorio;
  */
 public class LaboratorioJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public LaboratorioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+
+    public LaboratorioJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -178,4 +183,16 @@ public class LaboratorioJpaController implements Serializable {
         }
     }
     
+    public List<Laboratorio> getLaboratoriosPorEstado(String estado) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("SELECT e "
+                    + "FROM Laboratorio e " 
+                    + "WHERE e.estado = ?4")
+                    .setParameter(4, estado);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

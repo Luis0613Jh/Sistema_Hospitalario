@@ -26,10 +26,15 @@ import modelo.Receta;
  */
 public class RecetaJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public RecetaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+
+    public RecetaJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

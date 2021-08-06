@@ -1,72 +1,25 @@
 package vista;
 
 import controlador.DAO.PedidoDAO;
-import javax.swing.JOptionPane;
-import modelo.tabla.PedidosTabla;
 
-public class Frm_GestionarPedido extends javax.swing.JFrame {
+public class Frm_DetallesPedido extends javax.swing.JFrame {
 
-    private PedidoDAO pedidoDAO = new PedidoDAO();
-    private PedidosTabla pedidosTabla = new PedidosTabla();
+    private PedidoDAO pedidoDAO;
 
     /**
      * Creates new form Frm_GestionarPedido
      */
-    public Frm_GestionarPedido() {
+    public Frm_DetallesPedido() {
         initComponents();
-//        cargarTabla();
+    }
+    
+    public Frm_DetallesPedido(PedidoDAO pedidoDAO) {
+        this.pedidoDAO = pedidoDAO;
+        initComponents();
     }
 
     public void cargarCampos() {
 
-    }
-
-    public void habilitarCampos() {
-        cbxExamenes.setEnabled(true);
-    }
-
-    public void deshabilitarCampos() {
-        cbxExamenes.setEnabled(false);
-    }
-
-    public void guardar() {
-
-        // 
-    }
-
-    public void nuevo() {
-
-        habilitarCampos();
-    }
-
-//    public void darDeBaja() {
-//
-//        if (tblExamenes.getSelectedRow() != - 1) {
-//            pedidoControlador.setPedido(pedidoControlador.listar().get(tblPedidos.getSelectedRow()));
-//            pedidoControlador.getPedido().setEstado("inactivo");
-//
-//            if (pedidoControlador.editar(pedidoControlador.getPedido())) {
-//
-//                JOptionPane.showMessageDialog(this, "Pedido eliminado exitosamente");
-//                pedidoControlador.setPedido(null);
-//                cargarTabla();
-//
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Ha ocurrido un error, el pedido no se pudo eliminar");
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
-//        }
-//    }
-//
-//    public void cargarTabla() {
-//        pedidosTabla.setListaPedidos(pedidoDAO.getPedido().getListaExamen());
-//        tblExamenes.setModel(pedidosTabla);
-//        tblExamenes.updateUI();
-//    }
-
-    public void cancelar() {
-        deshabilitarCampos();
     }
 
     /**
@@ -96,19 +49,12 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         lblEdad = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        cbxExamenes = new javax.swing.JComboBox<>();
-        btnCancelar = new javax.swing.JButton();
-        btnAñadir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblExamenes = new javax.swing.JTable();
-        btnEliminar = new javax.swing.JButton();
-        btnNuevo = new javax.swing.JButton();
-        btnGuardar = new javax.swing.JButton();
+        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
 
         jPanel1.setLayout(null);
 
@@ -179,31 +125,8 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel2.add(jLabel8);
         jLabel8.setBounds(450, 180, 40, 16);
 
-        jLabel9.setText("Exámen:");
-        jPanel2.add(jLabel9);
-        jLabel9.setBounds(20, 230, 70, 16);
-
-        cbxExamenes.setEnabled(false);
-        jPanel2.add(cbxExamenes);
-        cbxExamenes.setBounds(150, 230, 230, 22);
-
-        btnCancelar.setText("Cancelar");
-        btnCancelar.setEnabled(false);
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnCancelar);
-        btnCancelar.setBounds(600, 230, 80, 22);
-
-        btnAñadir.setText("Añadir");
-        btnAñadir.setEnabled(false);
-        jPanel2.add(btnAñadir);
-        btnAñadir.setBounds(600, 170, 72, 22);
-
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(10, 10, 690, 270);
+        jPanel2.setBounds(10, 10, 600, 220);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(null);
@@ -224,58 +147,27 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel3.add(jScrollPane1);
         jScrollPane1.setBounds(12, 12, 570, 210);
 
-        btnEliminar.setText("Eliminar");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnEliminar);
-        btnEliminar.setBounds(600, 110, 80, 22);
-
-        btnNuevo.setText("Nuevo");
-        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnNuevo);
-        btnNuevo.setBounds(600, 10, 80, 22);
-
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnGuardar);
-        btnGuardar.setBounds(600, 200, 80, 22);
-
         jPanel1.add(jPanel3);
-        jPanel3.setBounds(10, 290, 690, 240);
+        jPanel3.setBounds(10, 240, 600, 240);
 
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 720, 570);
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnVolver);
+        btnVolver.setBounds(10, 490, 80, 22);
 
-        setSize(new java.awt.Dimension(739, 581));
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        setSize(new java.awt.Dimension(634, 539));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        nuevo();
-    }//GEN-LAST:event_btnNuevoActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        cancelar();
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }//GEN-LAST:event_btnVolverActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,39 +187,36 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class
+            java.util.logging.Logger.getLogger(Frm_DetallesPedido.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class
+            java.util.logging.Logger.getLogger(Frm_DetallesPedido.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class
+            java.util.logging.Logger.getLogger(Frm_DetallesPedido.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class
+            java.util.logging.Logger.getLogger(Frm_DetallesPedido.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Frm_GestionarPedido().setVisible(true);
+                new Frm_DetallesPedido().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAñadir;
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnNuevo;
-    private javax.swing.JComboBox<String> cbxExamenes;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -336,7 +225,6 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

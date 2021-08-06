@@ -27,10 +27,15 @@ import modelo.Examen;
  */
 public class ExamenJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public ExamenJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+
+    public ExamenJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

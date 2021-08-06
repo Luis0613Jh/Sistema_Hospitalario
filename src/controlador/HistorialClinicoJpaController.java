@@ -26,10 +26,15 @@ import modelo.HistorialClinico;
  */
 public class HistorialClinicoJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public HistorialClinicoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    
+    public HistorialClinicoJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

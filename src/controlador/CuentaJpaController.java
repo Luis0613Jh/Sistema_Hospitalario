@@ -26,10 +26,15 @@ import modelo.Cuenta;
  */
 public class CuentaJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public CuentaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+
+    public CuentaJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

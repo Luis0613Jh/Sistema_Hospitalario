@@ -21,16 +21,17 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Pedido;
 
-/**
- *
- * @author luis0
- */
 public class PedidoJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public PedidoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+
+    public PedidoJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -253,4 +254,16 @@ public class PedidoJpaController implements Serializable {
         }
     }
     
+    public List<Pedido> getPedidosPorEstado(String estado) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("SELECT e "
+                    + "FROM Pedido e " 
+                    + "WHERE e.estado_pedido = ?1")
+                    .setParameter(1, estado);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

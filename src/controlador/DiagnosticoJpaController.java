@@ -26,14 +26,20 @@ import modelo.Diagnostico;
  */
 public class DiagnosticoJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public DiagnosticoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    
+    public DiagnosticoJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+
 
     public void create(Diagnostico diagnostico) throws IllegalOrphanException {
         List<String> illegalOrphanMessages = null;

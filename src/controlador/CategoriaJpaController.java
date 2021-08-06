@@ -26,10 +26,15 @@ import modelo.Categoria;
  */
 public class CategoriaJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public CategoriaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+
+    public CategoriaJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
