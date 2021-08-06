@@ -1,24 +1,30 @@
 package vista;
 
+import controlador.DAO.ExamenDAO;
 import controlador.DAO.PedidoDAO;
 import javax.swing.JOptionPane;
-import modelo.tabla.PedidosTabla;
+import modelo.Examen;
+import modelo.tabla.modeloExam;
+import vista.utilidades.UtilidadesVista;
 
 public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     private PedidoDAO pedidoDAO = new PedidoDAO();
-    private PedidosTabla pedidosTabla = new PedidosTabla();
+    private ExamenDAO examenDAO = new ExamenDAO();
+    private modeloExam examenesTabla = new modeloExam();
 
     /**
      * Creates new form Frm_GestionarPedido
      */
     public Frm_GestionarPedido() {
         initComponents();
-//        cargarTabla();
+        cargarCampos();
+        cargarTabla();
     }
 
     public void cargarCampos() {
-
+        
+        UtilidadesVista.cargarCbx(cbxExamenes, examenDAO.TodosExam());
     }
 
     public void habilitarCampos() {
@@ -31,7 +37,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     public void guardar() {
 
-        // 
+        // Código para guardar el pedido en BD
     }
 
     public void nuevo() {
@@ -39,32 +45,26 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         habilitarCampos();
     }
 
-//    public void darDeBaja() {
-//
-//        if (tblExamenes.getSelectedRow() != - 1) {
-//            pedidoControlador.setPedido(pedidoControlador.listar().get(tblPedidos.getSelectedRow()));
-//            pedidoControlador.getPedido().setEstado("inactivo");
-//
-//            if (pedidoControlador.editar(pedidoControlador.getPedido())) {
-//
-//                JOptionPane.showMessageDialog(this, "Pedido eliminado exitosamente");
-//                pedidoControlador.setPedido(null);
-//                cargarTabla();
-//
-//            } else {
-//                JOptionPane.showMessageDialog(this, "Ha ocurrido un error, el pedido no se pudo eliminar");
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
-//        }
-//    }
-//
-//    public void cargarTabla() {
-//        pedidosTabla.setListaPedidos(pedidoDAO.getPedido().getListaExamen());
-//        tblExamenes.setModel(pedidosTabla);
-//        tblExamenes.updateUI();
-//    }
+    public void eliminarExamen() {
 
+        if (tblExamenes.getSelectedRow() != - 1) {
+            pedidoDAO.getPedido().getListaExamen().remove(tblExamenes.getSelectedRow());
+            JOptionPane.showMessageDialog(this, "Exámen eliminado del pedido exitosamente");
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
+        }
+    }
+
+    public void cargarTabla() {
+        examenesTabla.setListaExamenes(pedidoDAO.getPedido().getListaExamen());
+        tblExamenes.setModel(examenesTabla);
+        tblExamenes.updateUI();
+    }
+
+    public void añadirExamen() {
+        pedidoDAO.getPedido().getListaExamen().add((Examen) cbxExamenes.getSelectedItem());
+    }
+    
     public void cancelar() {
         deshabilitarCampos();
     }
@@ -199,6 +199,11 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
         btnAñadir.setText("Añadir");
         btnAñadir.setEnabled(false);
+        btnAñadir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAñadirActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnAñadir);
         btnAñadir.setBounds(600, 170, 72, 22);
 
@@ -276,6 +281,10 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         cancelar();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
+        añadirExamen();
+    }//GEN-LAST:event_btnAñadirActionPerformed
 
     /**
      * @param args the command line arguments

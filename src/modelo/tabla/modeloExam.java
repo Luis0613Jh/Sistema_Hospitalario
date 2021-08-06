@@ -5,30 +5,25 @@
  */
 package modelo.tabla;
 
-import controlador.DAO.ExamenDAO;
+import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import modelo.Examen;
 
-/**
- *
- * @author Jean Agreda
- */
 public class modeloExam extends AbstractTableModel{
 
-    ExamenDAO eDAO = new ExamenDAO();
+    private List<Examen> listaExamenes;
 
-    public ExamenDAO geteDAO() {
-        return eDAO;
+    public List<Examen> getListaExamenes() {
+        return listaExamenes;
     }
 
-    public void seteDAO(ExamenDAO eDAO) {
-        this.eDAO = eDAO;
+    public void setListaExamenes(List<Examen> listaExamenes) {
+        this.listaExamenes = listaExamenes;
     }
-    
-    
+
     @Override
     public int getRowCount() {
-       return eDAO.contadorExam();
+       return listaExamenes.size();
     }
 
     @Override
@@ -56,22 +51,19 @@ public class modeloExam extends AbstractTableModel{
     
     @Override
     public Object getValueAt(int fila, int columna) {
-        Examen ex = (Examen)eDAO.TodosExam().get(fila);
+        Examen examen = listaExamenes.get(fila);
          switch (columna) {
             case 0:
-                return ex.getNombre();
+                return examen.getNombre();
             case 1:
-                return ex.getCategoria().getNombre_cat();
+                return examen.getCategoria().getNombre_cat();
              case 2:
-                return ex.getListaLab();
+                return examen.getListaLab();
              case 3:
-                return  ex.getUnidad_medida();
+                return  examen.getUnidad_medida();
             default:
                 return "--";
-           
         }
-        
-        
     }
     
 }

@@ -1,10 +1,12 @@
 package vista;
 
 import controlador.DAO.PedidoDAO;
+import modelo.tabla.modeloExam;
 
 public class Frm_DetallesPedido extends javax.swing.JFrame {
 
     private PedidoDAO pedidoDAO;
+    private modeloExam examenesTabla = new modeloExam();
 
     /**
      * Creates new form Frm_GestionarPedido
@@ -16,12 +18,28 @@ public class Frm_DetallesPedido extends javax.swing.JFrame {
     public Frm_DetallesPedido(PedidoDAO pedidoDAO) {
         this.pedidoDAO = pedidoDAO;
         initComponents();
+        cargarCampos();
     }
 
     public void cargarCampos() {
-
+        lblNroPedido.setText(pedidoDAO.getPedido().getNro_pedido());
+        // Aquí va el controlador de personaDAO
+//        lblPaciente.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
+//        lblSexo.setText(pedidoDAO.getPedido().getConsulta().get);
+//        lblMedicoSolicitante.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
+//        lblFechaNacimiento.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
+//        lblFecha.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
+//        lblEdad.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
+//        lblDireccion.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
+        cargarTabla();
     }
 
+    public void cargarTabla() {
+        examenesTabla.setListaExamenes(pedidoDAO.getPedido().getListaExamen());
+        tblExamenes.setModel(examenesTabla);
+        tblExamenes.updateUI();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
