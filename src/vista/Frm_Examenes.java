@@ -5,6 +5,13 @@
  */
 package vista;
 
+import controlador.DAO.CategoriaDAO;
+import controlador.DAO.ExamenDAO;
+import javax.swing.JOptionPane;
+import modelo.Categoria;
+import modelo.Examen;
+import modelo.tabla.modeloExam;
+
 /**
  *
  * @author Jean Agreda
@@ -14,8 +21,87 @@ public class Frm_Examenes extends javax.swing.JFrame {
     /**
      * Creates new form Frm_Examenes
      */
+    ExamenDAO eDAO = new ExamenDAO();
+    CategoriaDAO cDAO = new CategoriaDAO();
+    modeloExam me = new modeloExam();
+
     public Frm_Examenes() {
         initComponents();
+        setLocationRelativeTo(null);
+        cargarDatosCategoria();
+        cargarTabla();
+        bloquear();
+        bloquearbotones();
+    }
+    
+    public void cargarTabla() {
+        me.seteDAO(eDAO);
+        tbl_exam.setModel(me);
+        tbl_exam.updateUI();
+    }
+
+    public void cargarDatosCategoria() {
+        cbx_cat.removeAllItems();
+        cDAO.setCat(null);
+        int cant = cDAO.contadorCat();
+        for (int i = 0; i < cant; i++) {
+            cDAO.setCat(null);
+            cDAO.setCat((Categoria) cDAO.TodasCat().get(i));
+            cbx_cat.addItem(cDAO.getCat().getNombre_cat());
+        }
+    }
+
+    public void limpiar() {
+        txt_nombre.setText("");
+        txt_unidad_medida.setText("");
+        txt_valorR1.setText("");
+        txt_valorR2.setText("");
+        txt_valorR3.setText("");
+        txt_valorR4.setText("");
+        txt_valorR5.setText("");
+        txt_valorR6.setText("");
+        txt_valorR7.setText("");
+        txt_valorR8.setText("");
+
+    }
+
+    public void bloquearbotones(){
+    btn_guardar.setEnabled(false);
+    btn_cancelar.setEnabled(false);
+    }
+    public void desbloquearbotones(){
+    btn_guardar.setEnabled(true);
+    btn_cancelar.setEnabled(true);
+    }
+    public void bloquear() {
+        txt_nombre.setEnabled(false);
+        txt_unidad_medida.setEnabled(false);
+        txt_valorR1.setEnabled(false);
+        txt_valorR2.setEnabled(false);
+         txt_valorR3.setEnabled(false);
+        txt_valorR4.setEnabled(false);
+        txt_valorR5.setEnabled(false);
+        txt_valorR6.setEnabled(false);
+        txt_valorR7.setEnabled(false);
+        txt_valorR8.setEnabled(false);
+        cbx_cat.setEnabled(false);
+        cbx_lab.setEnabled(false);
+
+    }
+
+    public void desbloquear() {
+        txt_nombre.setEnabled(true);
+        txt_unidad_medida.setEnabled(true);
+        txt_valorR1.setEnabled(true);
+        txt_valorR2.setEnabled(true);
+         txt_valorR3.setEnabled(true);
+        txt_valorR4.setEnabled(true);
+        txt_valorR5.setEnabled(true);
+        txt_valorR6.setEnabled(true);
+        txt_valorR7.setEnabled(true);
+        txt_valorR8.setEnabled(true);
+        cbx_cat.setEnabled(true);
+        cbx_lab.setEnabled(true);
     }
 
     /**
@@ -33,27 +119,26 @@ public class Frm_Examenes extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jTextField3 = new javax.swing.JTextField();
+        txt_nombre = new javax.swing.JTextField();
+        txt_unidad_medida = new javax.swing.JTextField();
+        cbx_cat = new javax.swing.JComboBox<>();
+        cbx_lab = new javax.swing.JComboBox<>();
+        txt_valorR1 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        txt_valorR2 = new javax.swing.JTextField();
+        txt_valorR4 = new javax.swing.JTextField();
+        txt_valorR3 = new javax.swing.JTextField();
+        txt_valorR5 = new javax.swing.JTextField();
+        txt_valorR6 = new javax.swing.JTextField();
+        txt_valorR7 = new javax.swing.JTextField();
+        txt_valorR8 = new javax.swing.JTextField();
+        btn_cancelar = new javax.swing.JButton();
+        btn_guardar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        tbl_exam = new javax.swing.JTable();
+        btn_nuevo = new javax.swing.JButton();
+        btn_editar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,16 +152,26 @@ public class Frm_Examenes extends javax.swing.JFrame {
 
         jLabel4.setText("Unidad de Medida:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbx_cat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbx_lab.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Valores de Referencia:");
 
-        jButton2.setText("CANCELAR");
+        btn_cancelar.setText("CANCELAR");
+        btn_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_cancelarActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("GUARDAR");
+        btn_guardar.setText("GUARDAR");
+        btn_guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_guardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -91,25 +186,25 @@ public class Frm_Examenes extends javax.swing.JFrame {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbx_lab, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbx_cat, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txt_nombre, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txt_unidad_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField3)
-                    .addComponent(jTextField4)
-                    .addComponent(jTextField6)
-                    .addComponent(jTextField5)
-                    .addComponent(jTextField7)
-                    .addComponent(jTextField8)
-                    .addComponent(jTextField9)
-                    .addComponent(jTextField10)
+                    .addComponent(txt_valorR1)
+                    .addComponent(txt_valorR2)
+                    .addComponent(txt_valorR3)
+                    .addComponent(txt_valorR4)
+                    .addComponent(txt_valorR5)
+                    .addComponent(txt_valorR6)
+                    .addComponent(txt_valorR7)
+                    .addComponent(txt_valorR8)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31))
         );
         jPanel2Layout.setVerticalGroup(
@@ -122,43 +217,43 @@ public class Frm_Examenes extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_valorR1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbx_cat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_valorR2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel3)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cbx_lab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txt_unidad_medida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_valorR3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_valorR4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_valorR5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6)
-                                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_valorR6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6)
-                                .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_valorR7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6)
-                                .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txt_valorR8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btn_guardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(btn_cancelar)))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_exam.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -169,18 +264,26 @@ public class Frm_Examenes extends javax.swing.JFrame {
                 "Nombre", "Categoria", "Laboratorio", "Unidad de Medida"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tbl_exam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_examMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_exam);
 
-        jButton4.setText("NUEVO");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btn_nuevo.setText("NUEVO");
+        btn_nuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btn_nuevoActionPerformed(evt);
             }
         });
 
-        jButton3.setText("EDITAR");
-
-        jButton5.setText("ELIMINAR");
+        btn_editar.setText("EDITAR");
+        btn_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -191,9 +294,8 @@ public class Frm_Examenes extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
+                    .addComponent(btn_nuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_editar, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
                 .addGap(37, 37, 37))
         );
         jPanel3Layout.setVerticalGroup(
@@ -204,11 +306,9 @@ public class Frm_Examenes extends javax.swing.JFrame {
                 .addGap(15, 15, 15))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(jButton4)
+                .addComponent(btn_nuevo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addComponent(btn_editar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -238,9 +338,118 @@ public class Frm_Examenes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
+        desbloquear();
+        desbloquearbotones();
+    }//GEN-LAST:event_btn_nuevoActionPerformed
+
+    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
+       int fila = tbl_exam.getSelectedRow();
+        if (fila != -1) {
+
+            eDAO.setExam(null);
+            eDAO.setExam((Examen) eDAO.TodosExam().get(fila));
+
+            eDAO.setExam(eDAO.encontrarExam(eDAO.getExam()));
+
+            System.out.println(" iddd " + eDAO.getExam().getId_examen());
+            Long id = eDAO.getExam().getId_examen();
+            
+            eDAO.getExam().setId_examen(id);
+            eDAO.getExam().setNombre(txt_nombre.getText());
+
+            cDAO.setCat(null);
+            cDAO.setCat((Categoria) cDAO.TodasCat().get(cbx_cat.getSelectedIndex()));
+            cDAO.setCat(cDAO.encontrarCat(cDAO.getCat()));
+            eDAO.getExam().setCategoria(cDAO.getCat());
+
+            // Agregar Parte de laboratorio
+
+            // Agregar Parte de pedido
+
+            eDAO.getExam().setUnidad_medida(txt_unidad_medida.getText());
+
+                String aux[] = new String[8];
+                aux[0] = txt_valorR1.getText();
+                aux[1] = txt_valorR2.getText();
+                aux[2] = txt_valorR3.getText();
+                aux[3] = txt_valorR4.getText();
+                aux[4] = txt_valorR5.getText();
+                aux[5] = txt_valorR6.getText();
+                aux[6] = txt_valorR7.getText();
+                aux[7] = txt_valorR8.getText();
+            eDAO.getExam().setValor_referencia(aux);
+
+
+            eDAO.setExam(eDAO.getExam());
+            eDAO.editarExam(eDAO.getExam());
+            cargarTabla();
+            limpiar();
+            bloquear();
+            bloquearbotones();
+            tbl_exam.removeRowSelectionInterval(0, tbl_exam.getRowCount() - 1);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "debe seleccionar una fila de la tabla");
+        }
+    }//GEN-LAST:event_btn_editarActionPerformed
+
+    private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
+        bloquear();
+        bloquearbotones();
+        limpiar();
+    }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+
+        eDAO.setExam(null);
+
+        eDAO.getExam().setNombre(txt_nombre.getText());
+
+            cDAO.setCat(null);
+            cDAO.setCat((Categoria) cDAO.TodasCat().get(cbx_cat.getSelectedIndex()));
+            cDAO.setCat(cDAO.encontrarCat(cDAO.getCat()));
+        eDAO.getExam().setCategoria(cDAO.getCat());
+
+        // Agregar Parte de laboratorio parte del 10% que falta
+         
+       // Agregar Parte de pedido
+       
+        eDAO.getExam().setUnidad_medida(txt_unidad_medida.getText());
+
+            String aux[] = new String[8];
+            aux[0] = txt_valorR1.getText();
+            aux[1] = txt_valorR2.getText();
+            aux[2] = txt_valorR3.getText();
+            aux[3] = txt_valorR4.getText();
+            aux[4] = txt_valorR5.getText();
+            aux[5] = txt_valorR6.getText();
+            aux[6] = txt_valorR7.getText();
+            aux[7] = txt_valorR8.getText();
+        eDAO.getExam().setValor_referencia(aux);
+
+        
+        eDAO.setExam(eDAO.getExam());
+        eDAO.agregarExam(eDAO.getExam());
+        cargarTabla();
+        limpiar();
+        bloquear();
+        bloquearbotones();
+        
+    }//GEN-LAST:event_btn_guardarActionPerformed
+
+    private void tbl_examMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_examMouseClicked
+       int fila = tbl_exam.getSelectedRow();
+        System.out.println("fila " + fila);
+       desbloquear();
+        String nombre = String.valueOf(tbl_exam.getValueAt(fila, 0));
+        //String cat = String.valueOf(tbl_exam.getValueAt(fila, 1));
+        //String lab = String.valueOf(tbl_exam.getValueAt(fila, 2));
+        String um = String.valueOf(tbl_exam.getValueAt(fila, 3));
+        txt_nombre.setText(nombre);
+        
+        txt_unidad_medida.setText(um);
+
+    }//GEN-LAST:event_tbl_examMouseClicked
 
     /**
      * @param args the command line arguments
@@ -279,13 +488,12 @@ public class Frm_Examenes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_editar;
+    private javax.swing.JButton btn_guardar;
+    private javax.swing.JButton btn_nuevo;
+    private javax.swing.JComboBox<String> cbx_cat;
+    private javax.swing.JComboBox<String> cbx_lab;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -295,16 +503,16 @@ public class Frm_Examenes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTable tbl_exam;
+    private javax.swing.JTextField txt_nombre;
+    private javax.swing.JTextField txt_unidad_medida;
+    private javax.swing.JTextField txt_valorR1;
+    private javax.swing.JTextField txt_valorR2;
+    private javax.swing.JTextField txt_valorR3;
+    private javax.swing.JTextField txt_valorR4;
+    private javax.swing.JTextField txt_valorR5;
+    private javax.swing.JTextField txt_valorR6;
+    private javax.swing.JTextField txt_valorR7;
+    private javax.swing.JTextField txt_valorR8;
     // End of variables declaration//GEN-END:variables
 }

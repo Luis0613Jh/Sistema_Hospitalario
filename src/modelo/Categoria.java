@@ -19,9 +19,9 @@ import javax.persistence.Table;
 @Table(name = "categoria")
 public class Categoria implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long  serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_categoria;
     private String nombre_cat;
     private String descripcion_cat;

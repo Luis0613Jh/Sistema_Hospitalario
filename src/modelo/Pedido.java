@@ -21,7 +21,7 @@ public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pedido;
     private String fecha_pedido;
     private String estado_pedido;

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import modelo.Rol;
 
 /**
@@ -28,7 +29,10 @@ public class RolJpaController implements Serializable {
     public RolJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+
+    public RolJpaController() {
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
