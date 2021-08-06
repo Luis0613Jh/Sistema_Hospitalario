@@ -20,10 +20,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Rol;
 
-/**
- *
- * @author luis0
- */
+
 public class RolJpaController implements Serializable {
 
     private EntityManagerFactory emf;
@@ -205,5 +202,4 @@ public class RolJpaController implements Serializable {
             em.close();
         }
     }
-
 }

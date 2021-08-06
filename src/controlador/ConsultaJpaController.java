@@ -23,10 +23,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Consulta;
 
-/**
- *
- * @author luis0
- */
 public class ConsultaJpaController implements Serializable {
 
     private EntityManagerFactory emf;
@@ -42,7 +38,6 @@ public class ConsultaJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
     
     public void create(Consulta consulta) throws IllegalOrphanException {
         List<String> illegalOrphanMessages = null;

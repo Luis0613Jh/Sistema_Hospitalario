@@ -20,10 +20,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.HistorialClinico;
 
-/**
- *
- * @author luis0
- */
 public class HistorialClinicoJpaController implements Serializable {
 
     private EntityManagerFactory emf;

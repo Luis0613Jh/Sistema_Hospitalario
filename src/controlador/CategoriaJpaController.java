@@ -22,20 +22,19 @@ import modelo.Categoria;
 
 /**
  *
- * @author luis0
+ * @author Jean Agreda
  */
 public class CategoriaJpaController implements Serializable {
 
-    private EntityManagerFactory emf;
-    
     public CategoriaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
 
     public CategoriaJpaController() {
-        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
 
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -112,6 +111,7 @@ public class CategoriaJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
+           
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {

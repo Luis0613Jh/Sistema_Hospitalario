@@ -20,10 +20,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Diagnostico;
 
-/**
- *
- * @author luis0
- */
+
 public class DiagnosticoJpaController implements Serializable {
 
     private EntityManagerFactory emf;
@@ -39,7 +36,6 @@ public class DiagnosticoJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
 
     public void create(Diagnostico diagnostico) throws IllegalOrphanException {
         List<String> illegalOrphanMessages = null;

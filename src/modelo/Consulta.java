@@ -20,7 +20,7 @@ public class Consulta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_consulta;
     @Column(length = 10, unique=true)
     private Long id_paciente;
@@ -34,6 +34,7 @@ public class Consulta implements Serializable {
     @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     @JoinColumn(name="id_receta", nullable = false,referencedColumnName = "id_receta")
     private Receta receta;
+    
     
     @OneToOne(mappedBy="consulta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Diagnostico diagnostico;

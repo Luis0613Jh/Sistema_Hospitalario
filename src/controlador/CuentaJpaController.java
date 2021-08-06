@@ -20,10 +20,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Cuenta;
 
-/**
- *
- * @author luis0
- */
+
 public class CuentaJpaController implements Serializable {
 
     private EntityManagerFactory emf;

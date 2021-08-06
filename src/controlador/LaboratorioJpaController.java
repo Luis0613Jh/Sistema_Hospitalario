@@ -19,10 +19,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Laboratorio;
 
-/**
- *
- * @author luis0
- */
 public class LaboratorioJpaController implements Serializable {
 
     private EntityManagerFactory emf;

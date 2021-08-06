@@ -22,10 +22,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Persona;
 
-/**
- *
- * @author luis0
- */
 public class PersonaJpaController implements Serializable {
 
     private EntityManagerFactory emf;
@@ -42,7 +38,6 @@ public class PersonaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    
     public void create(Persona persona) {
         EntityManager em = null;
         try {

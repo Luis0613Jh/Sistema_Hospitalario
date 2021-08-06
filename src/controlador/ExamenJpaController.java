@@ -21,10 +21,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Examen;
 
-/**
- *
- * @author luis0
- */
+
 public class ExamenJpaController implements Serializable {
 
     private EntityManagerFactory emf;
