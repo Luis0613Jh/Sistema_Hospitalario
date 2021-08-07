@@ -24,7 +24,7 @@ public class Persona implements Serializable {
     
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_persona;
     @Column(length = 10,unique = true)
     private String cedula;
@@ -38,7 +38,8 @@ public class Persona implements Serializable {
     private String celular;
     private String contacto_auxiliar;
     private String estado_civil;
-    private String estado="activo";
+    private String estado;
+    private String estado_disponibilidad;
     
     //name = Nombre del dato en la tabla persona
     //referencedColumnName = Nombre de La tabla a la que se va a conectar
@@ -61,11 +62,22 @@ public class Persona implements Serializable {
     }
     
     public Rol getRol() {
+        if(this.rol == null){
+            this.rol = new Rol();
+        }
         return rol;
     }
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    public String getEstado_disponibilidad() {
+        return estado_disponibilidad;
+    }
+
+    public void setEstado_disponibilidad(String estado_disponibilidad) {
+        this.estado_disponibilidad = estado_disponibilidad;
     }
     
     public String getCedula() {
