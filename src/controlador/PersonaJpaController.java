@@ -263,12 +263,14 @@ public class PersonaJpaController implements Serializable {
         }
     }
     
-    public List<Persona> getLaboratoristas(String idRol, String estado) {
+    public List<Persona> getPersonasPorRol(String idRol, String estado) {
         EntityManager em = getEntityManager();
         try {
             Query q = em.createQuery("SELECT e "
                     + "FROM Persona e " 
-                    + "WHERE (e.id_rol = ?13 and e.estado_disponibilidad = ?12)")
+                    + "WHERE (e.estado_disponibilidad = ?12 and (SELECT id_rol"
+                    + "FROM Rol t"
+                    + "WHERE id_rol = ?13))")
                     .setParameter(12, estado)
                     .setParameter(13, idRol);
             return q.getResultList();

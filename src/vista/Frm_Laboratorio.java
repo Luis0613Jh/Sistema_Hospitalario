@@ -286,7 +286,7 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(546, 449));
+        setSize(new java.awt.Dimension(546, 445));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
