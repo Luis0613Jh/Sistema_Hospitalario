@@ -62,11 +62,22 @@ public class Persona implements Serializable {
     }
     
     public Rol getRol() {
+        if(this.rol == null){
+            this.rol = new Rol();
+        }
         return rol;
     }
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    public String getEstado_disponibilidad() {
+        return estado_disponibilidad;
+    }
+
+    public void setEstado_disponibilidad(String estado_disponibilidad) {
+        this.estado_disponibilidad = estado_disponibilidad;
     }
     
     public String getCedula() {

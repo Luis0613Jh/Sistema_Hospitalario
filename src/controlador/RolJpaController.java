@@ -36,7 +36,6 @@ public class RolJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
     public void create(Rol rol) {
         if (rol.getListaPersona() == null) {
             rol.setListaPersona(new ArrayList<Persona>());

@@ -27,6 +27,7 @@ public class Consulta implements Serializable {
     private Long id_medico;
     private String hora_cita;
     private String fecha_cita;
+    private String estado_consulta = "pendiente";
     @ManyToOne(cascade = CascadeType.REFRESH , fetch = FetchType.LAZY)
     @JoinColumn(name = "id_historial_clinico", nullable=false,referencedColumnName="id_historial_clinico")
     private HistorialClinico historial_clinico;
@@ -56,6 +57,14 @@ public class Consulta implements Serializable {
 
     public void setHistorial_clinico(HistorialClinico historial_clinico) {
         this.historial_clinico = historial_clinico;
+    }
+
+    public String getEstado_consulta() {
+        return estado_consulta;
+    }
+
+    public void setEstado_consulta(String estado_consulta) {
+        this.estado_consulta = estado_consulta;
     }
     
     public Long getId_paciente() {

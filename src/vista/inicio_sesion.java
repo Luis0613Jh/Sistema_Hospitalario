@@ -1,13 +1,67 @@
-
 package vista;
+
+import controlador.DAO.CuentaDAO;
+import controlador.DAO.RolDAO;
+import controlador.Seguridad;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
+import modelo.Cuenta;
+import modelo.Rol;
 
 public class inicio_sesion extends javax.swing.JFrame {
 
     /**
      * Creates new form inicio_sesion
      */
+    private CuentaDAO cuentaDAO = new CuentaDAO();
+    private RolDAO rolDAO = new RolDAO();
+    private Seguridad seguridad = new Seguridad();
+    //private boolean sw = false;
+
     public inicio_sesion() {
         initComponents();
+        //cargarRoles();
+    }
+
+    public Cuenta buscarCuenta() {
+        for (Object c : cuentaDAO.listarCuentas()) {
+            if (this.txtClave.getText().equals(seguridad.Desencriptar(cuentaDAO.buscarCuenta((Cuenta) c).getClave()))
+                    && this.txtUsuario.getText().equals(cuentaDAO.buscarCuenta((Cuenta) c).getUsuario())) {
+                //sw = true;
+                return (Cuenta) c;
+            }
+        }
+        return null;
+    }
+
+    public void ingresarSistema() {
+        Cuenta c = buscarCuenta();
+        if (c == null) {
+            JOptionPane.showMessageDialog(null, "Los dato/s ingresados son incorrectos", "ERROR: Autenticación", JOptionPane.WARNING_MESSAGE);
+            this.txtUsuario.setText("");
+            this.txtClave.setText("");
+        } else {
+            
+            switch (c.getPersona().getRol().getNombre_rol()) {
+                case "MEDICO":
+                    PaginaPrincipalMedico form = new PaginaPrincipalMedico();
+                    form.setVisible(true);
+                    this.dispose(); break;
+                case "ATENCION":
+                    PaginaPrincipalMedico form1 = new PaginaPrincipalMedico();
+                    form1.setVisible(true);
+                    this.dispose(); break;
+                case "LABORATORISTA":
+                    PaginaPrincipalMedico form2 = new PaginaPrincipalMedico();
+                    form2.setVisible(true);
+                    this.dispose(); break;
+                case "ADMINISTRADOR":
+                    PaginaPrincipalMedico form3 = new PaginaPrincipalMedico();
+                    form3.setVisible(true);
+                    this.dispose(); break;
+            }
+        }
+
     }
 
     /**
@@ -23,9 +77,9 @@ public class inicio_sesion extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtUsuario = new javax.swing.JTextField();
+        btnIniciarSesion = new javax.swing.JButton();
+        txtClave = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -33,7 +87,12 @@ public class inicio_sesion extends javax.swing.JFrame {
 
         jLabel3.setText("Clave:");
 
-        jButton1.setText("Iniciar Sesión");
+        btnIniciarSesion.setText("Iniciar Sesión");
+        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarSesionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -50,12 +109,12 @@ public class inicio_sesion extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(32, 32, 32)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                            .addComponent(txtClave)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(146, 146, 146)
-                        .addComponent(jButton1)))
+                        .addComponent(btnIniciarSesion)))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -66,13 +125,13 @@ public class inicio_sesion extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
-                .addComponent(jButton1)
+                    .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addComponent(btnIniciarSesion)
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -89,6 +148,37 @@ public class inicio_sesion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
+        ingresarSistema();
+    }//GEN-LAST:event_btnIniciarSesionActionPerformed
+
+    public void cargarRoles() {
+        int aux = 0;
+//        for (Object rol : rolDAO.listarRoles()) {
+//            rolDAO.eliminarRol((Rol) rol);
+//        }
+        rolDAO.getRol().setNombre_rol("PERSONA");
+        rolDAO.setRol(rolDAO.getRol());
+        rolDAO.agregarRol(rolDAO.getRol());
+        rolDAO.setRol(null);
+        rolDAO.getRol().setNombre_rol("MEDICO");
+        rolDAO.setRol(rolDAO.getRol());
+        rolDAO.agregarRol(rolDAO.getRol());
+        rolDAO.setRol(null);
+        rolDAO.getRol().setNombre_rol("LABORATORISTA");
+        rolDAO.setRol(rolDAO.getRol());
+        rolDAO.agregarRol(rolDAO.getRol());
+        rolDAO.setRol(null);
+        rolDAO.getRol().setNombre_rol("ATENCION");
+        rolDAO.setRol(rolDAO.getRol());
+        rolDAO.agregarRol(rolDAO.getRol());
+        rolDAO.setRol(null);
+        rolDAO.getRol().setNombre_rol("ADMINISTRADOR");
+        rolDAO.setRol(rolDAO.getRol());
+        rolDAO.agregarRol(rolDAO.getRol());
+        rolDAO.setRol(null);
+    }
 
     /**
      * @param args the command line arguments
@@ -126,12 +216,12 @@ public class inicio_sesion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPasswordField txtClave;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

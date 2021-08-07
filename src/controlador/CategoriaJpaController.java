@@ -20,21 +20,18 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Categoria;
 
-/**
- *
- * @author Jean Agreda
- */
-public class CategoriaJpaController implements Serializable {
+public class ConsultaJpaController implements Serializable {
 
-    public CategoriaJpaController(EntityManagerFactory emf) {
+    private EntityManagerFactory emf;
+    
+    public ConsultaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
 
-    public CategoriaJpaController() {
-    }
+    public ConsultaJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }    
 
-    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
