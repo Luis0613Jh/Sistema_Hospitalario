@@ -138,8 +138,6 @@ public class CitasAsignadas extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null,"Seleccione una fila");
         }
-
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

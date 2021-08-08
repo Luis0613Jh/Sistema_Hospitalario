@@ -73,14 +73,6 @@ public class Pedido implements Serializable {
         this.estado_pedido = estado_pedido;
     }
 
-    public String getNro_pedido() {
-        return nro_pedido;
-    }
-
-    public void setNro_pedido(String nro_pedido) {
-        this.nro_pedido = nro_pedido;
-    }
-
     public List<Examen> getListaExamen() {
         return listaExamen;
     }

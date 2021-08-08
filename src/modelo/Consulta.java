@@ -89,7 +89,7 @@ public class Consulta implements Serializable {
     public void setHora_cita(String hora_cita) {
         this.hora_cita = hora_cita;
     }
-
+    
     public String getFecha_cita() {
         return fecha_cita;
     }
@@ -121,15 +121,7 @@ public class Consulta implements Serializable {
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
-
-    public String getEstado_consulta() {
-        return estado_consulta;
-    }
-
-    public void setEstado_consulta(String estado_consulta) {
-        this.estado_consulta = estado_consulta;
-    }
-        
+    
     @Override
     public int hashCode() {
         int hash = 0;

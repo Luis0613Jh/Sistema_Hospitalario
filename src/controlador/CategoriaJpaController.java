@@ -33,8 +33,43 @@ public class CategoriaJpaController implements Serializable {
     }    
 
     public EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
+    public void create(Categoria categoria) {
+        if (categoria.getListaExamen() == null) {
+            categoria.setListaExamen(new ArrayList<Examen>());
+        }
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            List<Examen> attachedListaExamen = new ArrayList<Examen>();
+            for (Examen listaExamenExamenToAttach : categoria.getListaExamen()) {
+                listaExamenExamenToAttach = em.getReference(listaExamenExamenToAttach.getClass(), listaExamenExamenToAttach.getId_examen());
+                attachedListaExamen.add(listaExamenExamenToAttach);
+            }
+            categoria.setListaExamen(attachedListaExamen);
+            em.persist(categoria);
+            for (Examen listaExamenExamen : categoria.getListaExamen()) {
+                Categoria oldCategoriaOfListaExamenExamen = listaExamenExamen.getCategoria();
+                listaExamenExamen.setCategoria(categoria);
+                listaExamenExamen = em.merge(listaExamenExamen);
+                if (oldCategoriaOfListaExamenExamen != null) {
+                    oldCategoriaOfListaExamenExamen.getListaExamen().remove(listaExamenExamen);
+                    oldCategoriaOfListaExamenExamen = em.merge(oldCategoriaOfListaExamenExamen);
+                }
+            }
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
 
     public void edit(Categoria categoria) throws IllegalOrphanException, NonexistentEntityException, Exception {
+        EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();

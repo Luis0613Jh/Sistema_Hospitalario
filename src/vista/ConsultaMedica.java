@@ -28,7 +28,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
             diagonosticodao.setConsulta(diagonosticodao.encontrarConsulta(diagonosticodao.getIdConsulta()));
             txt_fecha.setText(diagonosticodao.getConsulta().getFecha_cita());
             txt_hora.setText(diagonosticodao.getConsulta().getHora_cita());
-            diagonosticodao.getPesonadao().setPersona(diagonosticodao.getPesonadao().buscarPersona(diagonosticodao.getConsulta().getId_paciente()));
+            diagonosticodao.getPesonadao().setPersona(diagonosticodao.getPesonadao().buscarPersonaPorId(diagonosticodao.getConsulta().getId_paciente()));
             txt_cedula.setText(diagonosticodao.getPesonadao().getPersona().getCedula());
             txt_nombre.setText(diagonosticodao.getPesonadao().getPersona().getNombre()+" "+diagonosticodao.getPesonadao().getPersona().getApellido());
             txt_fecha.setEditable(false);
