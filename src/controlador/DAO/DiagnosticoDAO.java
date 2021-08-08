@@ -6,6 +6,7 @@ import controlador.DiagnosticoJpaController;
 import java.util.List;
 import modelo.Consulta;
 import modelo.Diagnostico;
+import modelo.Medico;
 
 public class DiagnosticoDAO {
 
