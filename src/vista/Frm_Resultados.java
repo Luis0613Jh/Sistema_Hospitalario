@@ -2,6 +2,7 @@ package vista;
 
 import controlador.DAO.PedidoDAO;
 import controlador.DAO.PersonaDAO;
+import controlador.utilidades.UtilidadesControlador;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
@@ -10,22 +11,23 @@ import static java.awt.print.Printable.NO_SUCH_PAGE;
 import static java.awt.print.Printable.PAGE_EXISTS;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import modelo.tabla.ResultadosTabla;
 
-public class Frm_Resultados extends javax.swing.JFrame implements Printable{
+public class Frm_Resultados extends javax.swing.JFrame implements Printable {
 
     private PedidoDAO pedidoDAO;
     private PersonaDAO personaDAO = new PersonaDAO();
     private ResultadosTabla resultadosTabla = new ResultadosTabla();
-    
+
     /**
      * Creates new form Frm_Resultados
      */
     public Frm_Resultados() {
         initComponents();
     }
-    
+
     public Frm_Resultados(PedidoDAO pedidoDAO) {
         this.pedidoDAO = pedidoDAO;
         initComponents();
@@ -34,11 +36,11 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable{
 
     public void imprimir() {
         try {
-            PrinterJob pj = PrinterJob.getPrinterJob();
-            pj.setPrintable(this);
-            boolean verificarImpresion = pj.printDialog();
+            PrinterJob pinterJob = PrinterJob.getPrinterJob();
+            pinterJob.setPrintable(this);
+            boolean verificarImpresion = pinterJob.printDialog();
             if (verificarImpresion) {
-                pj.print();
+                pinterJob.print();
             }
         } catch (PrinterException e) {
             JOptionPane.showMessageDialog(null, "No se pudo imprimir los resultados, por favor, intente nuevamente", "ERROR EN LA IMPRESIÓN\n " + e, JOptionPane.INFORMATION_MESSAGE);
@@ -47,15 +49,29 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable{
     }
 
     public void cargarCampos() {
+        // Datos Pedido
+        lblFecha.setText(String.valueOf(LocalDate.now()));
+
+        // Datos Médico Solicitante
+        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_medico()));
+        lblMedicoSolicitante.setText(personaDAO.getPersona().toString());
+        personaDAO.setPersona(null);
+
+        // Datos Paciente
+        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_paciente()));
+        lblPaciente.setText(personaDAO.getPersona().toString());
+        lblEdad.setText(String.valueOf(UtilidadesControlador.determinarEdad(personaDAO.getPersona().getFecha_nacimiento())));
+        personaDAO.setPersona(null);
         
+        cargarTabla();
     }
-    
+
     public void cargarTabla() {
         resultadosTabla.setListaExamenes(pedidoDAO.getPedido().getListaExamen());
         tblResultados.setModel(resultadosTabla);
         tblResultados.updateUI();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,12 +86,12 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable{
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        lblSolicitante = new javax.swing.JLabel();
+        lblMedicoSolicitante = new javax.swing.JLabel();
         lblPaciente = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lblEdad = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        lblFecha = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblResultados = new javax.swing.JTable();
@@ -86,53 +102,73 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable{
 
         jPanel1.setLayout(null);
 
+        panelImpresion.setBackground(new java.awt.Color(255, 255, 255));
         panelImpresion.setLayout(null);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel2.setLayout(null);
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
         jLabel1.setText("Paciente:");
-        jPanel2.add(jLabel1);
-        jLabel1.setBounds(20, 20, 80, 16);
 
         jLabel2.setText("Médico solicitante:");
-        jPanel2.add(jLabel2);
-        jLabel2.setBounds(20, 60, 110, 16);
-
-        lblSolicitante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel2.add(lblSolicitante);
-        lblSolicitante.setBounds(150, 60, 240, 20);
-
-        lblPaciente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel2.add(lblPaciente);
-        lblPaciente.setBounds(120, 20, 220, 20);
 
         jLabel3.setText("Edad:");
-        jPanel2.add(jLabel3);
-        jLabel3.setBounds(360, 20, 50, 16);
-
-        lblEdad.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel2.add(lblEdad);
-        lblEdad.setBounds(430, 20, 70, 20);
 
         jLabel4.setText("Fecha:");
-        jPanel2.add(jLabel4);
-        jLabel4.setBounds(20, 100, 50, 16);
-        jPanel2.add(jDateChooser1);
-        jDateChooser1.setBounds(70, 100, 150, 22);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(lblPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(lblEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(lblMedicoSolicitante, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblPaciente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEdad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMedicoSolicitante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)))
+        );
 
         panelImpresion.add(jPanel2);
-        jPanel2.setBounds(10, 10, 510, 140);
+        jPanel2.setBounds(10, 10, 470, 140);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanel3.setLayout(null);
 
         tblResultados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
 
@@ -141,13 +177,13 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable{
         jScrollPane1.setViewportView(tblResultados);
 
         jPanel3.add(jScrollPane1);
-        jScrollPane1.setBounds(20, 20, 470, 330);
+        jScrollPane1.setBounds(20, 20, 430, 410);
 
         panelImpresion.add(jPanel3);
-        jPanel3.setBounds(10, 170, 510, 370);
+        jPanel3.setBounds(10, 170, 470, 450);
 
         jPanel1.add(panelImpresion);
-        panelImpresion.setBounds(10, 10, 530, 560);
+        panelImpresion.setBounds(10, 10, 490, 630);
 
         btnCancelar.setText("Volver");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +192,7 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable{
             }
         });
         jPanel1.add(btnCancelar);
-        btnCancelar.setBounds(20, 570, 90, 22);
+        btnCancelar.setBounds(10, 650, 90, 22);
 
         btnImprimir.setText("Imprimir");
         btnImprimir.addActionListener(new java.awt.event.ActionListener() {
@@ -165,16 +201,16 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable{
             }
         });
         jPanel1.add(btnImprimir);
-        btnImprimir.setBounds(430, 570, 90, 22);
+        btnImprimir.setBounds(410, 650, 90, 22);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(558, 637));
+        setSize(new java.awt.Dimension(529, 718));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
@@ -220,7 +256,6 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnImprimir;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -230,12 +265,13 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable{
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblEdad;
+    private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblMedicoSolicitante;
     private javax.swing.JLabel lblPaciente;
-    private javax.swing.JLabel lblSolicitante;
     private javax.swing.JPanel panelImpresion;
     private javax.swing.JTable tblResultados;
     // End of variables declaration//GEN-END:variables
-    
+
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
         if (pageIndex > 0) {
@@ -243,7 +279,6 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable{
         }
         Graphics2D g2d = (Graphics2D) graphics;
         g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-//         g2d.scale(0.70, 0.90);
         panelImpresion.printAll(graphics);
         return PAGE_EXISTS;
 
