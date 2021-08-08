@@ -5,6 +5,7 @@
  */
 package modelo.tabla;
 
+import controlador.DAO.PersonaDAO;
 import controlador.PersonaJpaController;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -19,7 +20,7 @@ import modelo.Persona;
 public class modeloCitas extends AbstractTableModel {
 
     private List<Consulta> listaCitas;
-    private PersonaJpaController jpaconsulta = new PersonaJpaController();
+    private PersonaDAO personadao = new PersonaDAO();
 
     public List<Consulta> getListaCitas() {
         return listaCitas;
@@ -66,7 +67,7 @@ public class modeloCitas extends AbstractTableModel {
             case 2:
                 return consulta.getHora_cita();
             case 3:
-                Persona per = jpaconsulta.findPersona(consulta.getId_paciente());
+                Persona per = personadao.buscarPersonaPorId(consulta.getId_paciente());
                 return per.getNombre() + " " + per.getApellido();
             default:
                 return "--";

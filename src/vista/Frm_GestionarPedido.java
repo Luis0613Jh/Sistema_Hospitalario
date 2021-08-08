@@ -21,11 +21,11 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
     /**
      * Creates new form Frm_GestionarPedido
      */
-    public Frm_GestionarPedido() {
+    public Frm_GestionarPedido(long id) {
         initComponents();
         cargarCampos();
         cargarTabla();
-        pedidoDAO.setIdConsulta(1);
+        pedidoDAO.setIdConsulta(id);
     }
 
     public void cargarCampos() {
@@ -54,6 +54,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     public void habilitarCampos() {
         cbxExamenes.setEnabled(true);
+        btnAñadir.setEnabled(true);
     }
 
     public void deshabilitarCampos() {
@@ -64,13 +65,17 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         pedidoDAO.setConsulta(pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()));
         pedidoDAO.getPedido().setConsulta(pedidoDAO.getConsulta());
         pedidoDAO.getPedido().setEstado_pedido("PENDIENTE");
-        pedidoDAO.getPedido().setNro_pedido(String.valueOf(Math.random()));        
-        pedidoDAO.getPedido().setListaExamen(pedidoDAO.getListaExamen());
-        
+        pedidoDAO.getPedido().setNro_pedido(String.valueOf(Math.random()*1000));        
+        pedidoDAO.getPedido().setListaExamen(pedidoDAO.getPedido().getListaExamen());
+        pedidoDAO.getPedido().setFecha_pedido(pedidoDAO.getConsulta().getFecha_cita());
+        if (pedidoDAO.agregar(pedidoDAO.getPedido())) {
+            JOptionPane.showMessageDialog(null,"Se ha guardado el pedido");
+        }else{
+            JOptionPane.showMessageDialog(null,"Se ha producido un error en guardar.");
+        }
     }
 
     public void nuevo() {
-
         habilitarCampos();
     }
 
@@ -136,6 +141,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -257,7 +263,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblExamenes);
 
         jPanel3.add(jScrollPane1);
-        jScrollPane1.setBounds(12, 12, 570, 210);
+        jScrollPane1.setBounds(12, 12, 570, 170);
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -286,6 +292,15 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel3.add(btnGuardar);
         btnGuardar.setBounds(600, 200, 80, 22);
 
+        jButton1.setText("Cerrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1);
+        jButton1.setBounds(10, 200, 72, 22);
+
         jPanel1.add(jPanel3);
         jPanel3.setBounds(10, 290, 690, 240);
 
@@ -298,14 +313,17 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
+        eliminarExamen();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         nuevo();
+        
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        guardar();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -313,8 +331,13 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
-        //añadirExamen();
+        añadirExamen();
     }//GEN-LAST:event_btnAñadirActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -355,7 +378,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Frm_GestionarPedido().setVisible(true);
+                //new Frm_GestionarPedido().setVisible(true);
             }
         });
     }
@@ -367,6 +390,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox<String> cbxExamenes;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

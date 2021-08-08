@@ -60,8 +60,7 @@ public class RecetaDAO {
 
     public void setReceta(Receta receta) {
         this.receta = receta;
-    }
-    
+    }    
 
     public boolean editarReceta(Receta receta) {
         try {
@@ -75,10 +74,8 @@ public class RecetaDAO {
 
     public Consulta encontrarConsulta(Long id) {
         try {
-            System.out.println("ingresada encontrar");
             return jpaconsulta.findConsulta(idConsulta);
         } catch (Exception e) {
-            System.out.println("no ingresada encontrar");
             return null;
         }
     }

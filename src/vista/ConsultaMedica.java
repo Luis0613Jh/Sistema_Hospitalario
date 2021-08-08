@@ -22,7 +22,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
     private DiagnosticoDAO diagonosticodao = new DiagnosticoDAO();
 
     public ConsultaMedica(long id) {
-        initComponents();
+        initComponents();          
         diagonosticodao.setIdConsulta(id);
         if (diagonosticodao.encontrarConsulta(diagonosticodao.getIdConsulta()) != null) {
             diagonosticodao.setConsulta(diagonosticodao.encontrarConsulta(diagonosticodao.getIdConsulta()));
@@ -35,9 +35,16 @@ public class ConsultaMedica extends javax.swing.JFrame {
             txt_hora.setEditable(false);
             txt_nombre.setEditable(false);
             txt_cedula.setEditable(false);
+            EditarEstadoMedico("NO DISPONIBLE");
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo cargar los datos");
         }
+    }
+    
+    public void EditarEstadoMedico(String estado){
+        diagonosticodao.setMedico(diagonosticodao.getMedicodao().buscarMedicoid(diagonosticodao.getConsulta().getId_medico()));
+        diagonosticodao.getMedico().setEstado_disponibilidad(estado);
+        diagonosticodao.getMedicodao().editarMedico(diagonosticodao.getMedico());
     }
 
     /**
@@ -206,13 +213,55 @@ public class ConsultaMedica extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jLabel5)
+        btn_solicitarP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btn_solicitarP.setText("Solcitar Pedido");
+        btn_solicitarP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_solicitarPActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel4)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_solicitarP)
+                            .addComponent(jLabel3))))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txt_motivo, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
+                                .addComponent(txt_enfermedad))
+                            .addComponent(txt_observación, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_generarR, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txt_motivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txt_enfermedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(txt_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(189, 189, 189)
@@ -302,7 +351,16 @@ public class ConsultaMedica extends javax.swing.JFrame {
             diagonosticodao.getDiagnostico().setMotivo_consulta(txt_motivo.getText());
             diagonosticodao.getDiagnostico().setObservacion(txt_observación.getText());
             diagonosticodao.getDiagnostico().setConsulta(diagonosticodao.getConsulta());
-            diagonosticodao.agregarDiagnostico(diagonosticodao.getDiagnostico());
+            if (diagonosticodao.agregarDiagnostico(diagonosticodao.getDiagnostico())) {
+               JOptionPane.showMessageDialog(null,"Diagnostico Guardado");
+               EditarEstadoMedico("DISPONIBLE");
+               txt_enfermedad.setEditable(false);
+               txt_motivo.setEditable(false);
+               txt_observación.setEditable(false);
+            }else{
+                JOptionPane.showMessageDialog(null,"Se ha producido un error.");
+            }
+            
         }else{
             JOptionPane.showMessageDialog(null,"Campos vacios");
         }
@@ -312,12 +370,14 @@ public class ConsultaMedica extends javax.swing.JFrame {
         // TODO add your handling code here:
         RecetaMedica frmreceta = new RecetaMedica(diagonosticodao.getIdConsulta());
         frmreceta.setVisible(true);
-        this.setVisible(false);
+        this.setVisible(true);
     }//GEN-LAST:event_btn_generarRActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_solicitarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_solicitarPActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        Frm_GestionarPedido gestionar = new Frm_GestionarPedido(diagonosticodao.getIdConsulta());
+        gestionar.setVisible(true);
+    }//GEN-LAST:event_btn_solicitarPActionPerformed
 
     /**
      * @param args the command line arguments

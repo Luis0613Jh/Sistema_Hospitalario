@@ -16,6 +16,7 @@ public class DiagnosticoDAO {
     private Diagnostico diagnostico = new Diagnostico();
     private PersonaDAO pesonadao = new PersonaDAO();
     private MedicoDAO medicodao = new MedicoDAO();
+    private Medico medico = new Medico();
 
 
     public DiagnosticoJpaController getJpadiagnostico() {
@@ -75,16 +76,24 @@ public class DiagnosticoDAO {
 
     public void setMedicodao(MedicoDAO medicodao) {
         this.medicodao = medicodao;
+    }  
+
+    public Medico getMedico() {
+        if (medico == null) {
+            medico = new Medico();
+        }
+        return medico;
     }
-    
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
+    }    
 
     public boolean agregarDiagnostico(Diagnostico diag) {
         try {
             this.jpadiagnostico.create(diag);
-            System.out.println("ingresada agregar");
             return true;
         } catch (Exception e) {
-            System.out.println("no ingresada agregar");
             return false;
         }
     }
@@ -95,10 +104,8 @@ public class DiagnosticoDAO {
     
     public Consulta encontrarConsulta (Long id) {
         try {
-            System.out.println("ingresada encontrar");
             return jpaconsulta.findConsulta(idConsulta);
         } catch (Exception e) {
-            System.out.println("no ingresada encontrar");
             return null;
         }
     }

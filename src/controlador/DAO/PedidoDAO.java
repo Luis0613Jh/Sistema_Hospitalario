@@ -13,15 +13,11 @@ import modelo.Consulta;
 import modelo.Examen;
 import modelo.Pedido;
 
-/**
- *
- * @author CNH
- */
 public class PedidoDAO {
 
     private long idConsulta;
     private PedidoJpaController jpaControlador = new PedidoJpaController();
-    private Pedido pedido;
+    private Pedido pedido = new Pedido();
     private ConsultaJpaController jpaconsulta = new ConsultaJpaController();
     private Consulta consulta = new Consulta();
     private ExamenDAO examendao = new ExamenDAO();
@@ -29,9 +25,6 @@ public class PedidoDAO {
     private List<Examen> listaExamen = new ArrayList<Examen>();
 
     public Pedido getPedido() {
-        if (pedido == null) {
-            pedido = new Pedido();
-        }
         return pedido;
     }
 
@@ -123,10 +116,10 @@ public class PedidoDAO {
 
     public Consulta encontrarConsulta(Long id) {
         try {
-            System.out.println("ingresada encontrar");
+            //System.out.println("ingresada encontrar");
             return jpaconsulta.findConsulta(idConsulta);
         } catch (Exception e) {
-            System.out.println("no ingresada encontrar");
+            //System.out.println("no ingresada encontrar");
             return null;
         }
     }

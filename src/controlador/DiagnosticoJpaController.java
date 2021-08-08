@@ -22,9 +22,7 @@ import modelo.Diagnostico;
 
 
 public class DiagnosticoJpaController implements Serializable {
-
     private EntityManagerFactory emf;
-      
     public DiagnosticoJpaController() {
         this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }

@@ -183,8 +183,12 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
         if (txta_receta.getText().length() > 0) {
             recetaDAO.getReceta().setFecha(recetaDAO.getConsulta().getFecha_cita());
             recetaDAO.getReceta().setIndicaciones(txta_receta.getText());
-            recetaDAO.editarReceta(recetaDAO.getReceta());
-            txta_receta.setEditable(false);
+            if (recetaDAO.editarReceta(recetaDAO.getReceta())) {
+                JOptionPane.showMessageDialog(null,"Se guardado la receta");
+                txta_receta.setEditable(false);
+            }else{
+                JOptionPane.showMessageDialog(null,"Se ha producido un error.");
+            }          
         }
     }//GEN-LAST:event_btn_guardarRecetaActionPerformed
 
@@ -195,7 +199,7 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
