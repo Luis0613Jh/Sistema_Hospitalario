@@ -4,9 +4,7 @@ import controlador.DAO.CuentaDAO;
 import controlador.DAO.RolDAO;
 import controlador.Seguridad;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.showMessageDialog;
 import modelo.Cuenta;
-import modelo.Rol;
 
 public class inicio_sesion extends javax.swing.JFrame {
 
