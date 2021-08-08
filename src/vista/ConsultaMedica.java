@@ -299,7 +299,12 @@ public class ConsultaMedica extends javax.swing.JFrame {
             diagonosticodao.getDiagnostico().setMotivo_consulta(txt_motivo.getText());
             diagonosticodao.getDiagnostico().setObservacion(txt_observación.getText());
             diagonosticodao.getDiagnostico().setConsulta(diagonosticodao.getConsulta());
-            diagonosticodao.agregarDiagnostico(diagonosticodao.getDiagnostico());
+            if (diagonosticodao.agregarDiagnostico(diagonosticodao.getDiagnostico())) {
+               JOptionPane.showMessageDialog(null,"Diagnostico Guardado");
+            }else{
+                JOptionPane.showMessageDialog(null,"Se ha producido un error.");
+            }
+            
         }else{
             JOptionPane.showMessageDialog(null,"Campos vacios");
         }
@@ -309,7 +314,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
         // TODO add your handling code here:
         RecetaMedica frmreceta = new RecetaMedica(diagonosticodao.getIdConsulta());
         frmreceta.setVisible(true);
-        this.setVisible(false);
+        this.setVisible(true);
     }//GEN-LAST:event_btn_generarRActionPerformed
 
     private void btn_solicitarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_solicitarPActionPerformed

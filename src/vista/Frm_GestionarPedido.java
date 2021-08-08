@@ -45,7 +45,11 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         pedidoDAO.getPedido().setNro_pedido(String.valueOf(Math.random()*1000));        
         pedidoDAO.getPedido().setListaExamen(pedidoDAO.getPedido().getListaExamen());
         pedidoDAO.getPedido().setFecha_pedido(pedidoDAO.getConsulta().getFecha_cita());
-        pedidoDAO.agregar(pedidoDAO.getPedido());
+        if (pedidoDAO.agregar(pedidoDAO.getPedido())) {
+            JOptionPane.showMessageDialog(null,"Se ha guardado el pedido");
+        }else{
+            JOptionPane.showMessageDialog(null,"Se ha producido un error en guardar.");
+        }
     }
 
     public void nuevo() {
@@ -286,6 +290,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
+        eliminarExamen();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -308,7 +313,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

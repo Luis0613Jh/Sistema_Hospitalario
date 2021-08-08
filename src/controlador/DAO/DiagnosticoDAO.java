@@ -84,8 +84,7 @@ public class DiagnosticoDAO {
 
     public void setMedicodao(MedicoDAO medicodao) {
         this.medicodao = medicodao;
-    }
-    
+    }    
 
     public boolean agregarDiagnostico(Diagnostico diag) {
         try {
