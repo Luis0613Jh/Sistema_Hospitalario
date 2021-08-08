@@ -1,4 +1,3 @@
-
 package modelo;
 
 import java.io.Serializable;
@@ -16,17 +15,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "persona")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Persona implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_persona;
-    @Column(length = 10, unique = true)
+    @Column(length = 10,unique = true)
     private String cedula;
     private String nombre;
     private String apellido;
@@ -43,32 +41,24 @@ public class Persona implements Serializable {
     
     //name = Nombre del dato en la tabla persona
     //referencedColumnName = Nombre de La tabla a la que se va a conectar
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_rol", nullable = false, referencedColumnName = "id_rol")
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch= FetchType.LAZY)
+    @JoinColumn(name="id_rol", nullable = false, referencedColumnName = "id_rol")
     private Rol rol;
-
-    @OneToOne(mappedBy = "persona", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.REFRESH, fetch= FetchType.LAZY)
     private Cuenta cuenta;
-
-    @OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    
+    @OneToOne(mappedBy="persona",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private HistorialClinico historial_clinico;
-
+    
     public Cuenta getCuenta() {
         return cuenta;
-    }
-
-    public String getEstado_disponibilidad() {
-        return estado_disponibilidad;
-    }
-
-    public void setEstado_disponibilidad(String estado_disponibilidad) {
-        this.estado_disponibilidad = estado_disponibilidad;
     }
 
     public void setCuenta(Cuenta cuenta) {
         this.cuenta = cuenta;
     }
-
+    
     public Rol getRol() {
         if(this.rol == null){
             this.rol = new Rol();
@@ -78,6 +68,14 @@ public class Persona implements Serializable {
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    public String getEstado_disponibilidad() {
+        return estado_disponibilidad;
+    }
+
+    public void setEstado_disponibilidad(String estado_disponibilidad) {
+        this.estado_disponibilidad = estado_disponibilidad;
     }
     
     public String getCedula() {
@@ -167,6 +165,7 @@ public class Persona implements Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+    
 
     public Long getId_persona() {
         return id_persona;
@@ -206,7 +205,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return nombre + apellido + " - " + cedula;
+        return "modelo.Persona[ id=" + id_persona + " ]";
     }
-
+    
 }

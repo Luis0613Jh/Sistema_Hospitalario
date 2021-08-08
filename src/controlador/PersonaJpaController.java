@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador;
 
 import controlador.exceptions.IllegalOrphanException;
@@ -22,50 +17,19 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Persona;
 
-/**
- *
- * @author RICARDO
- */
 public class PersonaJpaController implements Serializable {
 
-    private EntityManagerFactory emf;
-    
     public PersonaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-<<<<<<< HEAD
-=======
-    
     private EntityManagerFactory emf = null;
->>>>>>> parent of 5c9e17f (Avance agendar consulta)
 
-    public PersonaJpaController() {
-        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
-    }
-    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
-    public List<Persona> getPersonasPorRol(Long idRol, String estado) {
-        EntityManager em = getEntityManager();
-        try {
-            Query q = em.createQuery("SELECT e "
-                    + "FROM Persona e, Rol r " 
-                    + "WHERE (e.estado = ?12 and r.id_rol = ?13)")
-                    .setParameter(12, estado)
-                    .setParameter(13, idRol);
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-<<<<<<< HEAD
-=======
-    }
     
     public PersonaJpaController() {
         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
->>>>>>> parent of 5c9e17f (Avance agendar consulta)
     }
 
     public void create(Persona persona) {

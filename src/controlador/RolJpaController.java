@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador;
 
 import controlador.exceptions.IllegalOrphanException;
@@ -20,34 +15,21 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Rol;
 
-/**
- *
- * @author RICARDO
- */
 public class RolJpaController implements Serializable {
-
-    private EntityManagerFactory emf;
 
     public RolJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+    private EntityManagerFactory emf = null;
 
-<<<<<<< HEAD
+    public EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+    
     public RolJpaController() {
         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
 
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
-=======
-    public EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }
-public RolJpaController() {
-        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
-    }
->>>>>>> parent of 5c9e17f (Avance agendar consulta)
     public void create(Rol rol) {
         if (rol.getListaPersona() == null) {
             rol.setListaPersona(new ArrayList<Persona>());
@@ -213,4 +195,5 @@ public RolJpaController() {
             em.close();
         }
     }
+    
 }

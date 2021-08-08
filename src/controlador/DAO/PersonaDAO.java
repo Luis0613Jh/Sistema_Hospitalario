@@ -1,15 +1,17 @@
 package controlador.DAO;
+
 import controlador.PersonaJpaController;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import modelo.Persona;
+
 public class PersonaDAO {
     private PersonaJpaController PersonaJpa = new PersonaJpaController();
-    private Persona persona;
+    private Persona persona; 
 
     public Persona getPersona() {
-        if (persona == null) {
+        if(persona == null){
             persona = new Persona();
         }
         return persona;
@@ -18,8 +20,8 @@ public class PersonaDAO {
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
-
-    public Persona buscarPersona(Persona persona) {
+    
+    public Persona buscarPersona(Persona persona){
         Persona aux = new Persona();
         try {
             aux = PersonaJpa.findPersona(persona.getId_persona());
@@ -29,53 +31,27 @@ public class PersonaDAO {
         }
     }
     
-    public Persona buscarPersonaPorId(Long id) {
+    public Persona buscarPersonaPorId(Long id){
         Persona aux = new Persona();
-        try {    
+        try {
             aux = PersonaJpa.findPersona(id);
             return aux;
         } catch (Exception e) {
             return aux;
         }
     }
-<<<<<<< HEAD
-
-    public List<Persona> filtro(Long idRol, String estado) {
-=======
-    
-    public List<Persona> filtro(Long idRol, String estado){
->>>>>>> parent of 5c9e17f (Avance agendar consulta)
-        List<Persona> lista = new ArrayList<Persona>();
-        try {
-            lista = PersonaJpa.getPersonasPorRol(idRol, estado);
-            System.out.println("Si vale");
-            return lista;
-        } catch (Exception e) {
-<<<<<<< HEAD
-            System.out.println("Valio VRG: " + e);
-            return lista;
-        }
-    }
-
-    public boolean agregarPersona(Persona persona) {
-=======
-            System.out.println("Valio VRG: "+e);
-            return lista;
-        }
-    }
     
     public boolean agregarPersona(Persona persona){
->>>>>>> parent of 5c9e17f (Avance agendar consulta)
         try {
             PersonaJpa.create(persona);
             return true;
         } catch (Exception e) {
-            System.out.println("Error: " + e);
+            System.out.println("Error: "+e);
             return false;
         }
     }
-
-    public List listarPersonas() {
+    
+    public List listarPersonas(){
         List<Persona> listaPersona = new ArrayList<Persona>();
         try {
             listaPersona = PersonaJpa.findPersonaEntities();
@@ -85,12 +61,13 @@ public class PersonaDAO {
         }
     }
 
-    public boolean editarPersona(Persona persona) {
+    
+    public boolean editarPersona(Persona persona){
         try {
             PersonaJpa.edit(persona);
             return true;
         } catch (Exception e) {
-            System.out.println("Error: " + e);
+            System.out.println("Error: "+e);
             return false;
         }
     }

@@ -1,6 +1,4 @@
-
 package modelo;
-
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,14 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "categoria")
 public class Categoria implements Serializable {
 
-    private static final long  serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_categoria;
     private String nombre_cat;
     private String descripcion_cat;
@@ -84,7 +81,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return nombre_cat;
+        return "modelo.Categoria[ id=" + id_categoria + " ]";
     }
     
 }

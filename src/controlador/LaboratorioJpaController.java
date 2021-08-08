@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador;
 
-import controlador.exceptions.IllegalOrphanException;
 import controlador.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -17,48 +11,37 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import modelo.Laboratorio;
 
-/**
- *
- * @author RICARDO
- */
 public class LaboratorioJpaController implements Serializable {
 
-    private EntityManagerFactory emf;
-    
     public LaboratorioJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
-    public LaboratorioJpaController() {
-        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
-    }
+    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
     public void create(Laboratorio laboratorio) {
+        if (laboratorio.getListaExamen() == null) {
+            laboratorio.setListaExamen(new ArrayList<Examen>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Examen examen = laboratorio.getExamen();
-            if (examen != null) {
-                examen = em.getReference(examen.getClass(), examen.getId_examen());
-                laboratorio.setExamen(examen);
+            List<Examen> attachedListaExamen = new ArrayList<Examen>();
+            for (Examen listaExamenExamenToAttach : laboratorio.getListaExamen()) {
+                listaExamenExamenToAttach = em.getReference(listaExamenExamenToAttach.getClass(), listaExamenExamenToAttach.getId_examen());
+                attachedListaExamen.add(listaExamenExamenToAttach);
             }
+            laboratorio.setListaExamen(attachedListaExamen);
             em.persist(laboratorio);
-            if (examen != null) {
-                Laboratorio oldLaboratorioOfExamen = examen.getLaboratorio();
-                if (oldLaboratorioOfExamen != null) {
-                    oldLaboratorioOfExamen.setExamen(null);
-                    oldLaboratorioOfExamen = em.merge(oldLaboratorioOfExamen);
-                }
-                examen.setLaboratorio(laboratorio);
-                examen = em.merge(examen);
+            for (Examen listaExamenExamen : laboratorio.getListaExamen()) {
+                listaExamenExamen.getListaLab().add(laboratorio);
+                listaExamenExamen = em.merge(listaExamenExamen);
             }
             em.getTransaction().commit();
         } finally {
@@ -68,37 +51,33 @@ public class LaboratorioJpaController implements Serializable {
         }
     }
 
-    public void edit(Laboratorio laboratorio) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Laboratorio laboratorio) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Laboratorio persistentLaboratorio = em.find(Laboratorio.class, laboratorio.getId_laboratorio());
-            Examen examenOld = persistentLaboratorio.getExamen();
-            Examen examenNew = laboratorio.getExamen();
-            List<String> illegalOrphanMessages = null;
-            if (examenOld != null && !examenOld.equals(examenNew)) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("You must retain Examen " + examenOld + " since its laboratorio field is not nullable.");
+            List<Examen> listaExamenOld = persistentLaboratorio.getListaExamen();
+            List<Examen> listaExamenNew = laboratorio.getListaExamen();
+            List<Examen> attachedListaExamenNew = new ArrayList<Examen>();
+            for (Examen listaExamenNewExamenToAttach : listaExamenNew) {
+                listaExamenNewExamenToAttach = em.getReference(listaExamenNewExamenToAttach.getClass(), listaExamenNewExamenToAttach.getId_examen());
+                attachedListaExamenNew.add(listaExamenNewExamenToAttach);
             }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (examenNew != null) {
-                examenNew = em.getReference(examenNew.getClass(), examenNew.getId_examen());
-                laboratorio.setExamen(examenNew);
-            }
+            listaExamenNew = attachedListaExamenNew;
+            laboratorio.setListaExamen(listaExamenNew);
             laboratorio = em.merge(laboratorio);
-            if (examenNew != null && !examenNew.equals(examenOld)) {
-                Laboratorio oldLaboratorioOfExamen = examenNew.getLaboratorio();
-                if (oldLaboratorioOfExamen != null) {
-                    oldLaboratorioOfExamen.setExamen(null);
-                    oldLaboratorioOfExamen = em.merge(oldLaboratorioOfExamen);
+            for (Examen listaExamenOldExamen : listaExamenOld) {
+                if (!listaExamenNew.contains(listaExamenOldExamen)) {
+                    listaExamenOldExamen.getListaLab().remove(laboratorio);
+                    listaExamenOldExamen = em.merge(listaExamenOldExamen);
                 }
-                examenNew.setLaboratorio(laboratorio);
-                examenNew = em.merge(examenNew);
+            }
+            for (Examen listaExamenNewExamen : listaExamenNew) {
+                if (!listaExamenOld.contains(listaExamenNewExamen)) {
+                    listaExamenNewExamen.getListaLab().add(laboratorio);
+                    listaExamenNewExamen = em.merge(listaExamenNewExamen);
+                }
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -117,7 +96,7 @@ public class LaboratorioJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -129,16 +108,10 @@ public class LaboratorioJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The laboratorio with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            Examen examenOrphanCheck = laboratorio.getExamen();
-            if (examenOrphanCheck != null) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Laboratorio (" + laboratorio + ") cannot be destroyed since the Examen " + examenOrphanCheck + " in its examen field has a non-nullable laboratorio field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
+            List<Examen> listaExamen = laboratorio.getListaExamen();
+            for (Examen listaExamenExamen : listaExamen) {
+                listaExamenExamen.getListaLab().remove(laboratorio);
+                listaExamenExamen = em.merge(listaExamenExamen);
             }
             em.remove(laboratorio);
             em.getTransaction().commit();
@@ -195,16 +168,4 @@ public class LaboratorioJpaController implements Serializable {
         }
     }
     
-    public List<Laboratorio> getLaboratoriosPorEstado(String estado) {
-        EntityManager em = getEntityManager();
-        try {
-            Query q = em.createQuery("SELECT e "
-                    + "FROM Laboratorio e " 
-                    + "WHERE e.estado = ?3")
-                    .setParameter(3, estado);
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
 }

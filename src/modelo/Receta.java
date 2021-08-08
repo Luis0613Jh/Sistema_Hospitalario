@@ -1,4 +1,3 @@
-  
 package modelo;
 
 import java.io.Serializable;
@@ -18,15 +17,13 @@ public class Receta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id_receta;
     private String indicaciones;
     private String fecha;
     
     @OneToOne(mappedBy="receta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Consulta consulta;                                                  
-    
-    
+    private Consulta consulta;
     
     public Consulta getConsulta() {
         return consulta;
