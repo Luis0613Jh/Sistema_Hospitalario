@@ -25,6 +25,7 @@ public class DiagnosticoDAO {
     private Diagnostico diagnostico = new Diagnostico();
     private PersonaDAO pesonadao = new PersonaDAO();
     private MedicoDAO medicodao = new MedicoDAO();
+    private Medico medico = new Medico();
 
 
     public DiagnosticoJpaController getJpadiagnostico() {
@@ -84,6 +85,17 @@ public class DiagnosticoDAO {
 
     public void setMedicodao(MedicoDAO medicodao) {
         this.medicodao = medicodao;
+    }  
+
+    public Medico getMedico() {
+        if (medico == null) {
+            medico = new Medico();
+        }
+        return medico;
+    }
+
+    public void setMedico(Medico medico) {
+        this.medico = medico;
     }    
 
     public boolean agregarDiagnostico(Diagnostico diag) {

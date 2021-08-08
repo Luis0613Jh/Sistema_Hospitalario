@@ -22,7 +22,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
     private DiagnosticoDAO diagonosticodao = new DiagnosticoDAO();
 
     public ConsultaMedica(long id) {
-        initComponents();
+        initComponents();          
         diagonosticodao.setIdConsulta(id);
         if (diagonosticodao.encontrarConsulta(diagonosticodao.getIdConsulta()) != null) {
             diagonosticodao.setConsulta(diagonosticodao.encontrarConsulta(diagonosticodao.getIdConsulta()));
@@ -35,9 +35,16 @@ public class ConsultaMedica extends javax.swing.JFrame {
             txt_hora.setEditable(false);
             txt_nombre.setEditable(false);
             txt_cedula.setEditable(false);
+            EditarEstadoMedico("NO DISPONIBLE");
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo cargar los datos");
         }
+    }
+    
+    public void EditarEstadoMedico(String estado){
+        diagonosticodao.setMedico(diagonosticodao.getMedicodao().buscarMedicoid(diagonosticodao.getConsulta().getId_medico()));
+        diagonosticodao.getMedico().setEstado_disponibilidad(estado);
+        diagonosticodao.getMedicodao().editarMedico(diagonosticodao.getMedico());
     }
 
     /**
@@ -301,6 +308,10 @@ public class ConsultaMedica extends javax.swing.JFrame {
             diagonosticodao.getDiagnostico().setConsulta(diagonosticodao.getConsulta());
             if (diagonosticodao.agregarDiagnostico(diagonosticodao.getDiagnostico())) {
                JOptionPane.showMessageDialog(null,"Diagnostico Guardado");
+               EditarEstadoMedico("DISPONIBLE");
+               txt_enfermedad.setEditable(false);
+               txt_motivo.setEditable(false);
+               txt_observación.setEditable(false);
             }else{
                 JOptionPane.showMessageDialog(null,"Se ha producido un error.");
             }
