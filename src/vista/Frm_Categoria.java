@@ -366,7 +366,7 @@ public class Frm_Categoria extends javax.swing.JFrame {
     private void txt_nombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyTyped
         char c = evt.getKeyChar();
 
-        if (Character.isDigit(c)) {
+        if (!Character.isAlphabetic(c)) {
             getToolkit().beep();
             evt.consume();
             JOptionPane.showMessageDialog(rootPane, "No se permite el ingreso de numeros");
@@ -376,7 +376,7 @@ public class Frm_Categoria extends javax.swing.JFrame {
     private void txt_descripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_descripcionKeyTyped
         char c = evt.getKeyChar();
 
-        if (Character.isDigit(c)) {
+        if (!Character.isAlphabetic(c)) {
             getToolkit().beep();
             evt.consume();
             JOptionPane.showMessageDialog(rootPane, "No se permite el ingreso de numeros");
