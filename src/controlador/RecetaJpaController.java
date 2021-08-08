@@ -31,7 +31,6 @@ public class RecetaJpaController implements Serializable {
     public RecetaJpaController() {
         this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

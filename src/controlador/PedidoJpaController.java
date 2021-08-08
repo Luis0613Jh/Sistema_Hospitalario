@@ -32,7 +32,6 @@ public class PedidoJpaController implements Serializable {
     public PedidoJpaController() {
         this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -170,7 +169,7 @@ public class PedidoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -246,6 +245,7 @@ public class PedidoJpaController implements Serializable {
             em.close();
         }
     }
+    
     public List<Pedido> getPedidosPorEstado(String estado) {
         EntityManager em = getEntityManager();
         try {
