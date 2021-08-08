@@ -30,11 +30,11 @@ public class PedidoJpaController implements Serializable {
     public PedidoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    private EntityManagerFactory emf = null;
 
     public PedidoJpaController() {
+         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

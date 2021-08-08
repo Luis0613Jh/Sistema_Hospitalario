@@ -28,6 +28,7 @@ public class Frm_Categoria extends javax.swing.JFrame {
         bloquear();
         setLocationRelativeTo(this);
         cargarTabla();
+        
     }
 
     public void cargarTabla() {
@@ -243,6 +244,7 @@ public class Frm_Categoria extends javax.swing.JFrame {
         CatDAO.agregarCat(CatDAO.getCat());
         cargarTabla();
         limpiar();
+        bloquear();
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed

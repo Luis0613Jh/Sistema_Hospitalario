@@ -6,6 +6,8 @@
 package controlador.DAO;
 
 import controlador.HistorialClinicoJpaController;
+import java.util.ArrayList;
+import java.util.List;
 import modelo.HistorialClinico;
 
 /**
@@ -15,14 +17,14 @@ import modelo.HistorialClinico;
 public class HistorialClinicoDAO {
 
     private HistorialClinicoJpaController hcJPAC = new HistorialClinicoJpaController();
-    private HistorialClinico exam = new HistorialClinico();
+    private HistorialClinico hc = new HistorialClinico();
 
-    public HistorialClinico getExam() {
-        return exam;
+    public HistorialClinico getHc() {
+        return hc;
     }
 
-    public void setExam(HistorialClinico exam) {
-        this.exam = exam;
+    public void setHc(HistorialClinico exam) {
+        this.hc = exam;
     }
 
     public boolean agregarHC(HistorialClinico hc) {
@@ -34,8 +36,8 @@ public class HistorialClinicoDAO {
             return false;
         }
     }
-    
-     public boolean editarrHC(HistorialClinico hc) {
+
+    public boolean editarHC(HistorialClinico hc) {
 
         try {
             hcJPAC.edit(hc);
@@ -44,7 +46,7 @@ public class HistorialClinicoDAO {
             return false;
         }
     }
-     
+
 //      public boolean eliminarHC(HistorialClinico hc) {
 //
 //        try {
@@ -54,27 +56,52 @@ public class HistorialClinicoDAO {
 //            return false;
 //        }
 //    }
-     
-      public boolean encontrarHC(HistorialClinico hc){
-     
+    public HistorialClinico encontrarHC(HistorialClinico hc) {
+        HistorialClinico aux = new HistorialClinico();
+
         try {
-            hcJPAC.findHistorialClinico(hc.getId_historial_clinico());
+            aux = hcJPAC.findHistorialClinico(hc.getId_historial_clinico());
+            System.out.println("ingresada");
+            return aux;
+        } catch (Exception e) {
+            System.out.println("no ingresada");
+            return aux;
+        }
+    }
+
+    public List TodasCat() {
+        List<HistorialClinico> Lhc = new ArrayList<HistorialClinico>();
+        try {
+            Lhc = hcJPAC.findHistorialClinicoEntities();
+            System.out.println("ingresada tabla");
+            return Lhc;
+        } catch (Exception e) {
+            System.out.println("no ingresada tabla");
+            return Lhc;
+        }
+    }
+
+    public boolean IntervaloCat(int j, int i) {
+
+        try {
+            hcJPAC.findHistorialClinicoEntities(j, i);
             System.out.println("ingresada");
             return true;
         } catch (Exception e) {
-             System.out.println("no ingresada");
-            return  false;
+            System.out.println("no ingresada");
+            return false;
         }
     }
-  public boolean contadorHC(){
-     
+
+    public boolean contadorHC() {
+
         try {
             hcJPAC.getHistorialClinicoCount();
             System.out.println("ingresada");
             return true;
         } catch (Exception e) {
-             System.out.println("no ingresada");
-            return  false;
+            System.out.println("no ingresada");
+            return false;
         }
     }
 

@@ -29,11 +29,11 @@ public class DiagnosticoJpaController implements Serializable {
     public DiagnosticoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf =Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    private EntityManagerFactory emf = null;
 
     public DiagnosticoJpaController() {
+         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

@@ -29,9 +29,10 @@ public class CategoriaJpaController implements Serializable {
     public CategoriaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    private EntityManagerFactory emf = null;
 
     public CategoriaJpaController() {
+         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
 
     
@@ -111,7 +112,6 @@ public class CategoriaJpaController implements Serializable {
                 }
             }
             em.getTransaction().commit();
-           
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -120,9 +120,7 @@ public class CategoriaJpaController implements Serializable {
                     throw new NonexistentEntityException("The categoria with id " + id + " no longer exists.");
                 }
             }
-            
             throw ex;
-            
         } finally {
             if (em != null) {
                 em.close();

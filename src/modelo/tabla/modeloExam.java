@@ -63,7 +63,7 @@ public class modeloExam extends AbstractTableModel{
             case 1:
                 return ex.getCategoria().getNombre_cat();
              case 2:
-                return ex.getListaLab();
+                return ex.getLaboratorio();
              case 3:
                 return  ex.getUnidad_medida();
             default:

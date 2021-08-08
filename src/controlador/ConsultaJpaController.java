@@ -32,11 +32,11 @@ public class ConsultaJpaController implements Serializable {
     public ConsultaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    private EntityManagerFactory emf = null;
 
     public ConsultaJpaController() {
+         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

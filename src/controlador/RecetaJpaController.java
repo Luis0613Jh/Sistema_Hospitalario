@@ -29,11 +29,11 @@ public class RecetaJpaController implements Serializable {
     public RecetaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    private EntityManagerFactory emf = null;
 
     public RecetaJpaController() {
+         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

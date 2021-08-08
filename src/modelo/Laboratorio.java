@@ -2,15 +2,13 @@
 package modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -26,17 +24,16 @@ public class Laboratorio implements Serializable {
     private String descripcion_lab;
     private String id_encargado;
 
-   @ManyToMany(mappedBy = "listaLab",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Examen>listaExamen = new ArrayList<Examen>();
+    @OneToOne(mappedBy="laboratorio",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Examen examen;
 
-    public List<Examen> getListaExamen() {
-        return listaExamen;
+    public Examen getExamen() {
+        return examen;
     }
 
-    public void setListaExamen(List<Examen> listaExamen) {
-        this.listaExamen = listaExamen;
+    public void setExamen(Examen examen) {
+        this.examen = examen;
     }
-    
     
     public String getNombre_lab() {
         return nombre_lab;
