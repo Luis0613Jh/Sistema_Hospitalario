@@ -2,6 +2,7 @@ package vista;
 
 import controlador.DAO.PedidoDAO;
 import controlador.DAO.PersonaDAO;
+import controlador.utilidades.UtilidadesControlador;
 import modelo.tabla.modeloExam;
 
 public class Frm_DetallesPedido extends javax.swing.JFrame {
@@ -38,10 +39,9 @@ public class Frm_DetallesPedido extends javax.swing.JFrame {
         lblPaciente.setText(personaDAO.getPersona().toString());
         lblSexo.setText(personaDAO.getPersona().getGenero());
         lblFechaNacimiento.setText(personaDAO.getPersona().getFecha_nacimiento());
-        // ==============FALTA EDAD============
-        lblEdad.setText("20");
-        
+        lblEdad.setText(String.valueOf(UtilidadesControlador.determinarEdad(personaDAO.getPersona().getFecha_nacimiento())));
         lblDireccion.setText(personaDAO.getPersona().getDireccion());
+        
         personaDAO.setPersona(null);
         
         cargarTabla();

@@ -2,6 +2,8 @@ package vista;
 
 import controlador.DAO.ExamenDAO;
 import controlador.DAO.PedidoDAO;
+import controlador.DAO.PersonaDAO;
+import controlador.utilidades.UtilidadesControlador;
 import javax.swing.JOptionPane;
 import modelo.Examen;
 import modelo.tabla.modeloExam;
@@ -11,6 +13,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     private PedidoDAO pedidoDAO = new PedidoDAO();
     private ExamenDAO examenDAO = new ExamenDAO();
+    private PersonaDAO personaDAO = new PersonaDAO();
     private modeloExam examenesTabla = new modeloExam();
 
     /**
@@ -23,7 +26,26 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
     }
 
     public void cargarCampos() {
+        // Datos Pedido
+        lblNroPedido.setText(pedidoDAO.getPedido().getNro_pedido());
+        lblFecha.setText(pedidoDAO.getPedido().getFecha_pedido());
         
+        // Datos Médico Solicitante
+        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_medico()));
+        lblMedicoSolicitante.setText(personaDAO.getPersona().toString());
+        personaDAO.setPersona(null);
+        
+        // Datos Paciente
+        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_paciente()));
+        lblPaciente.setText(personaDAO.getPersona().toString());
+        lblSexo.setText(personaDAO.getPersona().getGenero());
+        lblFechaNacimiento.setText(personaDAO.getPersona().getFecha_nacimiento());
+        lblEdad.setText(String.valueOf(UtilidadesControlador.determinarEdad(personaDAO.getPersona().getFecha_nacimiento())));
+        lblDireccion.setText(personaDAO.getPersona().getDireccion());
+        
+        personaDAO.setPersona(null);
+        
+        cargarTabla();
         UtilidadesVista.cargarCbxPersonas(cbxExamenes, examenDAO.TodosExam());
     }
 
@@ -49,6 +71,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
         if (tblExamenes.getSelectedRow() != - 1) {
             pedidoDAO.getPedido().getListaExamen().remove(tblExamenes.getSelectedRow());
+            cargarTabla();
             JOptionPane.showMessageDialog(this, "Exámen eliminado del pedido exitosamente");
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
@@ -63,6 +86,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     public void añadirExamen() {
         pedidoDAO.getPedido().getListaExamen().add((Examen) cbxExamenes.getSelectedItem());
+        cargarTabla();
     }
     
     public void cancelar() {
