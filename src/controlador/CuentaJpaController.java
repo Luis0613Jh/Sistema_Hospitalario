@@ -32,7 +32,8 @@ public class CuentaJpaController implements Serializable {
     private EntityManagerFactory emf = null;
 
     public CuentaJpaController() {
-         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        
     }
 
     public EntityManager getEntityManager() {

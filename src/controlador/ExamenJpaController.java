@@ -12,9 +12,9 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import modelo.Pedido;
 import modelo.Laboratorio;
 import modelo.Categoria;
-import modelo.Pedido;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -34,7 +34,7 @@ public class ExamenJpaController implements Serializable {
     private EntityManagerFactory emf = null;
 
     public ExamenJpaController() {
-         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
 
     public EntityManager getEntityManager() {
@@ -60,6 +60,11 @@ public class ExamenJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Pedido pedido = examen.getPedido();
+            if (pedido != null) {
+                pedido = em.getReference(pedido.getClass(), pedido.getId_pedido());
+                examen.setPedido(pedido);
+            }
             Laboratorio laboratorio = examen.getLaboratorio();
             if (laboratorio != null) {
                 laboratorio = em.getReference(laboratorio.getClass(), laboratorio.getId_laboratorio());
@@ -70,12 +75,11 @@ public class ExamenJpaController implements Serializable {
                 categoria = em.getReference(categoria.getClass(), categoria.getId_categoria());
                 examen.setCategoria(categoria);
             }
-            Pedido pedido = examen.getPedido();
-            if (pedido != null) {
-                pedido = em.getReference(pedido.getClass(), pedido.getId_pedido());
-                examen.setPedido(pedido);
-            }
             em.persist(examen);
+            if (pedido != null) {
+                pedido.getListaExamen().add(examen);
+                pedido = em.merge(pedido);
+            }
             if (laboratorio != null) {
                 laboratorio.setExamen(examen);
                 laboratorio = em.merge(laboratorio);
@@ -83,10 +87,6 @@ public class ExamenJpaController implements Serializable {
             if (categoria != null) {
                 categoria.getListaExamen().add(examen);
                 categoria = em.merge(categoria);
-            }
-            if (pedido != null) {
-                pedido.getListaExamen().add(examen);
-                pedido = em.merge(pedido);
             }
             em.getTransaction().commit();
         } finally {
@@ -102,12 +102,12 @@ public class ExamenJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Examen persistentExamen = em.find(Examen.class, examen.getId_examen());
+            Pedido pedidoOld = persistentExamen.getPedido();
+            Pedido pedidoNew = examen.getPedido();
             Laboratorio laboratorioOld = persistentExamen.getLaboratorio();
             Laboratorio laboratorioNew = examen.getLaboratorio();
             Categoria categoriaOld = persistentExamen.getCategoria();
             Categoria categoriaNew = examen.getCategoria();
-            Pedido pedidoOld = persistentExamen.getPedido();
-            Pedido pedidoNew = examen.getPedido();
             List<String> illegalOrphanMessages = null;
             if (laboratorioNew != null && !laboratorioNew.equals(laboratorioOld)) {
                 Examen oldExamenOfLaboratorio = laboratorioNew.getExamen();
@@ -121,6 +121,10 @@ public class ExamenJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            if (pedidoNew != null) {
+                pedidoNew = em.getReference(pedidoNew.getClass(), pedidoNew.getId_pedido());
+                examen.setPedido(pedidoNew);
+            }
             if (laboratorioNew != null) {
                 laboratorioNew = em.getReference(laboratorioNew.getClass(), laboratorioNew.getId_laboratorio());
                 examen.setLaboratorio(laboratorioNew);
@@ -129,11 +133,15 @@ public class ExamenJpaController implements Serializable {
                 categoriaNew = em.getReference(categoriaNew.getClass(), categoriaNew.getId_categoria());
                 examen.setCategoria(categoriaNew);
             }
-            if (pedidoNew != null) {
-                pedidoNew = em.getReference(pedidoNew.getClass(), pedidoNew.getId_pedido());
-                examen.setPedido(pedidoNew);
-            }
             examen = em.merge(examen);
+            if (pedidoOld != null && !pedidoOld.equals(pedidoNew)) {
+                pedidoOld.getListaExamen().remove(examen);
+                pedidoOld = em.merge(pedidoOld);
+            }
+            if (pedidoNew != null && !pedidoNew.equals(pedidoOld)) {
+                pedidoNew.getListaExamen().add(examen);
+                pedidoNew = em.merge(pedidoNew);
+            }
             if (laboratorioOld != null && !laboratorioOld.equals(laboratorioNew)) {
                 laboratorioOld.setExamen(null);
                 laboratorioOld = em.merge(laboratorioOld);
@@ -149,14 +157,6 @@ public class ExamenJpaController implements Serializable {
             if (categoriaNew != null && !categoriaNew.equals(categoriaOld)) {
                 categoriaNew.getListaExamen().add(examen);
                 categoriaNew = em.merge(categoriaNew);
-            }
-            if (pedidoOld != null && !pedidoOld.equals(pedidoNew)) {
-                pedidoOld.getListaExamen().remove(examen);
-                pedidoOld = em.merge(pedidoOld);
-            }
-            if (pedidoNew != null && !pedidoNew.equals(pedidoOld)) {
-                pedidoNew.getListaExamen().add(examen);
-                pedidoNew = em.merge(pedidoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -187,6 +187,11 @@ public class ExamenJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The examen with id " + id + " no longer exists.", enfe);
             }
+            Pedido pedido = examen.getPedido();
+            if (pedido != null) {
+                pedido.getListaExamen().remove(examen);
+                pedido = em.merge(pedido);
+            }
             Laboratorio laboratorio = examen.getLaboratorio();
             if (laboratorio != null) {
                 laboratorio.setExamen(null);
@@ -196,11 +201,6 @@ public class ExamenJpaController implements Serializable {
             if (categoria != null) {
                 categoria.getListaExamen().remove(examen);
                 categoria = em.merge(categoria);
-            }
-            Pedido pedido = examen.getPedido();
-            if (pedido != null) {
-                pedido.getListaExamen().remove(examen);
-                pedido = em.merge(pedido);
             }
             em.remove(examen);
             em.getTransaction().commit();

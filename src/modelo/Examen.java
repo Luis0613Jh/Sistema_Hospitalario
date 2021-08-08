@@ -2,6 +2,8 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -33,10 +37,27 @@ public class Examen implements Serializable {
     @JoinColumn(name="id_laboratorio", nullable = false,referencedColumnName = "id_laboratorio")
     private Laboratorio laboratorio;
     
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
-    @JoinColumn(name ="id_pedido",nullable = false, referencedColumnName = "id_pedido" )
+//    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+//    @JoinColumn(name ="id_pedido",nullable = false, referencedColumnName = "id_pedido" )
+//    private Pedido pedido;
+
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinTable(name = "pedido_examen",
+            joinColumns = @JoinColumn(name = "id_examen" , nullable = false, referencedColumnName = "id_examen"),
+            inverseJoinColumns = @JoinColumn(name = "id_pedido",nullable = false, referencedColumnName = "id_pedido")      
+    )
     private Pedido pedido;
 
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+    
+    
+    
     public Laboratorio getLaboratorio() {
         return laboratorio;
     }
@@ -77,14 +98,6 @@ public class Examen implements Serializable {
         this.id_examen = id_examen;
     }
 
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
-    
     @Override
     public int hashCode() {
         int hash = 0;

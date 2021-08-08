@@ -34,7 +34,7 @@ public class MedicoJpaController implements Serializable {
     private EntityManagerFactory emf = null;
 
     public MedicoJpaController() {
-         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
 
     public EntityManager getEntityManager() {

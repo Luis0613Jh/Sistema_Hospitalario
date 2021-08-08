@@ -32,7 +32,7 @@ public class DiagnosticoJpaController implements Serializable {
     private EntityManagerFactory emf = null;
 
     public DiagnosticoJpaController() {
-         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
 
     public EntityManager getEntityManager() {

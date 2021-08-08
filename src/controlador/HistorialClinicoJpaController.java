@@ -32,7 +32,7 @@ public class HistorialClinicoJpaController implements Serializable {
     private EntityManagerFactory emf = null;
 
     public HistorialClinicoJpaController() {
-         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
 
     public EntityManager getEntityManager() {

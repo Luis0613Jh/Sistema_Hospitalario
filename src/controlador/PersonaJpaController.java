@@ -34,7 +34,7 @@ public class PersonaJpaController implements Serializable {
     private EntityManagerFactory emf = null;
 
     public PersonaJpaController() {
-         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
 
     public EntityManager getEntityManager() {

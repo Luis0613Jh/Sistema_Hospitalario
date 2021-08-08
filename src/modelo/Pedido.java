@@ -31,9 +31,9 @@ public class Pedido implements Serializable {
     private Consulta consulta;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Examen>listaExamen = new ArrayList<Examen>();
-    
-    
+    private List<Examen> listaExamen = new ArrayList<Examen>() ;
+
+
     public Long getId_pedido() {
         return id_pedido;
     }

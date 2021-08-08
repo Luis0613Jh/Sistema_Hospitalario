@@ -32,7 +32,7 @@ public class RolJpaController implements Serializable {
     private EntityManagerFactory emf = null;
 
     public RolJpaController() {
-         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
 
     public EntityManager getEntityManager() {

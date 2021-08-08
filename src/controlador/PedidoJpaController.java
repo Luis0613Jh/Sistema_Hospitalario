@@ -33,7 +33,7 @@ public class PedidoJpaController implements Serializable {
     private EntityManagerFactory emf = null;
 
     public PedidoJpaController() {
-         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
 
     public EntityManager getEntityManager() {
@@ -115,14 +115,6 @@ public class PedidoJpaController implements Serializable {
                     illegalOrphanMessages.add("The Consulta " + consultaNew + " already has an item of type Pedido whose consulta column cannot be null. Please make another selection for the consulta field.");
                 }
             }
-            for (Examen listaExamenOldExamen : listaExamenOld) {
-                if (!listaExamenNew.contains(listaExamenOldExamen)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Examen " + listaExamenOldExamen + " since its pedido field is not nullable.");
-                }
-            }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
@@ -145,6 +137,12 @@ public class PedidoJpaController implements Serializable {
             if (consultaNew != null && !consultaNew.equals(consultaOld)) {
                 consultaNew.setPedido(pedido);
                 consultaNew = em.merge(consultaNew);
+            }
+            for (Examen listaExamenOldExamen : listaExamenOld) {
+                if (!listaExamenNew.contains(listaExamenOldExamen)) {
+                    listaExamenOldExamen.setPedido(null);
+                    listaExamenOldExamen = em.merge(listaExamenOldExamen);
+                }
             }
             for (Examen listaExamenNewExamen : listaExamenNew) {
                 if (!listaExamenOld.contains(listaExamenNewExamen)) {
@@ -174,7 +172,7 @@ public class PedidoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -186,21 +184,15 @@ public class PedidoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The pedido with id " + id + " no longer exists.", enfe);
             }
-            List<String> illegalOrphanMessages = null;
-            List<Examen> listaExamenOrphanCheck = pedido.getListaExamen();
-            for (Examen listaExamenOrphanCheckExamen : listaExamenOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Pedido (" + pedido + ") cannot be destroyed since the Examen " + listaExamenOrphanCheckExamen + " in its listaExamen field has a non-nullable pedido field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
             Consulta consulta = pedido.getConsulta();
             if (consulta != null) {
                 consulta.setPedido(null);
                 consulta = em.merge(consulta);
+            }
+            List<Examen> listaExamen = pedido.getListaExamen();
+            for (Examen listaExamenExamen : listaExamen) {
+                listaExamenExamen.setPedido(null);
+                listaExamenExamen = em.merge(listaExamenExamen);
             }
             em.remove(pedido);
             em.getTransaction().commit();
