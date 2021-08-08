@@ -35,7 +35,7 @@ public class Frm_Examenes extends javax.swing.JFrame {
     }
     
     public void cargarTabla() {
-        me.seteDAO(eDAO);
+        me.setListaExamenes(eDAO.TodosExam());
         tbl_exam.setModel(me);
         tbl_exam.updateUI();
     }

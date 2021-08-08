@@ -23,6 +23,7 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pedido;
+    private String nro_pedido;
     private String fecha_pedido;
     private String estado_pedido;
     
@@ -66,6 +67,14 @@ public class Pedido implements Serializable {
         this.estado_pedido = estado_pedido;
     }
 
+    public String getNro_pedido() {
+        return nro_pedido;
+    }
+
+    public void setNro_pedido(String nro_pedido) {
+        this.nro_pedido = nro_pedido;
+    }
+
     public List<Examen> getListaExamen() {
         return listaExamen;
     }
@@ -96,7 +105,7 @@ public class Pedido implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Pedido[ id=" + id_pedido + " ]";
+        return nro_pedido;
     }
     
 }

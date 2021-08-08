@@ -20,17 +20,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Diagnostico;
 
-/**
- *
- * @author Jean Agreda
- */
+
 public class DiagnosticoJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public DiagnosticoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
-
+    
     public DiagnosticoJpaController() {
         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }

@@ -20,16 +20,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Rol;
 
-/**
- *
- * @author Jean Agreda
- */
+
 public class RolJpaController implements Serializable {
+
+    private EntityManagerFactory emf;
 
     public RolJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
 
     public RolJpaController() {
         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
@@ -38,7 +36,6 @@ public class RolJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
     public void create(Rol rol) {
         if (rol.getListaPersona() == null) {
             rol.setListaPersona(new ArrayList<Persona>());
@@ -204,5 +201,4 @@ public class RolJpaController implements Serializable {
             em.close();
         }
     }
-    
 }

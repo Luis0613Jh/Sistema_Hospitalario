@@ -22,7 +22,8 @@ public class Laboratorio implements Serializable {
     private Long id_laboratorio;
     private String nombre_lab;
     private String descripcion_lab;
-    private String id_encargado;
+    private Long id_encargado;
+    private String estado;
 
     @OneToOne(mappedBy="laboratorio",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Examen examen;
@@ -51,11 +52,11 @@ public class Laboratorio implements Serializable {
         this.descripcion_lab = descripcion_lab;
     }
 
-    public String getId_encargado() {
+    public Long getId_encargado() {
         return id_encargado;
     }
 
-    public void setId_encargado(String id_encargado) {
+    public void setId_encargado(Long id_encargado) {
         this.id_encargado = id_encargado;
     }
 
@@ -65,6 +66,14 @@ public class Laboratorio implements Serializable {
 
     public void setId_laboratorio(Long id_laboratorio) {
         this.id_laboratorio = id_laboratorio;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     @Override
@@ -89,7 +98,7 @@ public class Laboratorio implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Laboratorio[ id=" + id_laboratorio + " ]";
+        return nombre_lab;
     }
     
 }

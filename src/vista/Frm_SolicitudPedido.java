@@ -1,14 +1,52 @@
-
 package vista;
 
+import controlador.DAO.PedidoDAO;
+import javax.swing.JOptionPane;
+import modelo.tabla.PedidosTabla;
 
 public class Frm_SolicitudPedido extends javax.swing.JFrame {
+
+    private PedidoDAO pedidoDAO = new PedidoDAO();
+    private PedidosTabla pedidosTabla = new PedidosTabla();
 
     /**
      * Creates new form Frm_SolicitudPedido
      */
     public Frm_SolicitudPedido() {
         initComponents();
+        cargarTabla();
+    }
+
+    public void aceptarPedido() {
+        if (tblSolicitudPedido.getSelectedRow() != - 1) {
+            pedidoDAO.setPedido(pedidoDAO.getPedidosPorEstado("PENDIENTE").get(tblSolicitudPedido.getSelectedRow()));
+            pedidoDAO.getPedido().setEstado_pedido("EN PROCESO");
+            if (pedidoDAO.editar(pedidoDAO.getPedido())) {
+                JOptionPane.showMessageDialog(this, "Pedido aceptado exitosamente");
+                pedidoDAO.setPedido(null);
+                cargarTabla();
+            } else {
+                JOptionPane.showMessageDialog(this, "Ha ocurrido un error al momento de acpetar el pedido, por favor, intente nuevamente");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
+        }
+    }
+    
+    public void verDetallesPedido() {
+        if (tblSolicitudPedido.getSelectedRow() != - 1) {
+            pedidoDAO.setPedido(pedidoDAO.getPedidosPorEstado("PENDIENTE").get(tblSolicitudPedido.getSelectedRow()));
+            new Frm_DetallesPedido(pedidoDAO).setVisible(true);
+            pedidoDAO.setPedido(null);
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
+        }
+    }
+
+    public void cargarTabla() {
+        pedidosTabla.setListaPedidos(pedidoDAO.getPedidosPorEstado("PENDIENTE"));
+        tblSolicitudPedido.setModel(pedidosTabla);
+        tblSolicitudPedido.updateUI();
     }
 
     /**
@@ -25,9 +63,9 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSolicitudPedido = new javax.swing.JTable();
         btnVerDetalles = new javax.swing.JButton();
+        btnAceptarPedido = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
 
         jPanel1.setLayout(null);
 
@@ -57,21 +95,33 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
             }
         });
         jPanel3.add(btnVerDetalles);
-        btnVerDetalles.setBounds(380, 250, 100, 22);
+        btnVerDetalles.setBounds(10, 260, 100, 22);
+
+        btnAceptarPedido.setText("Aceptar Pedido");
+        btnAceptarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarPedidoActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnAceptarPedido);
+        btnAceptarPedido.setBounds(345, 260, 130, 22);
 
         jPanel1.add(jPanel3);
-        jPanel3.setBounds(10, 10, 500, 290);
+        jPanel3.setBounds(10, 10, 500, 300);
 
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 520, 340);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(535, 347));
+        setSize(new java.awt.Dimension(535, 344));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDetallesActionPerformed
-        // TODO add your handling code here:
+        verDetallesPedido();
     }//GEN-LAST:event_btnVerDetallesActionPerformed
+
+    private void btnAceptarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarPedidoActionPerformed
+        aceptarPedido();
+    }//GEN-LAST:event_btnAceptarPedidoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -110,6 +160,7 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptarPedido;
     private javax.swing.JButton btnVerDetalles;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
