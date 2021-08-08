@@ -18,13 +18,13 @@ public class Receta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_receta;
     private String indicaciones;
     private String fecha;
     
     @OneToOne(mappedBy="receta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Consulta consulta;
+    private Consulta consulta;                                                   
     
     
     public Consulta getConsulta() {

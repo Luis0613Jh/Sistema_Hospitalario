@@ -23,11 +23,10 @@ public class Examen implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_examen;
     private String nombre;
     private String unidad_medida;
-    private String[] valor_referencia;
 
     @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     @JoinColumn(name ="id_categoria",nullable = false, referencedColumnName = "id_categoria" )
@@ -74,14 +73,6 @@ public class Examen implements Serializable {
 
     public void setUnidad_medida(String unidad_medida) {
         this.unidad_medida = unidad_medida;
-    }
-
-    public String[] getValor_referencia() {
-        return valor_referencia;
-    }
-
-    public void setValor_referencia(String[] valor_referencia) {
-        this.valor_referencia = valor_referencia;
     }
 
     public Long getId_examen() {

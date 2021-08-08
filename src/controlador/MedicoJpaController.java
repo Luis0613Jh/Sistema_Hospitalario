@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import modelo.Medico;
 
 /**
@@ -29,6 +30,10 @@ public class MedicoJpaController implements Serializable {
 
     public MedicoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+
+    public MedicoJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -260,5 +265,5 @@ public class MedicoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

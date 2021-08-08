@@ -19,13 +19,14 @@ public class Consulta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_consulta;
     @Column(length = 10, unique=true)
     private Long id_paciente;
     private Long id_medico;
     private String hora_cita;
     private String fecha_cita;
+    private String estado_consulta;
     @ManyToOne(cascade = CascadeType.REFRESH , fetch = FetchType.LAZY)
     @JoinColumn(name = "id_historial_clinico", nullable=false,referencedColumnName="id_historial_clinico")
     private HistorialClinico historial_clinico;
@@ -115,7 +116,15 @@ public class Consulta implements Serializable {
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
-    
+
+    public String getEstado_consulta() {
+        return estado_consulta;
+    }
+
+    public void setEstado_consulta(String estado_consulta) {
+        this.estado_consulta = estado_consulta;
+    }
+        
     @Override
     public int hashCode() {
         int hash = 0;

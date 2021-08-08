@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import modelo.HistorialClinico;
 
 /**
@@ -28,7 +29,11 @@ public class HistorialClinicoJpaController implements Serializable {
     public HistorialClinicoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+
+    public HistorialClinicoJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
+    private EntityManagerFactory emf =null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -193,5 +198,5 @@ public class HistorialClinicoJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

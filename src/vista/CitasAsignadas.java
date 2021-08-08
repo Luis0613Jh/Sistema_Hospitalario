@@ -5,17 +5,32 @@
  */
 package vista;
 
+import controlador.ConsultaJpaController;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.tabla.modeloCitas;
+
 /**
  *
  * @author CNH
  */
 public class CitasAsignadas extends javax.swing.JFrame {
 
+    private modeloCitas modelocitas = new modeloCitas();
+    private ConsultaJpaController jpaconsulta = new ConsultaJpaController();
+
     /**
      * Creates new form CitasAsignadas
      */
     public CitasAsignadas() {
         initComponents();
+        cargarTabla();
+    }
+
+    public void cargarTabla() {
+        modelocitas.setListaCitas(jpaconsulta.findConsultaEntities());
+        jTable1.setModel(modelocitas);
+        jTable1.updateUI();
     }
 
     /**
@@ -70,6 +85,11 @@ public class CitasAsignadas extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("Seleccionar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton2.setText("Atras");
@@ -106,6 +126,21 @@ public class CitasAsignadas extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int fila = jTable1.getSelectedRow();
+        if (fila != -1) {
+            String name = jTable1.getModel().getValueAt(fila, 0).toString();
+            long id = Long.valueOf(name);
+            ConsultaMedica consulta_frm = new ConsultaMedica(id);
+            consulta_frm.setVisible(true);
+            this.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(null,"Seleccione una fila");
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
