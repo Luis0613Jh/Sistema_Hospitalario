@@ -20,15 +20,15 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Categoria;
 
-public class ConsultaJpaController implements Serializable {
+public class CategoriaJpaController implements Serializable {
 
     private EntityManagerFactory emf;
     
-    public ConsultaJpaController(EntityManagerFactory emf) {
+    public CategoriaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-    public ConsultaJpaController() {
+    public CategoriaJpaController() {
         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }    
 

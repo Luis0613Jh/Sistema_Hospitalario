@@ -1,7 +1,9 @@
 package vista;
 
 import controlador.DAO.LaboratorioDAO;
+import controlador.DAO.PersonaDAO;
 import javax.swing.JOptionPane;
+import modelo.Persona;
 import modelo.tabla.LaboratoriosTabla;
 import vista.utilidades.UtilidadesVista;
 
@@ -9,6 +11,7 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
 
     private LaboratorioDAO laboratorioDAO = new LaboratorioDAO();
     private LaboratoriosTabla laboratoriosTabla = new LaboratoriosTabla();
+    private PersonaDAO personaDAO = new PersonaDAO();
 
     /**
      * Creates new form Frm_Laboratorio
@@ -20,7 +23,7 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
     }
 
     public void cargarCbxPersonas() {
-//        UtilidadesVista.cargarCbxPersonas(cbxEncargado, objetos);
+        UtilidadesVista.cargarCbxPersonas(cbxEncargado, personaDAO.filtro(Long.valueOf(1), "Disponible"));
     }
 
     public void limpiarCampos() {
@@ -55,10 +58,10 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
                 if (!txtNombre.getText().equals("") && !txtDescripcion.getText().equals("")) {
                     laboratorioDAO.getLaboratorio().setNombre_lab(txtNombre.getText());
                     laboratorioDAO.getLaboratorio().setDescripcion_lab(txtDescripcion.getText());
-                    // Se debe buscar el id del encargado
-                    laboratorioDAO.getLaboratorio().setId_encargado("55");
+                    personaDAO.setPersona((Persona)cbxEncargado.getSelectedItem());
+                    laboratorioDAO.getLaboratorio().setId_encargado(personaDAO.getPersona().getId_persona());
+                    personaDAO.setPersona(null);
                     laboratorioDAO.getLaboratorio().setEstado("activo");
-
                     if (laboratorioDAO.agregar(laboratorioDAO.getLaboratorio())) {
 
                         JOptionPane.showMessageDialog(this, "Laboratorio ingresado exitosamente");
@@ -79,8 +82,9 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
                     laboratorioDAO.setLaboratorio(laboratorioDAO.listar().get(tblLaboratorios.getSelectedRow()));
                     laboratorioDAO.getLaboratorio().setNombre_lab(txtNombre.getText());
                     laboratorioDAO.getLaboratorio().setDescripcion_lab(txtDescripcion.getText());
-                    // Se debe buscar el id del encargado
-                    laboratorioDAO.getLaboratorio().setId_encargado("1000000");
+                    personaDAO.setPersona((Persona)cbxEncargado.getSelectedItem());
+                    laboratorioDAO.getLaboratorio().setId_encargado(personaDAO.getPersona().getId_persona());
+                    personaDAO.setPersona(null);
 
                     if (laboratorioDAO.editar(laboratorioDAO.getLaboratorio())) {
 

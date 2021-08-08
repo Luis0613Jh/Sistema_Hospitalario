@@ -266,4 +266,17 @@ public class PedidoJpaController implements Serializable {
             em.close();
         }
     }
+    
+    public List<Pedido> getPedidosPorTodosMenosUnEstado(String estado) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("SELECT e "
+                    + "FROM Pedido e " 
+                    + "WHERE NOT e.estado_pedido = ?1")
+                    .setParameter(1, estado);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

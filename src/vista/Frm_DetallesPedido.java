@@ -1,11 +1,13 @@
 package vista;
 
 import controlador.DAO.PedidoDAO;
+import controlador.DAO.PersonaDAO;
 import modelo.tabla.modeloExam;
 
 public class Frm_DetallesPedido extends javax.swing.JFrame {
 
     private PedidoDAO pedidoDAO;
+    private PersonaDAO personaDAO = new PersonaDAO();
     private modeloExam examenesTabla = new modeloExam();
 
     /**
@@ -22,15 +24,26 @@ public class Frm_DetallesPedido extends javax.swing.JFrame {
     }
 
     public void cargarCampos() {
+        // Datos Pedido
         lblNroPedido.setText(pedidoDAO.getPedido().getNro_pedido());
-        // Aquí va el controlador de personaDAO
-//        lblPaciente.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
-//        lblSexo.setText(pedidoDAO.getPedido().getConsulta().get);
-//        lblMedicoSolicitante.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
-//        lblFechaNacimiento.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
-//        lblFecha.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
-//        lblEdad.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
-//        lblDireccion.setText(pedidoDAO.getPedido().getConsulta().getId_paciente());
+        lblFecha.setText(pedidoDAO.getPedido().getFecha_pedido());
+        
+        // Datos Médico Solicitante
+        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_medico()));
+        lblMedicoSolicitante.setText(personaDAO.getPersona().toString());
+        personaDAO.setPersona(null);
+        
+        // Datos Paciente
+        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_paciente()));
+        lblPaciente.setText(personaDAO.getPersona().toString());
+        lblSexo.setText(personaDAO.getPersona().getGenero());
+        lblFechaNacimiento.setText(personaDAO.getPersona().getFecha_nacimiento());
+        // ==============FALTA EDAD============
+        lblEdad.setText("20");
+        
+        lblDireccion.setText(personaDAO.getPersona().getDireccion());
+        personaDAO.setPersona(null);
+        
         cargarTabla();
     }
 
@@ -184,7 +197,7 @@ public class Frm_DetallesPedido extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     /**

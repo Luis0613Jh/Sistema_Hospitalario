@@ -53,5 +53,9 @@ public class PedidoDAO {
     public List<Pedido> getPedidosPorEstado(String estado) {
         return jpaControlador.getPedidosPorEstado(estado);
     }
+    
+    public List<Pedido> getPedidosPorTodosMenosUnEstado(String estado) {
+        return jpaControlador.getPedidosPorTodosMenosUnEstado(estado);
+    }
 
 }

@@ -1,11 +1,13 @@
 package modelo.tabla;
 
+import controlador.DAO.PersonaDAO;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import modelo.Laboratorio;
 
 public class LaboratoriosTabla extends AbstractTableModel {
 
+    private PersonaDAO personaDAO = new PersonaDAO();
     private List<Laboratorio> listaLaboratorios;
 
     public List<Laboratorio> getListaLaboratorios() {
@@ -50,7 +52,10 @@ public class LaboratoriosTabla extends AbstractTableModel {
                 if (laboratorio.getId_encargado() == null) {
                     return "Sin Asignar";
                 } else {
-                    return laboratorio.getId_encargado();
+                    personaDAO.setPersona(personaDAO.buscarPersonaPorId(laboratorio.getId_encargado()));
+                    String nombreCompleto = personaDAO.getPersona().getNombre();
+                    nombreCompleto += personaDAO.getPersona().getApellido();
+                    return nombreCompleto;
                 }
             case 1:
                 if (laboratorio.getNombre_lab() == null) {

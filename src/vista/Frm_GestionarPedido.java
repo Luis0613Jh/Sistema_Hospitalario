@@ -24,7 +24,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     public void cargarCampos() {
         
-        UtilidadesVista.cargarCbx(cbxExamenes, examenDAO.TodosExam());
+        UtilidadesVista.cargarCbxPersonas(cbxExamenes, examenDAO.TodosExam());
     }
 
     public void habilitarCampos() {

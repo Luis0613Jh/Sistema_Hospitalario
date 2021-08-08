@@ -24,10 +24,10 @@ public class Laboratorio implements Serializable {
     private Long id_laboratorio;
     private String nombre_lab;
     private String descripcion_lab;
-    private String id_encargado;
+    private Long id_encargado;
     private String estado;
 
-   @ManyToMany(mappedBy = "listaLab",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "listaLab",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Examen>listaExamen = new ArrayList<Examen>();
 
     public List<Examen> getListaExamen() {
@@ -54,11 +54,11 @@ public class Laboratorio implements Serializable {
         this.descripcion_lab = descripcion_lab;
     }
 
-    public String getId_encargado() {
+    public Long getId_encargado() {
         return id_encargado;
     }
 
-    public void setId_encargado(String id_encargado) {
+    public void setId_encargado(Long id_encargado) {
         this.id_encargado = id_encargado;
     }
 

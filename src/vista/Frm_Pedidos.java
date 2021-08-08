@@ -1,15 +1,49 @@
 
 package vista;
 
+import controlador.DAO.PedidoDAO;
+import javax.swing.JOptionPane;
+import modelo.tabla.PedidosTabla;
+
 public class Frm_Pedidos extends javax.swing.JFrame {
 
+    private PedidoDAO pedidoDAO = new PedidoDAO();
+    private PedidosTabla pedidosTabla = new PedidosTabla();
+    
     /**
      * Creates new form Frm_Pedidos
      */
     public Frm_Pedidos() {
         initComponents();
+        cargarTabla();
     }
 
+    public void verResultadosPedido() {
+        if (tblPedidos.getSelectedRow() != - 1) {
+            pedidoDAO.setPedido(pedidoDAO.getPedidosPorTodosMenosUnEstado("PENDIENTE").get(tblPedidos.getSelectedRow()));
+            new Frm_Resultados().setVisible(true);
+            pedidoDAO.setPedido(null);
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
+        }
+    }
+    
+    public void verDetallesPedido() {
+        if (tblPedidos.getSelectedRow() != - 1) {
+            pedidoDAO.setPedido(pedidoDAO.getPedidosPorTodosMenosUnEstado("PENDIENTE").get(tblPedidos.getSelectedRow()));
+            new Frm_DetallesPedido(pedidoDAO).setVisible(true);
+            pedidoDAO.setPedido(null);
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
+        }
+    }
+
+    public void cargarTabla() {
+        pedidosTabla.setListaPedidos(pedidoDAO.getPedidosPorTodosMenosUnEstado("PENDIENTE"));
+        tblPedidos.setModel(pedidosTabla);
+        tblPedidos.updateUI();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,6 +94,11 @@ public class Frm_Pedidos extends javax.swing.JFrame {
         btnVerDetalles.setBounds(480, 250, 100, 22);
 
         btnVerResultados.setText("Ver Resultados");
+        btnVerResultados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerResultadosActionPerformed(evt);
+            }
+        });
         jPanel3.add(btnVerResultados);
         btnVerResultados.setBounds(10, 250, 110, 22);
 
@@ -74,8 +113,12 @@ public class Frm_Pedidos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDetallesActionPerformed
-        // TODO add your handling code here:
+        verDetallesPedido();
     }//GEN-LAST:event_btnVerDetallesActionPerformed
+
+    private void btnVerResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerResultadosActionPerformed
+        verResultadosPedido();
+    }//GEN-LAST:event_btnVerResultadosActionPerformed
 
     /**
      * @param args the command line arguments

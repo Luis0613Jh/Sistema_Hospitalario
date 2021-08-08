@@ -36,8 +36,8 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
     public void verDetallesPedido() {
         if (tblSolicitudPedido.getSelectedRow() != - 1) {
             pedidoDAO.setPedido(pedidoDAO.getPedidosPorEstado("PENDIENTE").get(tblSolicitudPedido.getSelectedRow()));
-            this.dispose();
             new Frm_DetallesPedido(pedidoDAO).setVisible(true);
+            pedidoDAO.setPedido(null);
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
         }
