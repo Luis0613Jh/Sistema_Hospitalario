@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import modelo.Diagnostico;
 
 public class DiagnosticoJpaController implements Serializable {
-
-    public DiagnosticoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    private EntityManagerFactory emf;
+    public DiagnosticoJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -185,4 +185,16 @@ public class DiagnosticoJpaController implements Serializable {
         }
     }
     
+    public List<Diagnostico> getDiagnosticoPorPersona(Long id_persona) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("SELECT e "
+                    + "FROM Diagnostico e " 
+                    + "WHERE e.id_persona = ?3")
+                    .setParameter(3, id_persona);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
 }

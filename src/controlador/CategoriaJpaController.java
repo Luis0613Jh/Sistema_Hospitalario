@@ -12,14 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import modelo.Categoria;
 
 public class CategoriaJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public CategoriaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+
+    public CategoriaJpaController() {
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }    
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

@@ -1,9 +1,107 @@
 package vista;
 
+import controlador.DAO.ExamenDAO;
+import controlador.DAO.PedidoDAO;
+import controlador.DAO.PersonaDAO;
+import controlador.utilidades.UtilidadesControlador;
+import javax.swing.JOptionPane;
+import modelo.Examen;
+import modelo.tabla.modeloCitas;
+import modelo.tabla.ExamenTabla;
+import vista.utilidades.UtilidadesVista;
+
 public class Frm_GestionarPedido extends javax.swing.JFrame {
 
-    public Frm_GestionarPedido() {
+    private PedidoDAO pedidoDAO = new PedidoDAO();
+    private ExamenDAO examenDAO = new ExamenDAO();
+    private modeloCitas modelocitas = new modeloCitas();
+    private PersonaDAO personaDAO = new PersonaDAO();
+    private ExamenTabla examenesTabla = new ExamenTabla();
+
+    /**
+     * Creates new form Frm_GestionarPedido
+     */
+    public Frm_GestionarPedido(long id) {
         initComponents();
+        cargarCampos();
+        cargarTabla();
+        pedidoDAO.setIdConsulta(id);
+    }
+
+    public void cargarCampos() {
+        // Datos Pedido
+        lblNroPedido.setText(pedidoDAO.getPedido().getNro_pedido());
+        lblFecha.setText(pedidoDAO.getPedido().getFecha_pedido());
+        
+        // Datos Médico Solicitante
+        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_medico()));
+        lblMedicoSolicitante.setText(personaDAO.getPersona().toString());
+        personaDAO.setPersona(null);
+        
+        // Datos Paciente
+        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_paciente()));
+        lblPaciente.setText(personaDAO.getPersona().toString());
+        lblSexo.setText(personaDAO.getPersona().getGenero());
+        lblFechaNacimiento.setText(personaDAO.getPersona().getFecha_nacimiento());
+        lblEdad.setText(String.valueOf(UtilidadesControlador.determinarEdad(personaDAO.getPersona().getFecha_nacimiento())));
+        lblDireccion.setText(personaDAO.getPersona().getDireccion());
+        
+        personaDAO.setPersona(null);
+        
+        cargarTabla();
+        UtilidadesVista.cargarCbxPersonas(cbxExamenes, examenDAO.TodosExam());
+    }
+
+    public void habilitarCampos() {
+        cbxExamenes.setEnabled(true);
+        btnAñadir.setEnabled(true);
+    }
+
+    public void deshabilitarCampos() {
+        cbxExamenes.setEnabled(false);
+    }
+
+    public void guardar() {        
+        pedidoDAO.setConsulta(pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()));
+        pedidoDAO.getPedido().setConsulta(pedidoDAO.getConsulta());
+        pedidoDAO.getPedido().setEstado_pedido("PENDIENTE");
+        pedidoDAO.getPedido().setNro_pedido(String.valueOf(Math.random()*1000));        
+        pedidoDAO.getPedido().setListaExamen(pedidoDAO.getPedido().getListaExamen());
+        pedidoDAO.getPedido().setFecha_pedido(pedidoDAO.getConsulta().getFecha_cita());
+        if (pedidoDAO.agregar(pedidoDAO.getPedido())) {
+            JOptionPane.showMessageDialog(null,"Se ha guardado el pedido");
+        }else{
+            JOptionPane.showMessageDialog(null,"Se ha producido un error en guardar.");
+        }
+    }
+
+    public void nuevo() {
+        habilitarCampos();
+    }
+
+    public void eliminarExamen() {
+        if (tblExamenes.getSelectedRow() != - 1) {
+            pedidoDAO.getPedido().getListaExamen().remove(tblExamenes.getSelectedRow());
+            cargarTabla();
+            JOptionPane.showMessageDialog(this, "Exámen eliminado del pedido exitosamente");
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
+        }
+    }
+
+    public void cargarTabla() {
+        examenesTabla.setListaExamenes(pedidoDAO.getPedido().getListaExamen());
+        tblExamenes.setModel(examenesTabla);
+        tblExamenes.updateUI();
+    }
+
+    public void añadirExamen() {
+        pedidoDAO.getPedido().getListaExamen().add((Examen) cbxExamenes.getSelectedItem());
+        cargarTabla();
+    }
+    
+    public void cancelar() {
+        deshabilitarCampos();
     }
 
     /**
@@ -36,12 +134,14 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         cbxExamenes = new javax.swing.JComboBox<>();
         btnCancelar = new javax.swing.JButton();
-        btnGuardar = new javax.swing.JButton();
+        btnAñadir = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblExamenes = new javax.swing.JTable();
         btnEliminar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -119,21 +219,29 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel2.add(jLabel9);
         jLabel9.setBounds(20, 230, 70, 16);
 
+        cbxExamenes.setEnabled(false);
         jPanel2.add(cbxExamenes);
         cbxExamenes.setBounds(150, 230, 230, 22);
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.setEnabled(false);
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
         jPanel2.add(btnCancelar);
         btnCancelar.setBounds(600, 230, 80, 22);
 
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnAñadir.setText("Añadir");
+        btnAñadir.setEnabled(false);
+        btnAñadir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                btnAñadirActionPerformed(evt);
             }
         });
-        jPanel2.add(btnGuardar);
-        btnGuardar.setBounds(600, 180, 80, 22);
+        jPanel2.add(btnAñadir);
+        btnAñadir.setBounds(600, 170, 72, 22);
 
         jPanel1.add(jPanel2);
         jPanel2.setBounds(10, 10, 690, 270);
@@ -155,7 +263,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblExamenes);
 
         jPanel3.add(jScrollPane1);
-        jScrollPane1.setBounds(12, 12, 570, 210);
+        jScrollPane1.setBounds(12, 12, 570, 170);
 
         btnEliminar.setText("Eliminar");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -164,7 +272,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
             }
         });
         jPanel3.add(btnEliminar);
-        btnEliminar.setBounds(600, 200, 80, 22);
+        btnEliminar.setBounds(600, 110, 80, 22);
 
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -174,6 +282,24 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         });
         jPanel3.add(btnNuevo);
         btnNuevo.setBounds(600, 10, 80, 22);
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+        jPanel3.add(btnGuardar);
+        btnGuardar.setBounds(600, 200, 80, 22);
+
+        jButton1.setText("Cerrar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1);
+        jButton1.setBounds(10, 200, 72, 22);
 
         jPanel1.add(jPanel3);
         jPanel3.setBounds(10, 290, 690, 240);
@@ -187,15 +313,31 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
+        eliminarExamen();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        // TODO add your handling code here:
+        nuevo();
+        
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        guardar();
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        cancelar();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadirActionPerformed
+        añadirExamen();
+    }//GEN-LAST:event_btnAñadirActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,16 +353,24 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Frm_GestionarPedido.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -228,17 +378,19 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Frm_GestionarPedido().setVisible(true);
+                //new Frm_GestionarPedido().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAñadir;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox<String> cbxExamenes;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

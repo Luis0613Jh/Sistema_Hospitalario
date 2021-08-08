@@ -31,11 +31,9 @@ public class Consulta implements Serializable {
     @JoinColumn(name = "id_historial_clinico", nullable=false,referencedColumnName="id_historial_clinico")
     private HistorialClinico historial_clinico;
     
-    
     @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
-    @JoinColumn(name="id_recelta", nullable = false,referencedColumnName = "id_receta")
+    @JoinColumn(name="id_receta", nullable = false,referencedColumnName = "id_receta")
     private Receta receta;
-    
     
     
     @OneToOne(mappedBy="consulta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -44,7 +42,14 @@ public class Consulta implements Serializable {
     @OneToOne(mappedBy="consulta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Pedido pedido;
 
-   
+    public Receta getReceta() {
+        return receta;
+    }
+
+    public void setReceta(Receta receta) {
+        this.receta = receta;
+    }
+    
     public HistorialClinico getHistorial_clinico() {
         return historial_clinico;
     }
@@ -84,7 +89,7 @@ public class Consulta implements Serializable {
     public void setHora_cita(String hora_cita) {
         this.hora_cita = hora_cita;
     }
-
+    
     public String getFecha_cita() {
         return fecha_cita;
     }
@@ -99,14 +104,6 @@ public class Consulta implements Serializable {
 
     public void setId_consulta(Long id_consulta) {
         this.id_consulta = id_consulta;
-    }
-
-    public Receta getReceta() {
-        return receta;
-    }
-
-    public void setReceta(Receta receta) {
-        this.receta = receta;
     }
 
     public Diagnostico getDiagnostico() {

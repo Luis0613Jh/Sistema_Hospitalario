@@ -20,18 +20,19 @@ public class Pedido implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pedido;
+    private String nro_pedido;
     private String fecha_pedido;
     private String estado_pedido;
-    
-    @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
-    @JoinColumn(name="id_consulta", nullable = false,referencedColumnName = "id_consulta")
+
+    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_consulta", nullable = false, referencedColumnName = "id_consulta")
     private Consulta consulta;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Examen>listaExamen = new ArrayList<Examen>();
-    
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Examen> listaExamen = new ArrayList<Examen>();
+
     public Long getId_pedido() {
         return id_pedido;
     }
@@ -44,6 +45,14 @@ public class Pedido implements Serializable {
         return fecha_pedido;
     }
 
+    public String getNro_pedido() {
+        return nro_pedido;
+    }
+
+    public void setNro_pedido(String nro_pedido) {
+        this.nro_pedido = nro_pedido;
+    }
+    
     public void setFecha_pedido(String fecha_pedido) {
         this.fecha_pedido = fecha_pedido;
     }
@@ -94,7 +103,7 @@ public class Pedido implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Pedido[ id=" + id_pedido + " ]";
+        return nro_pedido;
     }
-    
+
 }

@@ -16,6 +16,13 @@ import javax.persistence.Table;
 @Table(name = "rol")
 public class Rol implements Serializable {
 
+    public Rol(String nombre_rol) {
+        this.nombre_rol = nombre_rol;
+    }
+
+    public Rol() {
+    }    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

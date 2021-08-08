@@ -12,14 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import modelo.Receta;
 
 public class RecetaJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public RecetaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    private EntityManagerFactory emf = null;
+
+    public RecetaJpaController() {
+        this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -179,5 +185,4 @@ public class RecetaJpaController implements Serializable {
             em.close();
         }
     }
-    
 }

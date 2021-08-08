@@ -20,12 +20,9 @@ public class HistorialClinico implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_historial_clinico;
-    private Long id_paciente;
-    private String enfermedad;
     private String enfermedad_hereditaria;
-    private String observacion;
     private String tipo_sangre;
     private String habitos;
     
@@ -44,22 +41,6 @@ public class HistorialClinico implements Serializable {
         this.ListarConsulta = ListarConsulta;
     }
     
-    public Long getId_paciente() {
-        return id_paciente;
-    }
-
-    public void setId_paciente(Long id_paciente) {
-        this.id_paciente = id_paciente;
-    }
-
-    public String getEnfermedad() {
-        return enfermedad;
-    }
-
-    public void setEnfermedad(String enfermedad) {
-        this.enfermedad = enfermedad;
-    }
-
     public String getEnfermedad_hereditaria() {
         return enfermedad_hereditaria;
     }
@@ -84,13 +65,13 @@ public class HistorialClinico implements Serializable {
         this.habitos = habitos;
     }
 
-    public String getObservacion() {
-        return observacion;
-    }
-
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
-    }
+//    public String getObservacion() {
+//        return observacion;
+//    }
+//
+//    public void setObservacion(String observacion) {
+//        this.observacion = observacion;
+//    }
 
     public Long getId_historial_clinico() {
         return id_historial_clinico;

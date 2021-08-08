@@ -1,15 +1,13 @@
 package modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -19,23 +17,23 @@ public class Laboratorio implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_laboratorio;
     private String nombre_lab;
     private String descripcion_lab;
-    private String id_encargado;
+    private Long id_encargado;
+    private String estado;
 
-   @ManyToMany(mappedBy = "listaLab",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Examen>listaExamen = new ArrayList<Examen>();
+    @OneToOne(mappedBy="laboratorio",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Examen examen;
 
-    public List<Examen> getListaExamen() {
-        return listaExamen;
+    public Examen getExamen() {
+        return examen;
     }
 
-    public void setListaExamen(List<Examen> listaExamen) {
-        this.listaExamen = listaExamen;
+    public void setExamen(Examen examen) {
+        this.examen = examen;
     }
-    
     
     public String getNombre_lab() {
         return nombre_lab;
@@ -53,11 +51,11 @@ public class Laboratorio implements Serializable {
         this.descripcion_lab = descripcion_lab;
     }
 
-    public String getId_encargado() {
+    public Long getId_encargado() {
         return id_encargado;
     }
 
-    public void setId_encargado(String id_encargado) {
+    public void setId_encargado(Long id_encargado) {
         this.id_encargado = id_encargado;
     }
 
@@ -67,6 +65,14 @@ public class Laboratorio implements Serializable {
 
     public void setId_laboratorio(Long id_laboratorio) {
         this.id_laboratorio = id_laboratorio;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     @Override
@@ -91,7 +97,7 @@ public class Laboratorio implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Laboratorio[ id=" + id_laboratorio + " ]";
+        return nombre_lab;
     }
     
 }

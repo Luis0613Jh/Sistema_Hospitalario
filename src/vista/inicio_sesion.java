@@ -1,5 +1,6 @@
 package vista;
 
+import vista.principales.PaginaPrincipalMedico;
 import controlador.DAO.CuentaDAO;
 import controlador.DAO.RolDAO;
 import controlador.Seguridad;
