@@ -6,6 +6,7 @@
 package vista;
 
 import controlador.ConsultaJpaController;
+import controlador.DAO.ConsultaDAO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.tabla.modeloCitas;
@@ -17,7 +18,7 @@ import modelo.tabla.modeloCitas;
 public class CitasAsignadas extends javax.swing.JFrame {
 
     private modeloCitas modelocitas = new modeloCitas();
-    private ConsultaJpaController jpaconsulta = new ConsultaJpaController();
+    private ConsultaDAO consultadao = new ConsultaDAO();
 
     /**
      * Creates new form CitasAsignadas
@@ -28,7 +29,7 @@ public class CitasAsignadas extends javax.swing.JFrame {
     }
 
     public void cargarTabla() {
-        modelocitas.setListaCitas(jpaconsulta.findConsultaEntities());
+        modelocitas.setListaCitas(consultadao.listarConsultas());
         jTable1.setModel(modelocitas);
         jTable1.updateUI();
     }

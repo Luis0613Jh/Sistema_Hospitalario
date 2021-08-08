@@ -179,6 +179,11 @@ public class ConsultaMedica extends javax.swing.JFrame {
 
         btn_solicitarP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_solicitarP.setText("Solcitar Pedido");
+        btn_solicitarP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_solicitarPActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -306,6 +311,12 @@ public class ConsultaMedica extends javax.swing.JFrame {
         frmreceta.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_generarRActionPerformed
+
+    private void btn_solicitarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_solicitarPActionPerformed
+        // TODO add your handling code here:
+        Frm_GestionarPedido gestionar = new Frm_GestionarPedido(diagonosticodao.getIdConsulta());
+        gestionar.setVisible(true);
+    }//GEN-LAST:event_btn_solicitarPActionPerformed
 
     /**
      * @param args the command line arguments

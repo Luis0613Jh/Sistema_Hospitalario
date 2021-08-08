@@ -90,10 +90,8 @@ public class DiagnosticoDAO {
     public boolean agregarDiagnostico(Diagnostico diag) {
         try {
             this.jpadiagnostico.create(diag);
-            System.out.println("ingresada agregar");
             return true;
         } catch (Exception e) {
-            System.out.println("no ingresada agregar");
             return false;
         }
     }
@@ -104,10 +102,8 @@ public class DiagnosticoDAO {
     
     public Consulta encontrarConsulta (Long id) {
         try {
-            System.out.println("ingresada encontrar");
             return jpaconsulta.findConsulta(idConsulta);
         } catch (Exception e) {
-            System.out.println("no ingresada encontrar");
             return null;
         }
     }

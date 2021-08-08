@@ -54,9 +54,7 @@ public class Examen implements Serializable {
 
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
-    }
-    
-    
+    }  
     
     public Laboratorio getLaboratorio() {
         return laboratorio;
@@ -120,7 +118,7 @@ public class Examen implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Examen[ id=" + id_examen + " ]";
+        return nombre;
     }
     
 }
