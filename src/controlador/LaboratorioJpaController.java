@@ -196,8 +196,8 @@ public class LaboratorioJpaController implements Serializable {
         try {
             Query q = em.createQuery("SELECT e "
                     + "FROM Laboratorio e " 
-                    + "WHERE e.estado = ?4")
-                    .setParameter(4, estado);
+                    + "WHERE e.estado = ?3")
+                    .setParameter(3, estado);
             return q.getResultList();
         } finally {
             em.close();

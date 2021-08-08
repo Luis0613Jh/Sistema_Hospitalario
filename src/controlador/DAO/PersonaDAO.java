@@ -36,7 +36,7 @@ public class PersonaDAO {
     
     public Persona buscarPersonaPorId(Long id) {
         Persona aux = new Persona();
-        try {
+        try {    
             aux = PersonaJpa.findPersona(id);
             return aux;
         } catch (Exception e) {

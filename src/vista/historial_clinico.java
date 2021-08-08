@@ -1,6 +1,12 @@
 package vista;
 
+import controlador.DAO.DiagnosticoDAO;
 import controlador.DAO.HistorialClinicoDAO;
+import controlador.DAO.PersonaDAO;
+import javax.swing.JOptionPane;
+import modelo.HistorialClinico;
+import modelo.tabla.HCDiagnosticoTabla;
+import modelo.tabla.HistorialClinicoTabla;
 
 public class historial_clinico extends javax.swing.JFrame {
 
@@ -8,31 +14,74 @@ public class historial_clinico extends javax.swing.JFrame {
      * Creates new form historia_clinica
      */
     HistorialClinicoDAO hcDAO = new HistorialClinicoDAO();
+    PersonaDAO personaDAO = new PersonaDAO();
+    DiagnosticoDAO dDAO = new DiagnosticoDAO();
     
+    HCDiagnosticoTabla hcdt = new HCDiagnosticoTabla();
+    HistorialClinicoTabla mhc = new HistorialClinicoTabla();
+    
+    Long idPersona;
     public historial_clinico() {
         initComponents();
         bloquearDatosPersona();
         bloquearDatosHC();
+        cargarTabla();
+        cargarPersona();
+        cargarTablaDiagnosticos();
     }
     
+    public historial_clinico(Long idPersona) {
+        initComponents();
+        this.idPersona = idPersona;
+        bloquearDatosPersona();
+        bloquearDatosHC();
+        cargarTabla();
+        cargarPersona();
+        cargarTablaDiagnosticos();
+    }
+
     public void bloquearDatosPersona() {
         txt_apellido.setEnabled(false);
         txt_cedula.setEnabled(false);
         txt_nombre.setEnabled(false);
     }
-    
+
     public void bloquearDatosHC() {
         txt_Habito.setEnabled(false);
         txt_enfermedad.setEnabled(false);
         txt_tipoSangre.setEnabled(false);
         cbx_parentezco.setEnabled(false);
+        btn_agregarTS_H.setEnabled(false);
+        btn_cancelar.setEnabled(false);
     }
-    
+
     public void desbloquearDatosHC() {
         txt_Habito.setEnabled(true);
         txt_enfermedad.setEnabled(true);
         txt_tipoSangre.setEnabled(true);
         cbx_parentezco.setEnabled(true);
+        btn_agregarTS_H.setEnabled(true);
+        btn_cancelar.setEnabled(true);
+    }
+
+    public void cargarTabla() {
+        mhc.setListaHC(hcDAO.TodosHistorialClinico());
+        tbl_HC.setModel(mhc);
+        tbl_HC.updateUI();
+    }
+    
+    public void cargarTablaDiagnosticos() {
+        hcdt.setListaDiagnosticos(dDAO.diagnosticoPorPersona(idPersona)); // cambiar por variable global
+        tbl_HC.setModel(mhc);
+        tbl_HC.updateUI();
+    }
+
+    public void cargarPersona() {
+        personaDAO.setPersona(null);
+        personaDAO.setPersona(personaDAO.buscarPersonaPorId(idPersona));// cambiar por variable global
+        txt_nombre.setText(personaDAO.getPersona().getNombre());
+        txt_apellido.setText(personaDAO.getPersona().getApellido());
+        txt_cedula.setText(personaDAO.getPersona().getCedula());
     }
 
     /**
@@ -54,7 +103,7 @@ public class historial_clinico extends javax.swing.JFrame {
         txt_apellido = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbl_diagnosticos = new javax.swing.JTable();
         btn_verDetalle = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -95,7 +144,7 @@ public class historial_clinico extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addGap(25, 25, 25)
-                        .addComponent(txt_cedula, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                        .addComponent(txt_cedula)
                         .addGap(392, 392, 392))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel16)
@@ -127,18 +176,18 @@ public class historial_clinico extends javax.swing.JFrame {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Diagnósticos"));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_diagnosticos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Medico", "Enfermedad"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tbl_diagnosticos);
 
         btn_verDetalle.setText("Ver Detalle");
         btn_verDetalle.addActionListener(new java.awt.event.ActionListener() {
@@ -188,6 +237,11 @@ public class historial_clinico extends javax.swing.JFrame {
                 "parentezco", "enfermedad hereditaria", "Tipo de Sangre", "Habito"
             }
         ));
+        tbl_HC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_HCMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tbl_HC);
 
         btn_agregarTS_H.setText("Agregar");
@@ -231,51 +285,47 @@ public class historial_clinico extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btn_agregarTS_H)
-                                .addGap(97, 97, 97)
-                                .addComponent(btn_editarTS_H, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(142, 142, 142))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txt_tipoSangre, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btn_nuevo)
-                                        .addGap(4, 4, 4))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txt_Habito, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(18, 18, 18)
-                                .addComponent(cbx_parentezco, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(23, 23, 23)
-                                .addComponent(jLabel14)
-                                .addGap(18, 18, 18)
-                                .addComponent(txt_enfermedad)))
-                        .addGap(24, 24, 24))))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(btn_nuevo)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_editarTS_H, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(142, 142, 142))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel13)
+                            .addGap(18, 18, 18)
+                            .addComponent(cbx_parentezco, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(23, 23, 23)
+                            .addComponent(jLabel14)
+                            .addGap(18, 18, 18)
+                            .addComponent(txt_enfermedad))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGap(8, 8, 8)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel2))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txt_tipoSangre, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_Habito, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btn_agregarTS_H, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txt_tipoSangre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_nuevo))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txt_tipoSangre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btn_agregarTS_H))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -290,8 +340,8 @@ public class historial_clinico extends javax.swing.JFrame {
                     .addComponent(txt_enfermedad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_agregarTS_H)
-                    .addComponent(btn_editarTS_H))
+                    .addComponent(btn_editarTS_H)
+                    .addComponent(btn_nuevo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                 .addContainerGap())
@@ -332,7 +382,14 @@ public class historial_clinico extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_verDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verDetalleActionPerformed
-        // TODO add your handling code here:
+        if (tbl_diagnosticos.getSelectedRow() != - 1) {
+            dDAO.setDiagnostico(null);
+            dDAO.setDiagnostico(dDAO.diagnosticoPorPersona(idPersona).get(tbl_diagnosticos.getSelectedRow()));
+            new Frm_Detalle_Diagnostico(dDAO).setVisible(true);
+            dDAO.setDiagnostico(null);
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
+        }     
     }//GEN-LAST:event_btn_verDetalleActionPerformed
 
     private void btn_nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nuevoActionPerformed
@@ -340,16 +397,79 @@ public class historial_clinico extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_nuevoActionPerformed
 
     private void btn_agregarTS_HActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarTS_HActionPerformed
-       
+
+        hcDAO.setHc(null);
+
+        hcDAO.getHc().setTipo_sangre(txt_tipoSangre.getText());
+
+        hcDAO.getHc().setEnfermedad_hereditaria(String.valueOf(cbx_parentezco.getSelectedItem()  +"-"+ txt_enfermedad.getText()));
+        hcDAO.getHc().setHabitos(txt_Habito.getText());
+
+        //agregar persona
+        personaDAO.setPersona(null);
+        personaDAO.setPersona(personaDAO.buscarPersonaPorId(idPersona)); // cambiar por variable global
+        hcDAO.getHc().setPersona(personaDAO.getPersona());
+
+        hcDAO.setHc(hcDAO.getHc());
+        hcDAO.agregarHC(hcDAO.getHc());
+        cargarTabla();
+        bloquearDatosHC();
+
     }//GEN-LAST:event_btn_agregarTS_HActionPerformed
 
     private void btn_editarTS_HActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarTS_HActionPerformed
-        // TODO add your handling code here:
+        int fila = tbl_HC.getSelectedRow();
+        if (fila != -1) {
+
+            hcDAO.setHc(null);
+            hcDAO.setHc((HistorialClinico)hcDAO.TodosHistorialClinico().get(fila));
+            //hcDAO.setHc(exam);
+            hcDAO.getHc().setId_historial_clinico(hcDAO.getHc().getId_historial_clinico());
+            hcDAO.getHc().setTipo_sangre(txt_tipoSangre.getText());
+
+            hcDAO.getHc().setEnfermedad_hereditaria(String.valueOf(cbx_parentezco.getSelectedItem() +"-"+ txt_enfermedad.getText()));
+            hcDAO.getHc().setHabitos(txt_Habito.getText());
+
+                //agregar persona
+               personaDAO.setPersona(null);
+               personaDAO.setPersona(personaDAO.buscarPersonaPorId(idPersona)); // cambiar por variable global
+            hcDAO.getHc().setPersona(personaDAO.getPersona());
+
+            hcDAO.setHc(hcDAO.getHc());
+            hcDAO.editarHC(hcDAO.getHc());
+            cargarTabla();
+            bloquearDatosHC();
+
+            tbl_HC.removeRowSelectionInterval(0, tbl_HC.getRowCount() - 1);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "debe seleccionar una fila de la tabla");
+        }
     }//GEN-LAST:event_btn_editarTS_HActionPerformed
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
-       bloquearDatosHC();
+        bloquearDatosHC();
     }//GEN-LAST:event_btn_cancelarActionPerformed
+
+    private void tbl_HCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_HCMouseClicked
+        int fila = tbl_HC.getSelectedRow();
+       
+        desbloquearDatosHC();
+        String tipoSangre = String.valueOf(tbl_HC.getValueAt(fila, 0));
+        String parentezco = String.valueOf(tbl_HC.getValueAt(fila, 1));
+        String enfermedad = String.valueOf(tbl_HC.getValueAt(fila, 2));
+        String habito = String.valueOf(tbl_HC.getValueAt(fila, 3));
+
+        txt_tipoSangre.setText(tipoSangre);
+        txt_enfermedad.setText(enfermedad);
+        txt_Habito.setText(habito);
+
+        if (parentezco.equalsIgnoreCase("padre")) {
+            cbx_parentezco.setSelectedIndex(0);
+        } else {
+            cbx_parentezco.setSelectedIndex(1);
+        }
+       
+    }//GEN-LAST:event_tbl_HCMouseClicked
 
     /**
      * @param args the command line arguments
@@ -406,9 +526,9 @@ public class historial_clinico extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
     private javax.swing.JPanel panel_hc;
     private javax.swing.JTable tbl_HC;
+    private javax.swing.JTable tbl_diagnosticos;
     private javax.swing.JTextField txt_Habito;
     private javax.swing.JTextField txt_apellido;
     private javax.swing.JTextField txt_cedula;

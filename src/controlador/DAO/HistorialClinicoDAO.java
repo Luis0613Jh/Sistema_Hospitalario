@@ -20,6 +20,9 @@ public class HistorialClinicoDAO {
     private HistorialClinico hc = new HistorialClinico();
 
     public HistorialClinico getHc() {
+         if (hc == null) {
+            hc = new HistorialClinico();
+        }
         return hc;
     }
 
@@ -47,48 +50,33 @@ public class HistorialClinicoDAO {
         }
     }
 
-//      public boolean eliminarHC(HistorialClinico hc) {
-//
-//        try {
-//            hcJPAC.edit(hc);
-//            return true;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
     public HistorialClinico encontrarHC(HistorialClinico hc) {
         HistorialClinico aux = new HistorialClinico();
 
         try {
             aux = hcJPAC.findHistorialClinico(hc.getId_historial_clinico());
-            System.out.println("ingresada");
             return aux;
         } catch (Exception e) {
-            System.out.println("no ingresada");
             return aux;
         }
     }
 
-    public List TodasCat() {
+    public List TodosHistorialClinico() {
         List<HistorialClinico> Lhc = new ArrayList<HistorialClinico>();
         try {
-            Lhc = hcJPAC.findHistorialClinicoEntities();
-            System.out.println("ingresada tabla");
+            Lhc = hcJPAC.findHistorialClinicoEntities();   
             return Lhc;
         } catch (Exception e) {
-            System.out.println("no ingresada tabla");
             return Lhc;
         }
     }
 
-    public boolean IntervaloCat(int j, int i) {
+    public boolean IntervaloHC(int j, int i) {
 
         try {
             hcJPAC.findHistorialClinicoEntities(j, i);
-            System.out.println("ingresada");
             return true;
         } catch (Exception e) {
-            System.out.println("no ingresada");
             return false;
         }
     }
@@ -97,10 +85,8 @@ public class HistorialClinicoDAO {
 
         try {
             hcJPAC.getHistorialClinicoCount();
-            System.out.println("ingresada");
             return true;
         } catch (Exception e) {
-            System.out.println("no ingresada");
             return false;
         }
     }

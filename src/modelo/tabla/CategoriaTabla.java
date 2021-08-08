@@ -13,7 +13,7 @@ import modelo.Categoria;
  *
  * @author Jean Agreda
  */
-public class modeloTablaCat extends AbstractTableModel{
+public class CategoriaTabla extends AbstractTableModel{
     CategoriaDAO catDAO = new CategoriaDAO();
 
     public CategoriaDAO getCatDAO() {

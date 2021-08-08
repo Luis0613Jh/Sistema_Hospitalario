@@ -7,10 +7,14 @@ package vista;
 
 import controlador.DAO.CategoriaDAO;
 import controlador.DAO.ExamenDAO;
+import controlador.DAO.LaboratorioDAO;
+import java.util.List;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.*;
 import modelo.Categoria;
 import modelo.Examen;
-import modelo.tabla.modeloExam;
+import modelo.tabla.ExamenTabla;
+import vista.utilidades.UtilidadesVista;
 
 /**
  *
@@ -21,54 +25,60 @@ public class Frm_Examenes extends javax.swing.JFrame {
     /**
      * Creates new form Frm_Examenes
      */
-    ExamenDAO eDAO = new ExamenDAO();
-    CategoriaDAO cDAO = new CategoriaDAO();
-    modeloExam me = new modeloExam();
+    ExamenDAO examenDAO = new ExamenDAO();
+    CategoriaDAO categoriaDAO = new CategoriaDAO();
+    LaboratorioDAO laboratorioDAO = new LaboratorioDAO();
+
+    ExamenTabla me = new ExamenTabla();
 
     public Frm_Examenes() {
         initComponents();
+        setTitle("EXAMENES");
         setLocationRelativeTo(null);
         cargarDatosCategoria();
         cargarTabla();
         bloquear();
         bloquearbotones();
+        cargarDatosLaboratorio();
     }
-    
+
     public void cargarTabla() {
-        me.setListaExamenes(eDAO.TodosExam());
+        me.setListaExamenes(examenDAO.TodosExam());
         tbl_exam.setModel(me);
         tbl_exam.updateUI();
     }
 
     public void cargarDatosCategoria() {
         cbx_cat.removeAllItems();
-        cDAO.setCat(null);
-        int cant = cDAO.contadorCat();
-        for (int i = 0; i < cant; i++) {
-            cDAO.setCat(null);
-            cDAO.setCat((Categoria) cDAO.TodasCat().get(i));
-            cbx_cat.addItem(cDAO.getCat().getNombre_cat());
-        }
+        UtilidadesVista.cargarCbx(cbx_cat, categoriaDAO.TodasCat());
+    }
+
+    public void cargarDatosLaboratorio() {
+        cbx_lab.removeAllItems();
+        UtilidadesVista.cargarCbx(cbx_lab, (List) laboratorioDAO.laboratoriosPorEstado("ACTIVO"));
+
     }
 
     public void limpiar() {
         txt_nombre.setText("");
         txt_unidad_medida.setText("");
-        
+
     }
 
-    public void bloquearbotones(){
-    btn_guardar.setEnabled(false);
-    btn_cancelar.setEnabled(false);
+    public void bloquearbotones() {
+        btn_guardar.setEnabled(false);
+        btn_cancelar.setEnabled(false);
     }
-    public void desbloquearbotones(){
-    btn_guardar.setEnabled(true);
-    btn_cancelar.setEnabled(true);
+
+    public void desbloquearbotones() {
+        btn_guardar.setEnabled(true);
+        btn_cancelar.setEnabled(true);
     }
+
     public void bloquear() {
         txt_nombre.setEnabled(false);
         txt_unidad_medida.setEnabled(false);
-       
+
         cbx_cat.setEnabled(false);
         cbx_lab.setEnabled(false);
 
@@ -77,9 +87,35 @@ public class Frm_Examenes extends javax.swing.JFrame {
     public void desbloquear() {
         txt_nombre.setEnabled(true);
         txt_unidad_medida.setEnabled(true);
-       
+
         cbx_cat.setEnabled(true);
         cbx_lab.setEnabled(true);
+    }
+
+    public boolean validarNombreCategoria() {
+        examenDAO.setExam(null);
+        boolean aux = true;
+        for (int i = 0; i < examenDAO.contadorExam(); i++) {
+            if (txt_nombre.getText().equalsIgnoreCase(String.valueOf(examenDAO.encontrarExam((Examen) examenDAO.TodosExam().get(i)).getNombre()))) {
+                aux = false;
+                JOptionPane.showMessageDialog(this, "El nombre del examen no se puede repetir", "", ERROR_MESSAGE);
+            }
+        }
+        return aux;
+    }
+
+    public boolean validarNombreCategoriaEditar() {
+        examenDAO.setExam(null);
+        boolean aux = true;
+        for (int i = 0; i < examenDAO.contadorExam(); i++) {
+            if (i == tbl_exam.getSelectedRow()) {
+
+            } else if (txt_nombre.getText().equalsIgnoreCase(String.valueOf(examenDAO.encontrarExam((Examen) examenDAO.TodosExam().get(i)).getNombre()))) {
+                aux = false;
+                JOptionPane.showMessageDialog(this, "El nombre del examen no se puede repetir", "", ERROR_MESSAGE);
+            }
+        }
+        return aux;
     }
 
     /**
@@ -91,7 +127,7 @@ public class Frm_Examenes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        PanelExamen = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -111,7 +147,7 @@ public class Frm_Examenes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        PanelExamen.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setText("Nombre:");
 
@@ -144,50 +180,64 @@ public class Frm_Examenes extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(137, 137, 137)
+                .addComponent(jLabel1)
+                .addGap(12, 12, 12)
+                .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(127, 127, 127)
+                .addComponent(jLabel2)
+                .addGap(12, 12, 12)
+                .addComponent(cbx_cat, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(115, 115, 115)
+                .addComponent(jLabel3)
+                .addGap(12, 12, 12)
+                .addComponent(cbx_lab, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(btn_guardar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(75, 75, 75)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(cbx_lab, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbx_cat, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txt_nombre, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_unidad_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_guardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
+                .addComponent(jLabel4)
+                .addGap(12, 12, 12)
+                .addComponent(txt_unidad_medida, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(btn_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(btn_guardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_cancelar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel1))
                     .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel2))
                     .addComponent(cbx_cat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cbx_lab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txt_unidad_medida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36))
+                .addGap(1, 1, 1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabel3))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(cbx_lab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_guardar))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(txt_unidad_medida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_cancelar))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         tbl_exam.setModel(new javax.swing.table.DefaultTableModel(
@@ -227,51 +277,43 @@ public class Frm_Examenes extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 577, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addContainerGap(15, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 514, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
                         .addComponent(btn_nuevo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_editar))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        javax.swing.GroupLayout PanelExamenLayout = new javax.swing.GroupLayout(PanelExamen);
+        PanelExamen.setLayout(PanelExamenLayout);
+        PanelExamenLayout.setHorizontalGroup(
+            PanelExamenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        PanelExamenLayout.setVerticalGroup(
+            PanelExamenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelExamenLayout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(PanelExamen, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -282,40 +324,45 @@ public class Frm_Examenes extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_nuevoActionPerformed
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
-       int fila = tbl_exam.getSelectedRow();
+        int fila = tbl_exam.getSelectedRow();
         if (fila != -1) {
 
-            eDAO.setExam(null);
-            eDAO.setExam((Examen) eDAO.TodosExam().get(fila));
+            if (!txt_nombre.getText().equals("") && !txt_unidad_medida.getText().equals("")) {
+                if (validarNombreCategoriaEditar()) {
+                    examenDAO.setExam(null);
+                    examenDAO.setExam((Examen) examenDAO.TodosExam().get(fila));
+                    examenDAO.setExam(examenDAO.encontrarExam(examenDAO.getExam()));
 
-            eDAO.setExam(eDAO.encontrarExam(eDAO.getExam()));
+                    Long id = examenDAO.getExam().getId_examen();
 
-            System.out.println(" iddd " + eDAO.getExam().getId_examen());
-            Long id = eDAO.getExam().getId_examen();
-            
-            eDAO.getExam().setId_examen(id);
-            eDAO.getExam().setNombre(txt_nombre.getText());
+                    examenDAO.getExam().setId_examen(id);
+                    examenDAO.getExam().setNombre(txt_nombre.getText());
+                    //Se agrega Categoria
+                    categoriaDAO.setCat(null);
+                    categoriaDAO.setCat((Categoria) categoriaDAO.TodasCat().get(cbx_cat.getSelectedIndex()));
+                    examenDAO.getExam().setCategoria(categoriaDAO.getCat());
+                    //Se agrega Laboratorio
+                    laboratorioDAO.setLaboratorio(null);
+                    laboratorioDAO.setLaboratorio(laboratorioDAO.laboratoriosPorEstado("activo").get(cbx_lab.getSelectedIndex()));
+                    examenDAO.getExam().setLaboratorio(laboratorioDAO.getLaboratorio());
+                    examenDAO.getExam().setUnidad_medida(txt_unidad_medida.getText());
+                    examenDAO.setExam(examenDAO.getExam());
+                    if (examenDAO.editarExam(examenDAO.getExam())) {
+                        cargarTabla();
+                        limpiar();
+                        bloquear();
+                        bloquearbotones();
+                        tbl_exam.removeRowSelectionInterval(0, tbl_exam.getRowCount() - 1);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Ha ocurrido un error, el examen no se pudo editar", "Editar", ERROR_MESSAGE);
+                    }
 
-            cDAO.setCat(null);
-            cDAO.setCat((Categoria) cDAO.TodasCat().get(cbx_cat.getSelectedIndex()));
-            cDAO.setCat(cDAO.encontrarCat(cDAO.getCat()));
-            eDAO.getExam().setCategoria(cDAO.getCat());
-
-            // Agregar Parte de laboratorio
-
-            // Agregar Parte de pedido
-
-            eDAO.getExam().setUnidad_medida(txt_unidad_medida.getText());
-
-            eDAO.setExam(eDAO.getExam());
-            eDAO.editarExam(eDAO.getExam());
-            cargarTabla();
-            limpiar();
-            bloquear();
-            bloquearbotones();
-            tbl_exam.removeRowSelectionInterval(0, tbl_exam.getRowCount() - 1);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Por Favor, llene todos los campos", "Editar", WARNING_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(rootPane, "debe seleccionar una fila de la tabla");
+            JOptionPane.showMessageDialog(rootPane, "debe seleccionar una fila de la tabla", "Editar", WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btn_editarActionPerformed
 
@@ -326,42 +373,61 @@ public class Frm_Examenes extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
+        if (!txt_nombre.getText().equals("") && !txt_unidad_medida.getText().equals("")) {
+            if (validarNombreCategoria()) {
+                examenDAO.setExam(null);
+                examenDAO.getExam().setNombre(txt_nombre.getText());
+//Se agrega Categoria
+                categoriaDAO.setCat(null);
+                categoriaDAO.setCat((Categoria) categoriaDAO.TodasCat().get(cbx_cat.getSelectedIndex()));
+                examenDAO.getExam().setCategoria(categoriaDAO.getCat());
+//Se agrega Laboratorio
+                laboratorioDAO.setLaboratorio(null);
+                laboratorioDAO.setLaboratorio(laboratorioDAO.laboratoriosPorEstado("activo").get(cbx_lab.getSelectedIndex()));
+                examenDAO.getExam().setLaboratorio(laboratorioDAO.getLaboratorio());
 
-        eDAO.setExam(null);
+                examenDAO.getExam().setUnidad_medida(txt_unidad_medida.getText());
+                examenDAO.setExam(examenDAO.getExam());
+                if (examenDAO.agregarExam(examenDAO.getExam())) {
+                    JOptionPane.showMessageDialog(null, "Examen guardado con exito!", "Guardar", INFORMATION_MESSAGE);
+                    cargarTabla();
+                    limpiar();
+                    bloquear();
+                    bloquearbotones();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ha ocurrido un error, el examen no se pudo ingresar", "Guardar", ERROR_MESSAGE);
+                }
+            }
 
-        eDAO.getExam().setNombre(txt_nombre.getText());
-
-            cDAO.setCat(null);
-            cDAO.setCat((Categoria) cDAO.TodasCat().get(cbx_cat.getSelectedIndex()));
-            cDAO.setCat(cDAO.encontrarCat(cDAO.getCat()));
-        eDAO.getExam().setCategoria(cDAO.getCat());
-
-        // Agregar Parte de laboratorio parte del 10% que falta
-       
-       // Agregar Parte de pedido
-       
-        eDAO.getExam().setUnidad_medida(txt_unidad_medida.getText());
-
-        eDAO.setExam(eDAO.getExam());
-        eDAO.agregarExam(eDAO.getExam());
-        cargarTabla();
-        limpiar();
-        bloquear();
-        bloquearbotones();
-        
+        } else {
+            JOptionPane.showMessageDialog(null, "Por Favor, llene todos los campos", "Guardar", WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void tbl_examMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_examMouseClicked
-       int fila = tbl_exam.getSelectedRow();
-        System.out.println("fila " + fila);
-       desbloquear();
+        int fila = tbl_exam.getSelectedRow();
+        desbloquear();
         String nombre = String.valueOf(tbl_exam.getValueAt(fila, 0));
-      
+        String cat = String.valueOf(tbl_exam.getValueAt(fila, 1));
+        String lab = String.valueOf(tbl_exam.getValueAt(fila, 2));
         String um = String.valueOf(tbl_exam.getValueAt(fila, 3));
         txt_nombre.setText(nombre);
-        
         txt_unidad_medida.setText(um);
 
+        categoriaDAO.setCat(null);
+        laboratorioDAO.setLaboratorio(null);
+        for (int i = 0; i < categoriaDAO.contadorCat(); i++) {
+
+            if (cat.equalsIgnoreCase(String.valueOf(categoriaDAO.encontrarCat((Categoria) categoriaDAO.TodasCat().get(i)).getNombre_cat()))) {
+                cbx_cat.setSelectedIndex(i);
+            }
+        }
+
+        for (int i = 0; i < laboratorioDAO.contadorLab(); i++) {
+            if (lab.equalsIgnoreCase(String.valueOf(laboratorioDAO.laboratoriosPorEstado("activo").get(i).getNombre_lab()))) {
+                cbx_lab.setSelectedIndex(i);
+            }
+        }
     }//GEN-LAST:event_tbl_examMouseClicked
 
     /**
@@ -401,6 +467,7 @@ public class Frm_Examenes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JPanel PanelExamen;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_guardar;
@@ -411,7 +478,6 @@ public class Frm_Examenes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;

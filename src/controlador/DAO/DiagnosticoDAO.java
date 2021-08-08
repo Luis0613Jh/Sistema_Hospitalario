@@ -1,21 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controlador.DAO;
 
 import controlador.ConsultaJpaController;
 import controlador.DiagnosticoJpaController;
+import java.util.List;
 import modelo.Consulta;
 import modelo.Diagnostico;
-import modelo.Medico;
-import modelo.Persona;
 
-/**
- *
- * @author CNH
- */
 public class DiagnosticoDAO {
 
     private long idConsulta;
@@ -110,6 +101,10 @@ public class DiagnosticoDAO {
             System.out.println("no ingresada encontrar");
             return null;
         }
+    }
+    
+     public List<Diagnostico> diagnosticoPorPersona(Long id_persona) {
+        return jpadiagnostico.getDiagnosticoPorPersona(id_persona);
     }
     
 //        public Persona encontrarPersona(Long id) {

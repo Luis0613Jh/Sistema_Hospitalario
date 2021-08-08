@@ -2,13 +2,13 @@ package vista;
 
 import controlador.DAO.PedidoDAO;
 import controlador.DAO.PersonaDAO;
-import modelo.tabla.modeloExam;
+import modelo.tabla.ExamenTabla;
 
 public class Frm_DetallesPedido extends javax.swing.JFrame {
 
     private PedidoDAO pedidoDAO;
     private PersonaDAO personaDAO = new PersonaDAO();
-    private modeloExam examenesTabla = new modeloExam();
+    private ExamenTabla examenesTabla = new ExamenTabla();
 
     /**
      * Creates new form Frm_GestionarPedido

@@ -45,4 +45,14 @@ public class LaboratorioDAO {
     public List<Laboratorio> laboratoriosPorEstado(String estado) {
         return jpaControlador.getLaboratoriosPorEstado(estado);
     }
+    
+     public int contadorLab(){
+     int total = 0;
+        try {
+           total = jpaControlador.getLaboratorioCount();
+            return total;
+        } catch (Exception e) {
+            return  0;
+        }
+    }
 }

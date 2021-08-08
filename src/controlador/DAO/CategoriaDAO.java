@@ -24,10 +24,8 @@ public class CategoriaDAO {
      
         try {
             CatJPAC.create(cat);
-            System.out.println("ingresada agregar");
             return true;
         } catch (Exception e) {
-             System.out.println("no ingresada agregar");
             return  false;
         }
     }
@@ -35,12 +33,9 @@ public class CategoriaDAO {
  public boolean editarCat(Categoria cat){
      
         try {
-         
             CatJPAC.edit(cat);
-            System.out.println("ingresada para editar");
             return true;
         } catch (Exception e) {
-             System.out.println("no ingresada para editar");
             return  false;
         }
     }
@@ -48,10 +43,8 @@ public class CategoriaDAO {
      
         try {
             CatJPAC.destroy(cat.getId_categoria());
-            System.out.println("ingresada eliminar");
             return true;
         } catch (Exception e) {
-             System.out.println("no ingresada eliminar");
             return  false;
         }
     }
@@ -60,10 +53,8 @@ public class CategoriaDAO {
      Categoria aux = new Categoria();
         try {
             aux =CatJPAC.findCategoria(cat.getId_categoria());
-            System.out.println("ingresada encontrar");
             return aux;
         } catch (Exception e) {
-             System.out.println("no ingresada encontrar");
             return  aux;
         }
     }
@@ -72,10 +63,8 @@ public class CategoriaDAO {
      List<Categoria> Lcat = new ArrayList<Categoria>();
         try {
             Lcat= CatJPAC.findCategoriaEntities();
-            System.out.println("ingresada tabla");
             return Lcat;
         } catch (Exception e) {
-             System.out.println("no ingresada tabla");
             return  Lcat;
         }
     }
@@ -84,10 +73,8 @@ public class CategoriaDAO {
      
         try {
             CatJPAC.findCategoriaEntities(j, i);
-            System.out.println("ingresada");
             return true;
         } catch (Exception e) {
-             System.out.println("no ingresada");
             return  false;
         }
     }
@@ -95,10 +82,8 @@ public class CategoriaDAO {
      int total = 0;
         try {
            total = CatJPAC.getCategoriaCount();
-            //System.out.println("ingresada contador");
             return total;
         } catch (Exception e) {
-           //  System.out.println("no ingresada contador");
             return  0;
         }
     }

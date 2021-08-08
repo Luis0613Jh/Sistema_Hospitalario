@@ -23,7 +23,7 @@ import modelo.Pedido;
 
 public class PedidoJpaController implements Serializable {
 
-    //private EntityManagerFactory emf;
+    private EntityManagerFactory emf;
     
     public PedidoJpaController(EntityManagerFactory emf) {
         this.emf = emf;

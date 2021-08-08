@@ -58,7 +58,7 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        PanelSolP = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSolicitudPedido = new javax.swing.JTable();
@@ -67,10 +67,7 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setLayout(null);
-
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3.setLayout(null);
 
         tblSolicitudPedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -85,17 +82,12 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblSolicitudPedido);
 
-        jPanel3.add(jScrollPane1);
-        jScrollPane1.setBounds(12, 12, 470, 230);
-
         btnVerDetalles.setText("Ver Detalles");
         btnVerDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVerDetallesActionPerformed(evt);
             }
         });
-        jPanel3.add(btnVerDetalles);
-        btnVerDetalles.setBounds(10, 260, 100, 22);
 
         btnAceptarPedido.setText("Aceptar Pedido");
         btnAceptarPedido.addActionListener(new java.awt.event.ActionListener() {
@@ -103,15 +95,54 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
                 btnAceptarPedidoActionPerformed(evt);
             }
         });
-        jPanel3.add(btnAceptarPedido);
-        btnAceptarPedido.setBounds(345, 260, 130, 22);
 
-        jPanel1.add(jPanel3);
-        jPanel3.setBounds(10, 10, 500, 300);
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(btnVerDetalles)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAceptarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(10, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAceptarPedido)
+                    .addComponent(btnVerDetalles))
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout PanelSolPLayout = new javax.swing.GroupLayout(PanelSolP);
+        PanelSolP.setLayout(PanelSolPLayout);
+        PanelSolPLayout.setHorizontalGroup(
+            PanelSolPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelSolPLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelSolPLayout.setVerticalGroup(
+            PanelSolPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelSolPLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
-        setSize(new java.awt.Dimension(535, 344));
+        getContentPane().add(PanelSolP, java.awt.BorderLayout.CENTER);
+
+        setSize(new java.awt.Dimension(535, 350));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -160,9 +191,9 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JPanel PanelSolP;
     private javax.swing.JButton btnAceptarPedido;
     private javax.swing.JButton btnVerDetalles;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblSolicitudPedido;

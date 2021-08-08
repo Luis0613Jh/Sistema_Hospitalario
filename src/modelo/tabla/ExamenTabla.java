@@ -4,7 +4,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import modelo.Examen;
 
-public class modeloExam extends AbstractTableModel{
+public class ExamenTabla extends AbstractTableModel{
 
     private List<Examen> listaExamenes;
 

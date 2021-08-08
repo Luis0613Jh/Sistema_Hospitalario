@@ -84,7 +84,7 @@ public class Categoria implements Serializable {
 
     @Override
     public String toString() {
-        return "modelo.Categoria[ id=" + id_categoria + " ]";
+        return nombre_cat;
     }
     
 }

@@ -53,7 +53,7 @@ public class Frm_Pedidos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        PanelPedido = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPedidos = new javax.swing.JTable();
@@ -61,12 +61,8 @@ public class Frm_Pedidos extends javax.swing.JFrame {
         btnVerResultados = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
-
-        jPanel1.setLayout(null);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3.setLayout(null);
 
         tblPedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -81,17 +77,12 @@ public class Frm_Pedidos extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tblPedidos);
 
-        jPanel3.add(jScrollPane1);
-        jScrollPane1.setBounds(12, 12, 570, 230);
-
         btnVerDetalles.setText("Ver Detalles");
         btnVerDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVerDetallesActionPerformed(evt);
             }
         });
-        jPanel3.add(btnVerDetalles);
-        btnVerDetalles.setBounds(480, 250, 100, 22);
 
         btnVerResultados.setText("Ver Resultados");
         btnVerResultados.addActionListener(new java.awt.event.ActionListener() {
@@ -99,14 +90,52 @@ public class Frm_Pedidos extends javax.swing.JFrame {
                 btnVerResultadosActionPerformed(evt);
             }
         });
-        jPanel3.add(btnVerResultados);
-        btnVerResultados.setBounds(10, 250, 110, 22);
 
-        jPanel1.add(jPanel3);
-        jPanel3.setBounds(10, 10, 590, 290);
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(btnVerResultados)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnVerDetalles)
+                .addGap(34, 34, 34))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(10, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVerDetalles)
+                    .addComponent(btnVerResultados))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
 
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 610, 340);
+        javax.swing.GroupLayout PanelPedidoLayout = new javax.swing.GroupLayout(PanelPedido);
+        PanelPedido.setLayout(PanelPedidoLayout);
+        PanelPedidoLayout.setHorizontalGroup(
+            PanelPedidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPedidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelPedidoLayout.setVerticalGroup(
+            PanelPedidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPedidoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(PanelPedido, java.awt.BorderLayout.CENTER);
 
         setSize(new java.awt.Dimension(623, 347));
         setLocationRelativeTo(null);
@@ -163,9 +192,9 @@ public class Frm_Pedidos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JPanel PanelPedido;
     private javax.swing.JButton btnVerDetalles;
     private javax.swing.JButton btnVerResultados;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPedidos;

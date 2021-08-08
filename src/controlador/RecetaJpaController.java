@@ -22,7 +22,7 @@ import modelo.Receta;
 
 public class RecetaJpaController implements Serializable {
 
-   // private EntityManagerFactory emf;
+    private EntityManagerFactory emf;
     
     public RecetaJpaController(EntityManagerFactory emf) {
         this.emf = emf;

@@ -23,6 +23,8 @@ import modelo.Diagnostico;
 
 public class DiagnosticoJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+      
     public DiagnosticoJpaController() {
         this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
@@ -186,6 +188,19 @@ public class DiagnosticoJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Diagnostico> getDiagnosticoPorPersona(Long id_persona) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("SELECT e "
+                    + "FROM Diagnostico e " 
+                    + "WHERE e.id_persona = ?3")
+                    .setParameter(3, id_persona);
+            return q.getResultList();
         } finally {
             em.close();
         }
