@@ -41,18 +41,6 @@ public class PersonaDAO {
         }
     }
     
-    public List<Persona> filtro(Long idRol, String estado){
-        List<Persona> lista = new ArrayList<Persona>();
-        try {
-            lista = PersonaJpa.getPersonasPorRol(idRol, estado);
-            System.out.println("Si vale");
-            return lista;
-        } catch (Exception e) {
-            System.out.println("Valio VRG: "+e);
-            return lista;
-        }
-    }
-    
     public boolean agregarPersona(Persona persona){
         try {
             PersonaJpa.create(persona);

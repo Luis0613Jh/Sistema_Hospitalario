@@ -1,11 +1,7 @@
-
 package vista;
 
 public class historial_clinico extends javax.swing.JFrame {
 
-    /**
-     * Creates new form historia_clinica
-     */
     public historial_clinico() {
         initComponents();
     }

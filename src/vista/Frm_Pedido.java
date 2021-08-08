@@ -1,11 +1,7 @@
-
 package vista;
 
 public class Frm_Pedido extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Frm_Pedidos
-     */
     public Frm_Pedido() {
         initComponents();
     }

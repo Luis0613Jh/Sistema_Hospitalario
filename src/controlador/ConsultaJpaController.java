@@ -37,12 +37,10 @@ public class ConsultaJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-
+    
     public ConsultaJpaController() {
         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    
-    
 
     public void create(Consulta consulta) throws IllegalOrphanException {
         List<String> illegalOrphanMessages = null;

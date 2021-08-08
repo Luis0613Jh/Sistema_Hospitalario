@@ -1,11 +1,7 @@
-
 package vista;
 
 public class Frm_Resultados extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Frm_Resultados
-     */
     public Frm_Resultados() {
         initComponents();
     }

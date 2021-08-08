@@ -10,9 +10,6 @@ import modelo.Rol;
 
 public class inicio_sesion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form inicio_sesion
-     */
     private CuentaDAO cuentaDAO = new CuentaDAO();
     private RolDAO rolDAO = new RolDAO();
     private Seguridad seguridad = new Seguridad();
@@ -20,7 +17,7 @@ public class inicio_sesion extends javax.swing.JFrame {
 
     public inicio_sesion() {
         initComponents();
-        //cargarRoles();
+        cargarRoles();
     }
 
     public Cuenta buscarCuenta() {
@@ -155,10 +152,8 @@ public class inicio_sesion extends javax.swing.JFrame {
 
     public void cargarRoles() {
         int aux = 0;
-//        for (Object rol : rolDAO.listarRoles()) {
-//            rolDAO.eliminarRol((Rol) rol);
-//        }
-        rolDAO.getRol().setNombre_rol("PERSONA");
+        if(rolDAO.numeroRoles()<=0){
+            rolDAO.getRol().setNombre_rol("PERSONA");
         rolDAO.setRol(rolDAO.getRol());
         rolDAO.agregarRol(rolDAO.getRol());
         rolDAO.setRol(null);
@@ -178,6 +173,8 @@ public class inicio_sesion extends javax.swing.JFrame {
         rolDAO.setRol(rolDAO.getRol());
         rolDAO.agregarRol(rolDAO.getRol());
         rolDAO.setRol(null);
+        }
+        
     }
 
     /**

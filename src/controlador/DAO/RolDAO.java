@@ -29,6 +29,13 @@ public class RolDAO {
         }
     }
     
+    public int numeroRoles(){
+        try {
+            return rolJpa.getRolCount();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
      
     public Rol buscarRolId(int id){
         Rol aux = new Rol();

@@ -1,12 +1,7 @@
-
 package vista;
-
 
 public class Frm_Laboratorio extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Frm_Laboratorio
-     */
     public Frm_Laboratorio() {
         initComponents();
     }
