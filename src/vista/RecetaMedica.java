@@ -1,5 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package vista;
 
+<<<<<<< HEAD
 import controlador.DAO.DiagnosticoDAO;
 import controlador.DAO.RecetaDAO;
 import java.awt.Graphics;
@@ -20,6 +26,18 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
     private RecetaDAO recetaDAO = new RecetaDAO();
 
     public RecetaMedica(long id) {
+=======
+/**
+ *
+ * @author CNH
+ */
+public class RecetaMedica extends javax.swing.JFrame {
+
+    /**
+     * Creates new form RecetaMedica
+     */
+    public RecetaMedica() {
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
         initComponents();
         recetaDAO.setIdConsulta(id);
         if (recetaDAO.encontrarConsulta(recetaDAO.getIdConsulta()) != null) {

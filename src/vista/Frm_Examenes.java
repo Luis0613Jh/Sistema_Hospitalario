@@ -1,5 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package vista;
 
+<<<<<<< HEAD
 import controlador.DAO.CategoriaDAO;
 import controlador.DAO.ExamenDAO;
 import controlador.DAO.LaboratorioDAO;
@@ -19,6 +25,17 @@ public class Frm_Examenes extends javax.swing.JFrame {
 
     ExamenTabla me = new ExamenTabla();
 
+=======
+/**
+ *
+ * @author Jean Agreda
+ */
+public class Frm_Examenes extends javax.swing.JFrame {
+
+    /**
+     * Creates new form Frm_Examenes
+     */
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
     public Frm_Examenes() {
         initComponents();
         setTitle("EXAMENES");

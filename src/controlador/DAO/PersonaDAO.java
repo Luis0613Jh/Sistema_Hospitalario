@@ -38,20 +38,34 @@ public class PersonaDAO {
             return aux;
         }
     }
+<<<<<<< HEAD
 
     public List<Persona> filtro(Long idRol, String estado) {
+=======
+    
+    public List<Persona> filtro(Long idRol, String estado){
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
         List<Persona> lista = new ArrayList<Persona>();
         try {
             lista = PersonaJpa.getPersonasPorRol(idRol, estado);
             System.out.println("Si vale");
             return lista;
         } catch (Exception e) {
+<<<<<<< HEAD
             System.out.println("Valio VRG: " + e);
             return lista;
         }
     }
 
     public boolean agregarPersona(Persona persona) {
+=======
+            System.out.println("Valio VRG: "+e);
+            return lista;
+        }
+    }
+    
+    public boolean agregarPersona(Persona persona){
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
         try {
             PersonaJpa.create(persona);
             return true;

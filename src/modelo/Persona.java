@@ -1,3 +1,4 @@
+
 package modelo;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "persona")

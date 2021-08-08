@@ -1,3 +1,4 @@
+
 package vista;
 
 import controlador.DAO.PedidoDAO;
@@ -21,6 +22,9 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
     private PersonaDAO personaDAO = new PersonaDAO();
     private ResultadosTabla resultadosTabla = new ResultadosTabla();
 
+    /**
+     * Creates new form Frm_Resultados
+     */
     public Frm_Resultados() {
         initComponents();
     }

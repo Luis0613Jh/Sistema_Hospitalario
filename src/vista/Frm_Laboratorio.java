@@ -1,5 +1,7 @@
+
 package vista;
 
+<<<<<<< HEAD
 import controlador.DAO.LaboratorioDAO;
 import controlador.DAO.PersonaDAO;
 import javax.swing.JOptionPane;
@@ -13,6 +15,11 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
     private LaboratoriosTabla laboratoriosTabla = new LaboratoriosTabla();
     private PersonaDAO personaDAO = new PersonaDAO();
 
+=======
+
+public class Frm_Laboratorio extends javax.swing.JFrame {
+
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
     /**
      * Creates new form Frm_Laboratorio
      */

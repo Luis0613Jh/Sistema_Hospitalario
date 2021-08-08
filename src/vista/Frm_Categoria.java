@@ -1,5 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package vista;
 
+<<<<<<< HEAD
 import controlador.DAO.CategoriaDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -7,14 +13,23 @@ import static javax.swing.JOptionPane.*;
 import modelo.Categoria;
 import modelo.tabla.CategoriaTabla;
 
+=======
+/**
+ *
+ * @author Jean Agreda
+ */
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
 public class Frm_Categoria extends javax.swing.JFrame {
 
     /**
      * Creates new form Frm_Categoria
      */
+<<<<<<< HEAD
     CategoriaDAO CatDAO = new CategoriaDAO();
     CategoriaTabla mtc = new CategoriaTabla();
 
+=======
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
     public Frm_Categoria() {
         initComponents();
         setTitle("CATEGORIAS");

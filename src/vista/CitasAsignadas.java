@@ -1,5 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package vista;
 
+<<<<<<< HEAD
 import controlador.ConsultaJpaController;
 import controlador.DAO.ConsultaDAO;
 import javax.swing.JOptionPane;
@@ -11,6 +17,17 @@ public class CitasAsignadas extends javax.swing.JFrame {
     private modeloCitas modelocitas = new modeloCitas();
     private ConsultaDAO consultadao = new ConsultaDAO();
 
+=======
+/**
+ *
+ * @author CNH
+ */
+public class CitasAsignadas extends javax.swing.JFrame {
+
+    /**
+     * Creates new form CitasAsignadas
+     */
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
     public CitasAsignadas() {
         initComponents();
         cargarTabla();

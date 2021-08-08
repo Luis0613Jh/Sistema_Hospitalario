@@ -1,5 +1,11 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package vista;
 
+<<<<<<< HEAD
 import controlador.DAO.DiagnosticoDAO;
 import javax.crypto.AEADBadTagException;
 import javax.swing.JOptionPane;
@@ -33,6 +39,19 @@ public class ConsultaMedica extends javax.swing.JFrame {
         diagonosticodao.setMedico(diagonosticodao.getMedicodao().buscarMedicoid(diagonosticodao.getConsulta().getId_medico()));
         diagonosticodao.getMedico().setEstado_disponibilidad(estado);
         diagonosticodao.getMedicodao().editarMedico(diagonosticodao.getMedico());
+=======
+/**
+ *
+ * @author CNH
+ */
+public class ConsultaMedica extends javax.swing.JFrame {
+
+    /**
+     * Creates new form ConsultaMedica
+     */
+    public ConsultaMedica() {
+        initComponents();
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
     }
 
     /**

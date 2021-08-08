@@ -15,6 +15,9 @@ import modelo.tabla.ModeloTablaPaciente;
 
 public class gestionar_paciente extends javax.swing.JFrame {
 
+    /**
+     * Creates new form gestionar_paciente
+     */
     private PersonaDAO personaDAO = new PersonaDAO();
     private ModeloTablaPaciente modelo = new ModeloTablaPaciente();
     private RolDAO rolDAO = new RolDAO();
@@ -22,13 +25,14 @@ public class gestionar_paciente extends javax.swing.JFrame {
 
     public gestionar_paciente() {
         initComponents();
+        //CargarTabla();
         limpiar();
-        CargarTabla();
         activa_desactivar(false);
     }
 
     public void CargarTabla() {
-        modelo.setListaPersona(personaDAO.listarPersonas());
+        //modelo.setListaPersona(personaDAO.listarPersonas());
+        modelo.setListaPersona(personaDAO.filtro(Long.valueOf(2), "activo"));
         tblPersonas.setModel(modelo);
         tblPersonas.updateUI();
     }
@@ -61,7 +65,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
         this.cboEstadoCivil.setSelectedIndex(0);
         this.cboGenero.setSelectedIndex(0);
         this.dcFechaNacimiento.setCalendar(null);
-        //CargarTabla();
+        CargarTabla();
     }
 
     public void DarBaja() {
@@ -508,9 +512,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
     }//GEN-LAST:event_cboGeneroActionPerformed
 
     private void btnHistoriaClinicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistoriaClinicaActionPerformed
-        historial_clinico form = new historial_clinico();
-        form.setVisible(true);
-        this.dispose();
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnHistoriaClinicaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed

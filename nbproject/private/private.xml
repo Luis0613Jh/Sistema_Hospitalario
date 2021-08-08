@@ -5,10 +5,8 @@
         <group>
             <file>file:/D:/Documents/GitHub/Sistema_Hospitalario/src/vista/gestionar_personal_medico.java</file>
             <file>file:/D:/Documents/GitHub/Sistema_Hospitalario/src/controlador/DAO/PersonaDAO.java</file>
-            <file>file:/D:/Documents/GitHub/Sistema_Hospitalario/src/controlador/RolJpaController.java</file>
-            <file>file:/D:/Documents/GitHub/Sistema_Hospitalario/src/vista/AgendarCita.java</file>
             <file>file:/D:/Documents/GitHub/Sistema_Hospitalario/src/vista/gestionar_paciente.java</file>
-            <file>file:/D:/Documents/GitHub/Sistema_Hospitalario/src/controlador/DAO/RolDAO.java</file>
+            <file>file:/D:/Documents/GitHub/Sistema_Hospitalario/src/vista/AgendarCita.java</file>
             <file>file:/D:/Documents/GitHub/Sistema_Hospitalario/src/vista/inicio_sesion.java</file>
         </group>
     </open-files>

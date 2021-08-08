@@ -1,3 +1,4 @@
+
 package vista;
 
 import controlador.DAO.ExamenDAO;
@@ -12,6 +13,7 @@ import vista.utilidades.UtilidadesVista;
 
 public class Frm_GestionarPedido extends javax.swing.JFrame {
 
+<<<<<<< HEAD
     private PedidoDAO pedidoDAO = new PedidoDAO();
     private ExamenDAO examenDAO = new ExamenDAO();
     private modeloCitas modelocitas = new modeloCitas();
@@ -22,6 +24,12 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
      * Creates new form Frm_GestionarPedido
      */
     public Frm_GestionarPedido(long id) {
+=======
+    /**
+     * Creates new form Frm_GestionarPedido
+     */
+    public Frm_GestionarPedido() {
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
         initComponents();
         cargarCampos();
         cargarTabla();

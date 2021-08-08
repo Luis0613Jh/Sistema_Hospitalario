@@ -1,5 +1,7 @@
+
 package vista;
 
+<<<<<<< HEAD
 import controlador.DAO.PedidoDAO;
 import javax.swing.JOptionPane;
 import modelo.tabla.PedidosTabla;
@@ -9,6 +11,11 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
     private PedidoDAO pedidoDAO = new PedidoDAO();
     private PedidosTabla pedidosTabla = new PedidosTabla();
 
+=======
+
+public class Frm_SolicitudPedido extends javax.swing.JFrame {
+
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
     /**
      * Creates new form Frm_SolicitudPedido
      */

@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/vista/principales/PaginaPrincipalMedico.java
 package vista.principales;
 
 import java.awt.Container;
@@ -7,7 +8,19 @@ import javax.swing.JPanel;
 import vista.CitasAsignadas;
 import vista.ConsultaMedica;
 import vista.Frm_Categoria;
+=======
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package vista;
+>>>>>>> parent of 5c9e17f (Avance agendar consulta):src/vista/PaginaPrincipalMedico.java
 
+/**
+ *
+ * @author Jean Agreda
+ */
 public class PaginaPrincipalMedico extends javax.swing.JFrame {
 
     /**

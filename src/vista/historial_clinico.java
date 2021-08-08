@@ -1,3 +1,4 @@
+
 package vista;
 
 import controlador.DAO.DiagnosticoDAO;
@@ -13,6 +14,7 @@ public class historial_clinico extends javax.swing.JFrame {
     /**
      * Creates new form historia_clinica
      */
+<<<<<<< HEAD
     HistorialClinicoDAO hcDAO = new HistorialClinicoDAO();
     PersonaDAO personaDAO = new PersonaDAO();
     DiagnosticoDAO dDAO = new DiagnosticoDAO();
@@ -21,6 +23,8 @@ public class historial_clinico extends javax.swing.JFrame {
     HistorialClinicoTabla mhc = new HistorialClinicoTabla();
     
     Long idPersona;
+=======
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
     public historial_clinico() {
         initComponents();
         bloquearDatosPersona();

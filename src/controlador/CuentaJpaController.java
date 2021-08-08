@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package controlador;
 
 import controlador.exceptions.IllegalOrphanException;
@@ -15,6 +20,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Cuenta;
 
+/**
+ *
+ * @author RICARDO
+ */
 public class CuentaJpaController implements Serializable {
 
     private EntityManagerFactory emf;
@@ -30,6 +39,13 @@ public class CuentaJpaController implements Serializable {
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+<<<<<<< HEAD
+=======
+
+    public CuentaJpaController() {
+    emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+    }
+>>>>>>> parent of 5c9e17f (Avance agendar consulta)
 
     public void create(Cuenta cuenta) throws IllegalOrphanException {
         List<String> illegalOrphanMessages = null;

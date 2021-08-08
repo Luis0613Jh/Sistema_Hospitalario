@@ -19,6 +19,9 @@ import modelo.tabla.ModeloTablaPersonalMedico;
 
 public class gestionar_personal_medico extends javax.swing.JFrame {
 
+    /**
+     * Creates new form gestionar_paciente
+     */
     private MedicoDAO medicoDAO = new MedicoDAO();
     private CuentaDAO cuentaDAO = new CuentaDAO();
     private RolDAO rolDAO = new RolDAO();
@@ -118,6 +121,7 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
                         return (Cuenta) c;
                     }
                 }
+
             }
         }
         return null;
@@ -182,6 +186,7 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
                 medicoDAO.getMedico().setEstado_disponibilidad("Disponible");
                 medicoDAO.getMedico().setEspecialidad(this.cboEspecialidad.getSelectedItem().toString());
                 medicoDAO.setMedico(medicoDAO.getMedico());
+                //medicoDAO.agregarMedico(medicoDAO.getMedico());
                 if (this.txtClave.getText().equals(this.txtConfirmarClave.getText())) {
                     medicoDAO.agregarMedico(medicoDAO.getMedico());
                     cuentaDAO.setCuenta(null);
@@ -190,7 +195,7 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
                     cuentaDAO.getCuenta().setPersona(medicoDAO.getMedico());
                     cuentaDAO.setCuenta(cuentaDAO.getCuenta());
                     cuentaDAO.agregarCuenta(cuentaDAO.getCuenta());
-                    limpiar();
+
                     JOptionPane.showMessageDialog(null, "Se almacenó correctamente");
                 } else {
                     JOptionPane.showMessageDialog(null, "No existen coincidencias al confirmar su clave, verifique nuevamente", "ERROR: Confirmar Clave de Usuario", JOptionPane.WARNING_MESSAGE);
@@ -212,7 +217,7 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
                 m.setRol(rolDAO.buscarRolId(1));
                 m.setEstado_disponibilidad("Disponible");
                 medicoDAO.editarMedico(m);
-                limpiar();
+                CargarTabla();
                 JOptionPane.showMessageDialog(null, "Se modificó correctamente");
                 sw = "GUARDAR";
             }
@@ -322,7 +327,7 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
 
         jLabel12.setText("Especialidad:");
 
-        cboEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ninguna", "Medicina General", "Ginecología", "Odontología", "Pediatría", "Dermatología", "Anestesiología", "Ortopedia", "Traumatología", "Psiquiatría" }));
+        cboEspecialidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Odontología", "Dermatología", "Anestesiología", "Ortopedia", "Traumatología", "Psiquiatría" }));
         cboEspecialidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboEspecialidadActionPerformed(evt);
