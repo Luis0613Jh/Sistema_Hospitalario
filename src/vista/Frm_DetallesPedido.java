@@ -3,7 +3,7 @@ package vista;
 import controlador.DAO.PedidoDAO;
 import controlador.DAO.PersonaDAO;
 import controlador.utilidades.UtilidadesControlador;
-import modelo.tabla.modeloExam;
+import modelo.tabla.ExamenTabla;
 
 public class Frm_DetallesPedido extends javax.swing.JFrame {
 
