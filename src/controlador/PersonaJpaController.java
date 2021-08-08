@@ -22,23 +22,34 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Persona;
 
-/**
- *
- * @author CNH
- */
 public class PersonaJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public PersonaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
     public PersonaJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    private EntityManagerFactory emf = null;
-
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+
+    public List<Persona> getPersonasPorRol(Long idRol, String estado) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("SELECT e "
+                    + "FROM Persona e, Rol r " 
+                    + "WHERE (e.estado = ?12 and r.id_rol = ?13)")
+                    .setParameter(12, estado)
+                    .setParameter(13, idRol);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
     }
 
     public void create(Persona persona) {
@@ -265,5 +276,5 @@ public class PersonaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

@@ -35,34 +35,34 @@ public class ExamenDAO {
             examJPAC.create(exam);
             return true;
         } catch (Exception e) {
-            return false;
+            return  false;
         }
     }
-
-    public boolean editarExam(Examen exam) {
-
+    
+     public boolean editarExam(Examen exam){
+    
         try {
             examJPAC.edit(exam);
             return true;
         } catch (Exception e) {
-            return false;
+            return  false;
         }
     }
-
-    public boolean eliminarExam(Examen exam) {
-
+     
+      public boolean eliminarExam(Examen exam){
+    
         try {
             examJPAC.destroy(exam.getId_examen());
             return true;
         } catch (Exception e) {
-            return false;
+            return  false;
         }
     }
-
-    public Examen encontrarExam(Examen exam) {
-        Examen aux = new Examen();
+      
+     public Examen encontrarExam(Examen exam) {
+Examen aux = new Examen();
         try {
-            aux = examJPAC.findExamen(exam.getId_examen());
+            aux =examJPAC.findExamen(exam.getId_examen());
             System.out.println("ingresada");
             return aux;
         } catch (Exception e) {
@@ -71,34 +71,33 @@ public class ExamenDAO {
         }
     }
 
-    public List TodosExam() {
-        List<Examen> Ecat = new ArrayList<Examen>();
+     public List TodosExam(){
+     List<Examen> Ecat = new ArrayList<Examen>();
         try {
-            Ecat = examJPAC.findExamenEntities();
+            Ecat= examJPAC.findExamenEntities();
             System.out.println("ingresada tabla");
             return Ecat;
         } catch (Exception e) {
-            System.out.println("no ingresada tabla");
-            return Ecat;
+             System.out.println("no ingresada tabla");
+            return  Ecat;
         }
     }
-
-    public boolean IntervaloExam(int j, int i) {
-
+   
+     public boolean IntervaloExam(int j, int i){
+     
         try {
             examJPAC.findExamenEntities(j, i);
             System.out.println("ingresada");
             return true;
         } catch (Exception e) {
-            System.out.println("no ingresada");
-            return false;
+             System.out.println("no ingresada");
+            return  false;
         }
     }
-
     public int contadorExam() {
-        int total = 0;
+int total =0;
         try {
-            total = examJPAC.getExamenCount();
+            total =examJPAC.getExamenCount();
             System.out.println("ingresada");
             return total;
         } catch (Exception e) {

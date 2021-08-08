@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -32,23 +33,37 @@ public class Examen implements Serializable {
     @JoinColumn(name ="id_categoria",nullable = false, referencedColumnName = "id_categoria" )
     private Categoria categoria;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinTable(name = "laboratorio_examen",
-            joinColumns = @JoinColumn(name = "id_examen" , nullable = false, referencedColumnName = "id_examen"),
-            inverseJoinColumns = @JoinColumn(name = "id_laboratorio",nullable = false, referencedColumnName = "id_laboratorio")      
-    )
-    private List<Laboratorio>listaLab = new ArrayList<Laboratorio>();
+     @OneToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+    @JoinColumn(name="id_laboratorio", nullable = false,referencedColumnName = "id_laboratorio")
+    private Laboratorio laboratorio;
     
-    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
-    @JoinColumn(name ="id_pedido",nullable = false, referencedColumnName = "id_pedido" )
+//    @ManyToOne(cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
+//    @JoinColumn(name ="id_pedido",nullable = false, referencedColumnName = "id_pedido" )
+//    private Pedido pedido;
+
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinTable(name = "pedido_examen",
+            joinColumns = @JoinColumn(name = "id_examen" , nullable = false, referencedColumnName = "id_examen"),
+            inverseJoinColumns = @JoinColumn(name = "id_pedido",nullable = false, referencedColumnName = "id_pedido")      
+    )
     private Pedido pedido;
-     
-    public List<Laboratorio> getListaExamen() {
-        return listaLab;
+
+    public Pedido getPedido() {
+        return pedido;
     }
 
-    public void setListaExamen(List<Laboratorio> listaExamen) {
-        this.listaLab = listaExamen;
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+    
+    
+    
+    public Laboratorio getLaboratorio() {
+        return laboratorio;
+    }
+
+    public void setLaboratorio(Laboratorio laboratorio) {
+        this.laboratorio = laboratorio;
     }
     
     public String getNombre() {
@@ -83,22 +98,6 @@ public class Examen implements Serializable {
         this.id_examen = id_examen;
     }
 
-    public List<Laboratorio> getListaLab() {
-        return listaLab;
-    }
-
-    public void setListaLab(List<Laboratorio> listaLab) {
-        this.listaLab = listaLab;
-    }
-
-    public Pedido getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
-    
     @Override
     public int hashCode() {
         int hash = 0;

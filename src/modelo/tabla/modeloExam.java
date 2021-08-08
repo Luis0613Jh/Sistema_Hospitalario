@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo.tabla;
 
 import java.util.List;
@@ -46,7 +41,9 @@ public class modeloExam extends AbstractTableModel{
                 return "--";
            
         }
-    }    
+    }
+
+    
     @Override
     public Object getValueAt(int fila, int columna) {
         Examen examen = listaExamenes.get(fila);
@@ -56,7 +53,7 @@ public class modeloExam extends AbstractTableModel{
             case 1:
                 return examen.getCategoria().getNombre_cat();
              case 2:
-                return examen.getListaLab();
+                return examen.getLaboratorio();
              case 3:
                 return  examen.getUnidad_medida();
             default:

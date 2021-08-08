@@ -24,7 +24,8 @@ public class Receta implements Serializable {
     private String fecha;
     
     @OneToOne(mappedBy="receta",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Consulta consulta;                                                   
+    private Consulta consulta;                                                  
+    
     
     
     public Consulta getConsulta() {

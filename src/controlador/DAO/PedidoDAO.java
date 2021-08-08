@@ -130,4 +130,9 @@ public class PedidoDAO {
             return null;
         }
     }
+    
+    public List<Pedido> getPedidosPorTodosMenosUnEstado(String estado) {
+        return jpaControlador.getPedidosPorTodosMenosUnEstado(estado);
+    }
+
 }

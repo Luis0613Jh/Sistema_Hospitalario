@@ -16,8 +16,8 @@ public class Conexion {
         
     private static void setup() {
         if (em == null) {
-                Conexion.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
-                Conexion.em = Conexion.emf.createEntityManager();
+            Conexion.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+            Conexion.em = Conexion.emf.createEntityManager();
         }
     }
 

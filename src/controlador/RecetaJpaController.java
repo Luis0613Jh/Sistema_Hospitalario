@@ -20,12 +20,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Receta;
 
-/**
- *
- * @author CNH
- */
 public class RecetaJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public RecetaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -193,5 +191,4 @@ public class RecetaJpaController implements Serializable {
             em.close();
         }
     }
-
 }

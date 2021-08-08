@@ -22,21 +22,18 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Medico;
 
-/**
- *
- * @author CNH
- */
 public class MedicoJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public MedicoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
     public MedicoJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    private EntityManagerFactory emf = null;
-
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -264,6 +261,5 @@ public class MedicoJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }
-
+    }    
 }

@@ -20,20 +20,18 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Cuenta;
 
-/**
- *
- * @author CNH
- */
+
 public class CuentaJpaController implements Serializable {
 
+    private EntityManagerFactory emf;
+    
     public CuentaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
     public CuentaJpaController() {
-        this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
+        emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -198,5 +196,5 @@ public class CuentaJpaController implements Serializable {
             em.close();
         }
     }
-
+    
 }

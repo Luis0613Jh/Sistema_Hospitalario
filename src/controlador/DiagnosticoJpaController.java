@@ -200,5 +200,4 @@ public class DiagnosticoJpaController implements Serializable {
             em.close();
         }
     }
-
 }
