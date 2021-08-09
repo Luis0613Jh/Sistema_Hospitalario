@@ -27,8 +27,8 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
 
     
     public void EsconderPanel() {
-        gestionar_paciente.PanelGestionarPaciente.setVisible(false);
-        AgendarCita.PanelAgendarCita.setVisible(false);
+        //gestionar_paciente.PanelGestionarPaciente.setVisible(false);
+       // AgendarCita.PanelAgendarCita.setVisible(false);
     }
     
     /**
@@ -150,9 +150,9 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
 
             EsconderPanel();
 
-            gestionar_paciente.PanelGestionarPaciente.setVisible(true);
-            PanelPrincipalAtencion_Cliente.add(gestionar_paciente.PanelGestionarPaciente);
-            PanelPrincipalAtencion_Cliente.updateUI();
+            //gestionar_paciente.PanelGestionarPaciente.setVisible(true);
+            //PanelPrincipalAtencion_Cliente.add(gestionar_paciente.PanelGestionarPaciente);
+            //PanelPrincipalAtencion_Cliente.updateUI();
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btn_CitasAsignadasActionPerformed
@@ -162,8 +162,8 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
 
             EsconderPanel();
 
-            AgendarCita.PanelAgendarCita.setVisible(true);
-            PanelPrincipalAtencion_Cliente.add(AgendarCita.PanelAgendarCita);
+           // AgendarCita.PanelAgendarCita.setVisible(true);
+            //PanelPrincipalAtencion_Cliente.add(AgendarCita.PanelAgendarCita);
             PanelPrincipalAtencion_Cliente.updateUI();
         } catch (Exception e) {
         }

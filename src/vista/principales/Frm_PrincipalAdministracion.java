@@ -22,7 +22,7 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
     }
 
     public void EsconderPanel() {
-        gestionar_personal_medico.PanelGestionar_Personal_Medico.setVisible(false);
+        //gestionar_personal_medico.PanelGestionar_Personal_Medico.setVisible(false);
       
     }
     /**
@@ -127,9 +127,9 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
 
             EsconderPanel();
 
-            gestionar_personal_medico.PanelGestionar_Personal_Medico.setVisible(true);
-            PanelPrincipalAdministracion.add(gestionar_personal_medico.PanelGestionar_Personal_Medico);
-            PanelPrincipalAdministracion.updateUI();
+//            gestionar_personal_medico.PanelGestionar_Personal_Medico.setVisible(true);
+//            PanelPrincipalAdministracion.add(gestionar_personal_medico.PanelGestionar_Personal_Medico);
+//            PanelPrincipalAdministracion.updateUI();
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btn_gestionar_PMActionPerformed
