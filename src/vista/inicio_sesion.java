@@ -4,9 +4,10 @@ import controlador.DAO.CuentaDAO;
 import controlador.DAO.RolDAO;
 import controlador.Seguridad;
 import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.showMessageDialog;
 import modelo.Cuenta;
-import modelo.Rol;
+import vista.principales.Frm_PrincipalAdministracion;
+import vista.principales.Frm_PrincipalAtencion_Cliente;
+import vista.principales.Frm_Principal_Laboratorio;
 import vista.principales.PaginaPrincipalMedico;
 
 public class inicio_sesion extends javax.swing.JFrame {
@@ -14,7 +15,6 @@ public class inicio_sesion extends javax.swing.JFrame {
     private CuentaDAO cuentaDAO = new CuentaDAO();
     private RolDAO rolDAO = new RolDAO();
     private Seguridad seguridad = new Seguridad();
-    //private boolean sw = false;
 
     public inicio_sesion() {
         initComponents();
@@ -46,15 +46,15 @@ public class inicio_sesion extends javax.swing.JFrame {
                     form.setVisible(true);
                     this.dispose(); break;
                 case "ATENCION":
-                    PaginaPrincipalMedico form1 = new PaginaPrincipalMedico();
+                    Frm_PrincipalAtencion_Cliente form1 = new Frm_PrincipalAtencion_Cliente();
                     form1.setVisible(true);
                     this.dispose(); break;
                 case "LABORATORISTA":
-                    PaginaPrincipalMedico form2 = new PaginaPrincipalMedico();
+                    Frm_Principal_Laboratorio form2 = new Frm_Principal_Laboratorio();
                     form2.setVisible(true);
                     this.dispose(); break;
                 case "ADMINISTRADOR":
-                    PaginaPrincipalMedico form3 = new PaginaPrincipalMedico();
+                    Frm_PrincipalAdministracion form3 = new Frm_PrincipalAdministracion();
                     form3.setVisible(true);
                     this.dispose(); break;
             }
@@ -81,6 +81,8 @@ public class inicio_sesion extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
+
         jLabel2.setText("Usuario:");
 
         jLabel3.setText("Clave:");
@@ -103,10 +105,10 @@ public class inicio_sesion extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(32, 32, 32)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                             .addComponent(txtClave)))

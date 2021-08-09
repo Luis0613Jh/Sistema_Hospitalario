@@ -114,15 +114,5 @@ public class DiagnosticoDAO {
      public List<Diagnostico> diagnosticoPorPersona(Long id_persona) {
         return jpadiagnostico.getDiagnosticoPorPersona(id_persona);
     }
-    
-//        public Persona encontrarPersona(Long id) {
-//        try {
-//            System.out.println("ingresada encontrar");
-//            return jpaconsulta.findConsulta(idConsulta);
-//        } catch (Exception e) {
-//            System.out.println("no ingresada encontrar");
-//            return null;
-//        }
-//    }
 
 }

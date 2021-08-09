@@ -3,7 +3,6 @@ package controlador.DAO;
 import controlador.PersonaJpaController;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
 import modelo.Persona;
 
 public class PersonaDAO {
@@ -45,10 +44,8 @@ public class PersonaDAO {
         List<Persona> lista = new ArrayList<Persona>();
         try {
             lista = PersonaJpa.getPersonasPorRol(idRol, estado);
-            System.out.println("Si vale");
             return lista;
         } catch (Exception e) {
-            System.out.println("Valio VRG: " + e);
             return lista;
         }
     }

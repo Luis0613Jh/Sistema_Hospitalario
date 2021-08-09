@@ -8,7 +8,7 @@ import modelo.tabla.LaboratoriosTabla;
 import vista.utilidades.UtilidadesVista;
 
 public class Frm_Laboratorio extends javax.swing.JFrame {
-
+    
     private LaboratorioDAO laboratorioDAO = new LaboratorioDAO();
     private LaboratoriosTabla laboratoriosTabla = new LaboratoriosTabla();
     private PersonaDAO personaDAO = new PersonaDAO();
@@ -21,21 +21,21 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
         cargarTabla();
         cargarCbxPersonas();
     }
-
+    
     public void cargarCbxPersonas() {
         UtilidadesVista.cargarCbxPersonas(cbxEncargado, personaDAO.filtro(Long.valueOf(1), "Disponible"));
     }
-
+    
     public void limpiarCampos() {
         txtNombre.setText("");
         txtDescripcion.setText("");
     }
-
+    
     public void cargarCampos() {
         txtNombre.setText(laboratorioDAO.getLaboratorio().getNombre_lab());
         txtDescripcion.setText(laboratorioDAO.getLaboratorio().getDescripcion_lab());
     }
-
+    
     public void habilitarCampos() {
         txtNombre.setEnabled(true);
         txtDescripcion.setEnabled(true);
@@ -43,7 +43,7 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
         btnCancelar.setEnabled(true);
         cbxEncargado.setEnabled(true);
     }
-
+    
     public void deshabilitarCampos() {
         txtNombre.setEnabled(false);
         txtDescripcion.setEnabled(false);
@@ -51,25 +51,25 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
         btnCancelar.setEnabled(false);
         cbxEncargado.setEnabled(false);
     }
-
+    
     public void guardar() {
         switch (btnGuardar.getText().toUpperCase()) {
             case "GUARDAR":
                 if (!txtNombre.getText().equals("") && !txtDescripcion.getText().equals("")) {
                     laboratorioDAO.getLaboratorio().setNombre_lab(txtNombre.getText());
                     laboratorioDAO.getLaboratorio().setDescripcion_lab(txtDescripcion.getText());
-                    personaDAO.setPersona((Persona)cbxEncargado.getSelectedItem());
+                    personaDAO.setPersona((Persona) cbxEncargado.getSelectedItem());
                     laboratorioDAO.getLaboratorio().setId_encargado(personaDAO.getPersona().getId_persona());
                     personaDAO.setPersona(null);
                     laboratorioDAO.getLaboratorio().setEstado("activo");
                     if (laboratorioDAO.agregar(laboratorioDAO.getLaboratorio())) {
-
+                        
                         JOptionPane.showMessageDialog(this, "Laboratorio ingresado exitosamente");
                         laboratorioDAO.setLaboratorio(null);
                         limpiarCampos();
                         deshabilitarCampos();
                         cargarTabla();
-
+                        
                     } else {
                         JOptionPane.showMessageDialog(this, "Ha ocurrido un error, el laboratorio no se pudo ingresar");
                     }
@@ -82,12 +82,12 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
                     laboratorioDAO.setLaboratorio(laboratorioDAO.listar().get(tblLaboratorios.getSelectedRow()));
                     laboratorioDAO.getLaboratorio().setNombre_lab(txtNombre.getText());
                     laboratorioDAO.getLaboratorio().setDescripcion_lab(txtDescripcion.getText());
-                    personaDAO.setPersona((Persona)cbxEncargado.getSelectedItem());
+                    personaDAO.setPersona((Persona) cbxEncargado.getSelectedItem());
                     laboratorioDAO.getLaboratorio().setId_encargado(personaDAO.getPersona().getId_persona());
                     personaDAO.setPersona(null);
-
+                    
                     if (laboratorioDAO.editar(laboratorioDAO.getLaboratorio())) {
-
+                        
                         JOptionPane.showMessageDialog(this, "Laboratorio actualizado exitosamente");
                         laboratorioDAO.setLaboratorio(null);
                         limpiarCampos();
@@ -103,37 +103,37 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
                 break;
         }
     }
-
+    
     public void nuevo() {
-
+        
         habilitarCampos();
     }
-
+    
     public void editar() {
-
+        
         if (tblLaboratorios.getSelectedRow() != - 1) {
-
+            laboratorioDAO.setLaboratorio(laboratorioDAO.laboratoriosPorEstado("activo").get(tblLaboratorios.getSelectedRow()));
             habilitarCampos();
             cargarCampos();
             btnGuardar.setText("Actualizar");
-
+            
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un laboratorio de la tabla");
         }
     }
-
+    
     public void darDeBaja() {
-
+        
         if (tblLaboratorios.getSelectedRow() != - 1) {
             laboratorioDAO.setLaboratorio(laboratorioDAO.listar().get(tblLaboratorios.getSelectedRow()));
             laboratorioDAO.getLaboratorio().setEstado("inactivo");
-
+            
             if (laboratorioDAO.editar(laboratorioDAO.getLaboratorio())) {
-
+                
                 JOptionPane.showMessageDialog(this, "Laboratorio eliminado exitosamente");
                 laboratorioDAO.setLaboratorio(null);
                 cargarTabla();
-
+                
             } else {
                 JOptionPane.showMessageDialog(this, "Ha ocurrido un error, el laboratorio no se pudo eliminar");
             }
@@ -141,13 +141,13 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un laboratorio de la tabla");
         }
     }
-
+    
     public void cargarTabla() {
         laboratoriosTabla.setListaLaboratorios(laboratorioDAO.laboratoriosPorEstado("ACTIVO"));
         tblLaboratorios.setModel(laboratoriosTabla);
         tblLaboratorios.updateUI();
     }
-
+    
     public void cancelar() {
         btnGuardar.setText("Guardar");
         limpiarCampos();
@@ -222,25 +222,28 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
-                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnGuardar)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
                         .addComponent(cbxEncargado, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,9 +253,10 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel1))
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardar))
-                .addGap(12, 12, 12)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnGuardar)))
+                .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(8, 8, 8)

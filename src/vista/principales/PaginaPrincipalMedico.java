@@ -1,34 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package vista.principales;
 
-import java.awt.Container;
-import java.awt.Panel;
-import javax.crypto.spec.PSource;
-import javax.swing.JPanel;
 import vista.CitasAsignadas;
-import vista.ConsultaMedica;
-import vista.Frm_Categoria;
 
-/**
- *
- * @author Jean Agreda
- */
 public class PaginaPrincipalMedico extends javax.swing.JFrame {
 
     /**
      * Creates new form Frm_Principal_Lab
      */
-    //Frm_Categoria cat = new Frm_Categoria();
-    
     CitasAsignadas c = new CitasAsignadas();
-    //ConsultaMedica cm = new ConsultaMedica(Long.valueOf(1));
-
     public PaginaPrincipalMedico() {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
         
     }
     
