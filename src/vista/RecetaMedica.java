@@ -17,10 +17,6 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author CNH
- */
 public class RecetaMedica extends javax.swing.JFrame implements Printable {
 
     /**

@@ -11,10 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.tabla.modeloCitas;
 
-/**
- *
- * @author CNH
- */
 public class CitasAsignadas extends javax.swing.JFrame {
 
     private modeloCitas modelocitas = new modeloCitas();

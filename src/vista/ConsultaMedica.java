@@ -10,10 +10,6 @@ import javax.crypto.AEADBadTagException;
 import javax.swing.JOptionPane;
 import modelo.Consulta_;
 
-/**
- *
- * @author CNH
- */
 public class ConsultaMedica extends javax.swing.JFrame {
 
     /**

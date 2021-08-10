@@ -9,10 +9,6 @@ import controlador.DAO.PersonaDAO;
 import javax.swing.JOptionPane;
 import modelo.Persona;
 
-/**
- *
- * @author CNH
- */
 public class AgendarCita extends javax.swing.JFrame {
 
     /**
