@@ -27,7 +27,7 @@ public class historial_clinico extends javax.swing.JFrame {
         bloquearDatosHC();
         cargarTabla();
         cargarPersona();
-        cargarTablaDiagnosticos();
+       // cargarTablaDiagnosticos();
     }
     
     public historial_clinico(Long idPersona) {
@@ -37,7 +37,7 @@ public class historial_clinico extends javax.swing.JFrame {
         bloquearDatosHC();
         cargarTabla();
         cargarPersona();
-        cargarTablaDiagnosticos();
+       // cargarTablaDiagnosticos();
     }
 
     public void bloquearDatosPersona() {

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controlador.DAO;
 
 import controlador.ConsultaJpaController;
@@ -116,10 +112,8 @@ public class PedidoDAO {
 
     public Consulta encontrarConsulta(Long id) {
         try {
-            //System.out.println("ingresada encontrar");
             return jpaconsulta.findConsulta(idConsulta);
         } catch (Exception e) {
-            //System.out.println("no ingresada encontrar");
             return null;
         }
     }

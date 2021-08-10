@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package vista.principales;
 
 import vista.gestionar_personal_medico;
 
-/**
- *
- * @author Jean Agreda
- */
 public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
 
     /**
@@ -19,6 +11,8 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
     gestionar_personal_medico gpm = new gestionar_personal_medico();
     public Frm_PrincipalAdministracion() {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     public void EsconderPanel() {
@@ -86,7 +80,7 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
                     .addComponent(btn_gestionar_PM, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelPrincipalAdministracion, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+                .addComponent(PanelPrincipalAdministracion, javax.swing.GroupLayout.DEFAULT_SIZE, 1004, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -111,7 +105,7 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_gestionar_PM, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 163, Short.MAX_VALUE))
+                        .addGap(0, 319, Short.MAX_VALUE))
                     .addComponent(PanelPrincipalAdministracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -122,11 +116,8 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_gestionar_PMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_gestionar_PMActionPerformed
-
-        try {
-
+       try {
             EsconderPanel();
-
             gestionar_personal_medico.PanelGestionar_Personal_Medico.setVisible(true);
             PanelPrincipalAdministracion.add(gestionar_personal_medico.PanelGestionar_Personal_Medico);
             PanelPrincipalAdministracion.updateUI();
