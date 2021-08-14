@@ -50,7 +50,7 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btn_guardarReceta = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btn_atras = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -98,10 +98,10 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
             }
         });
 
-        jButton1.setText("Atras");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_atras.setText("Atras");
+        btn_atras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_atrasActionPerformed(evt);
             }
         });
 
@@ -118,7 +118,7 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addComponent(jButton1)
+                .addComponent(btn_atras)
                 .addGap(97, 97, 97)
                 .addComponent(btn_guardarReceta)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -131,7 +131,7 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_guardarReceta, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
+                    .addComponent(btn_atras)
                     .addComponent(btn_editar))
                 .addGap(14, 14, 14))
         );
@@ -185,6 +185,8 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
             }else{
                 JOptionPane.showMessageDialog(null,"Se ha producido un error.");
             }          
+        }else{
+            JOptionPane.showMessageDialog(null,"Campos vacios , por favor ingrese una receta.");
         }
     }//GEN-LAST:event_btn_guardarRecetaActionPerformed
 
@@ -193,10 +195,10 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
         txta_receta.setEditable(true);
     }//GEN-LAST:event_btn_editarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atrasActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btn_atrasActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -250,9 +252,9 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_atras;
     private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_guardarReceta;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

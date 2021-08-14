@@ -22,34 +22,32 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
      * Creates new form Frm_GestionarPedido
      */
     public Frm_GestionarPedido(long id) {
-        initComponents();
-        cargarCampos();
-        cargarTabla();
+        initComponents();        
         pedidoDAO.setIdConsulta(id);
+        cargarCampos();
+        cargarTabla();        
     }
 
     public void cargarCampos() {
         // Datos Pedido
-        lblNroPedido.setText(pedidoDAO.getPedido().getNro_pedido());
-        lblFecha.setText(pedidoDAO.getPedido().getFecha_pedido());
-        
-        // Datos Médico Solicitante
-        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_medico()));
-        lblMedicoSolicitante.setText(personaDAO.getPersona().toString());
-        personaDAO.setPersona(null);
-        
-        // Datos Paciente
-        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_paciente()));
-        lblPaciente.setText(personaDAO.getPersona().toString());
-        lblSexo.setText(personaDAO.getPersona().getGenero());
-        lblFechaNacimiento.setText(personaDAO.getPersona().getFecha_nacimiento());
-        lblEdad.setText(String.valueOf(UtilidadesControlador.determinarEdad(personaDAO.getPersona().getFecha_nacimiento())));
-        lblDireccion.setText(personaDAO.getPersona().getDireccion());
-        
-        personaDAO.setPersona(null);
-        
+        if (pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()) != null) {
+            pedidoDAO.setConsulta(pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()));
+            System.out.println(pedidoDAO.getConsulta().getFecha_cita());
+            lblNroPedido.setText(String.valueOf(Math.random() * 1000));
+            lblFecha.setText(pedidoDAO.getConsulta().getFecha_cita());
+            personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getConsulta().getId_medico()));
+            lblMedicoSolicitante.setText(personaDAO.getPersona().getNombre() + personaDAO.getPersona().getApellido());
+            personaDAO.setPersona(null);
+            personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getConsulta().getId_paciente()));
+            lblPaciente.setText(personaDAO.getPersona().getNombre() + personaDAO.getPersona().getApellido());
+            lblSexo.setText(personaDAO.getPersona().getGenero());
+            lblFechaNacimiento.setText(personaDAO.getPersona().getFecha_nacimiento());
+            lblEdad.setText(String.valueOf(UtilidadesControlador.determinarEdad(personaDAO.getPersona().getFecha_nacimiento())));
+            lblDireccion.setText(personaDAO.getPersona().getDireccion());
+            personaDAO.setPersona(null);
+        }
         cargarTabla();
-        UtilidadesVista.cargarCbxPersonas(cbxExamenes, examenDAO.TodosExam());
+        UtilidadesVista.cargarCbx(cbxExamenes, examenDAO.TodosExam());
     }
 
     public void habilitarCampos() {
@@ -61,17 +59,17 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         cbxExamenes.setEnabled(false);
     }
 
-    public void guardar() {        
+    public void guardar() {
         pedidoDAO.setConsulta(pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()));
         pedidoDAO.getPedido().setConsulta(pedidoDAO.getConsulta());
         pedidoDAO.getPedido().setEstado_pedido("PENDIENTE");
-        pedidoDAO.getPedido().setNro_pedido(String.valueOf(Math.random()*1000));        
+        pedidoDAO.getPedido().setNro_pedido(String.valueOf(Math.random() * 1000));
         pedidoDAO.getPedido().setListaExamen(pedidoDAO.getPedido().getListaExamen());
         pedidoDAO.getPedido().setFecha_pedido(pedidoDAO.getConsulta().getFecha_cita());
         if (pedidoDAO.agregar(pedidoDAO.getPedido())) {
-            JOptionPane.showMessageDialog(null,"Se ha guardado el pedido");
-        }else{
-            JOptionPane.showMessageDialog(null,"Se ha producido un error en guardar.");
+            JOptionPane.showMessageDialog(null, "Se ha guardado el pedido");
+        } else {
+            JOptionPane.showMessageDialog(null, "Se ha producido un error en guardar.");
         }
     }
 
@@ -99,7 +97,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         pedidoDAO.getPedido().getListaExamen().add((Examen) cbxExamenes.getSelectedItem());
         cargarTabla();
     }
-    
+
     public void cancelar() {
         deshabilitarCampos();
     }
@@ -159,10 +157,12 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel2.add(jLabel2);
         jLabel2.setBounds(20, 60, 110, 16);
 
+        lblMedicoSolicitante.setForeground(new java.awt.Color(0, 0, 0));
         lblMedicoSolicitante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblMedicoSolicitante);
         lblMedicoSolicitante.setBounds(150, 60, 430, 20);
 
+        lblNroPedido.setForeground(new java.awt.Color(0, 0, 0));
         lblNroPedido.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblNroPedido);
         lblNroPedido.setBounds(150, 20, 130, 20);
@@ -171,10 +171,12 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel2.add(jLabel3);
         jLabel3.setBounds(350, 20, 50, 16);
 
+        lblFecha.setForeground(new java.awt.Color(0, 0, 0));
         lblFecha.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblFecha);
         lblFecha.setBounds(410, 20, 170, 20);
 
+        lblPaciente.setForeground(new java.awt.Color(0, 0, 0));
         lblPaciente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblPaciente);
         lblPaciente.setBounds(150, 100, 430, 20);
@@ -183,6 +185,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel2.add(jLabel4);
         jLabel4.setBounds(20, 100, 110, 16);
 
+        lblDireccion.setForeground(new java.awt.Color(0, 0, 0));
         lblDireccion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblDireccion);
         lblDireccion.setBounds(150, 140, 430, 20);
@@ -195,10 +198,12 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel2.add(jLabel6);
         jLabel6.setBounds(20, 180, 40, 16);
 
+        lblSexo.setForeground(new java.awt.Color(0, 0, 0));
         lblSexo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblSexo);
         lblSexo.setBounds(80, 180, 60, 20);
 
+        lblFechaNacimiento.setForeground(new java.awt.Color(0, 0, 0));
         lblFechaNacimiento.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblFechaNacimiento);
         lblFechaNacimiento.setBounds(300, 180, 130, 20);
@@ -207,6 +212,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel2.add(jLabel7);
         jLabel7.setBounds(160, 180, 130, 16);
 
+        lblEdad.setForeground(new java.awt.Color(0, 0, 0));
         lblEdad.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblEdad);
         lblEdad.setBounds(510, 180, 70, 20);
@@ -318,7 +324,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         nuevo();
-        
+
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -336,7 +342,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

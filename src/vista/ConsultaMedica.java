@@ -18,7 +18,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
     private DiagnosticoDAO diagonosticodao = new DiagnosticoDAO();
 
     public ConsultaMedica(long id) {
-        initComponents();          
+        initComponents();
         diagonosticodao.setIdConsulta(id);
         if (diagonosticodao.encontrarConsulta(diagonosticodao.getIdConsulta()) != null) {
             diagonosticodao.setConsulta(diagonosticodao.encontrarConsulta(diagonosticodao.getIdConsulta()));
@@ -26,7 +26,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
             txt_hora.setText(diagonosticodao.getConsulta().getHora_cita());
             diagonosticodao.getPesonadao().setPersona(diagonosticodao.getPesonadao().buscarPersonaPorId(diagonosticodao.getConsulta().getId_paciente()));
             txt_cedula.setText(diagonosticodao.getPesonadao().getPersona().getCedula());
-            txt_nombre.setText(diagonosticodao.getPesonadao().getPersona().getNombre()+" "+diagonosticodao.getPesonadao().getPersona().getApellido());
+            txt_nombre.setText(diagonosticodao.getPesonadao().getPersona().getNombre() + " " + diagonosticodao.getPesonadao().getPersona().getApellido());
             txt_fecha.setEditable(false);
             txt_hora.setEditable(false);
             txt_nombre.setEditable(false);
@@ -36,8 +36,8 @@ public class ConsultaMedica extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No se pudo cargar los datos");
         }
     }
-    
-    public void EditarEstadoMedico(String estado){
+
+    public void EditarEstadoMedico(String estado) {
         diagonosticodao.setMedico(diagonosticodao.getMedicodao().buscarMedicoid(diagonosticodao.getConsulta().getId_medico()));
         diagonosticodao.getMedico().setEstado_disponibilidad(estado);
         diagonosticodao.getMedicodao().editarMedico(diagonosticodao.getMedico());
@@ -73,7 +73,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
         txt_fecha = new javax.swing.JTextField();
         txt_hora = new javax.swing.JTextField();
         btn_emitirConsulta = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btn_atras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Consulta Medica");
@@ -99,6 +99,11 @@ public class ConsultaMedica extends javax.swing.JFrame {
 
         btn_solicitarP.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_solicitarP.setText("Solcitar Pedido");
+        btn_solicitarP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_solicitarPActionPerformed1(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -116,7 +121,6 @@ public class ConsultaMedica extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btn_solicitarP)
                             .addComponent(jLabel3))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -244,11 +248,11 @@ public class ConsultaMedica extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton3.setText("Atras");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btn_atras.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btn_atras.setText("Atras");
+        btn_atras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_solicitarPActionPerformed(evt);
+                btn_atrasActionPerformed(evt);
             }
         });
 
@@ -265,7 +269,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(PanelConsultaMedicaLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
-                .addComponent(jButton3)
+                .addComponent(btn_atras)
                 .addGap(269, 269, 269)
                 .addComponent(btn_emitirConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -282,7 +286,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelConsultaMedicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_emitirConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
+                    .addComponent(btn_atras, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
                 .addGap(14, 14, 14))
         );
 
@@ -298,7 +302,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
 
     private void btn_emitirConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_emitirConsultaActionPerformed
         // TODO add your handling code here:
-        if (txt_enfermedad.getText().length()>0 && txt_motivo.getText().length()>0 && txt_observación.getText().length()>0) {
+        if (txt_enfermedad.getText().length() > 0 && txt_motivo.getText().length() > 0 && txt_observación.getText().length() > 0) {
             diagonosticodao.getDiagnostico().setId_paciente(diagonosticodao.getConsulta().getId_paciente());
             diagonosticodao.getDiagnostico().setId_medico(diagonosticodao.getConsulta().getId_medico());
             diagonosticodao.getDiagnostico().setEnfermedad(txt_enfermedad.getText());
@@ -306,17 +310,17 @@ public class ConsultaMedica extends javax.swing.JFrame {
             diagonosticodao.getDiagnostico().setObservacion(txt_observación.getText());
             diagonosticodao.getDiagnostico().setConsulta(diagonosticodao.getConsulta());
             if (diagonosticodao.agregarDiagnostico(diagonosticodao.getDiagnostico())) {
-               JOptionPane.showMessageDialog(null,"Diagnostico Guardado");
-               EditarEstadoMedico("DISPONIBLE");
-               txt_enfermedad.setEditable(false);
-               txt_motivo.setEditable(false);
-               txt_observación.setEditable(false);
-            }else{
-                JOptionPane.showMessageDialog(null,"Se ha producido un error.");
+                JOptionPane.showMessageDialog(null, "Diagnostico Guardado");
+                EditarEstadoMedico("DISPONIBLE");
+                txt_enfermedad.setEditable(false);
+                txt_motivo.setEditable(false);
+                txt_observación.setEditable(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Se ha producido un error.");
             }
-            
-        }else{
-            JOptionPane.showMessageDialog(null,"Campos vacios");
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Campos vacios");
         }
     }//GEN-LAST:event_btn_emitirConsultaActionPerformed
 
@@ -327,11 +331,16 @@ public class ConsultaMedica extends javax.swing.JFrame {
         this.setVisible(true);
     }//GEN-LAST:event_btn_generarRActionPerformed
 
-    private void btn_solicitarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_solicitarPActionPerformed
+    private void btn_solicitarPActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_solicitarPActionPerformed1
         // TODO add your handling code here:
         Frm_GestionarPedido gestionar = new Frm_GestionarPedido(diagonosticodao.getIdConsulta());
         gestionar.setVisible(true);
-    }//GEN-LAST:event_btn_solicitarPActionPerformed
+    }//GEN-LAST:event_btn_solicitarPActionPerformed1
+
+    private void btn_atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atrasActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btn_atrasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -371,10 +380,10 @@ public class ConsultaMedica extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JPanel PanelConsultaMedica;
+    private javax.swing.JButton btn_atras;
     private javax.swing.JButton btn_emitirConsulta;
     private javax.swing.JButton btn_generarR;
     private javax.swing.JButton btn_solicitarP;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
