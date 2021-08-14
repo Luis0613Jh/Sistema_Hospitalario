@@ -41,10 +41,11 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
             boolean verificarImpresion = pinterJob.printDialog();
             if (verificarImpresion) {
                 pinterJob.print();
+                pedidoDAO.getPedido().setEstado_pedido("FINALIZADO");
+                pedidoDAO.editar(pedidoDAO.getPedido());
             }
         } catch (PrinterException e) {
             JOptionPane.showMessageDialog(null, "No se pudo imprimir los resultados, por favor, intente nuevamente", "ERROR EN LA IMPRESIÓN\n " + e, JOptionPane.INFORMATION_MESSAGE);
-
         }
     }
 
