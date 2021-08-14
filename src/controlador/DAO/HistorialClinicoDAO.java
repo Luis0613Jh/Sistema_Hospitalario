@@ -1,4 +1,3 @@
-
 package controlador.DAO;
 
 import controlador.HistorialClinicoJpaController;
@@ -12,7 +11,7 @@ public class HistorialClinicoDAO {
     private HistorialClinico hc = new HistorialClinico();
 
     public HistorialClinico getHc() {
-         if (hc == null) {
+        if (hc == null) {
             hc = new HistorialClinico();
         }
         return hc;
@@ -22,6 +21,12 @@ public class HistorialClinicoDAO {
         this.hc = exam;
     }
 
+    /**
+     * Metodo para crear un nuevo historial clínico en la base de datos
+     *
+     * @param hc
+     * @return
+     */
     public boolean agregarHC(HistorialClinico hc) {
 
         try {
@@ -32,6 +37,12 @@ public class HistorialClinicoDAO {
         }
     }
 
+    /**
+     * Metodo para editar un historial clínico en la base de datos
+     *
+     * @param hc
+     * @return
+     */
     public boolean editarHC(HistorialClinico hc) {
 
         try {
@@ -42,6 +53,13 @@ public class HistorialClinicoDAO {
         }
     }
 
+    /**
+     * Metodo para encontrar un historial clínico en la base de datos mediante
+     * su id
+     *
+     * @param hc
+     * @return
+     */
     public HistorialClinico encontrarHC(HistorialClinico hc) {
         HistorialClinico aux = new HistorialClinico();
 
@@ -53,16 +71,30 @@ public class HistorialClinicoDAO {
         }
     }
 
+    /**
+     * Metodo para devolver una lista de historiales clínicos de la base de
+     * datos
+     *
+     * @return
+     */
     public List TodosHistorialClinico() {
         List<HistorialClinico> Lhc = new ArrayList<HistorialClinico>();
         try {
-            Lhc = hcJPAC.findHistorialClinicoEntities();   
+            Lhc = hcJPAC.findHistorialClinicoEntities();
             return Lhc;
         } catch (Exception e) {
             return Lhc;
         }
     }
 
+    /**
+     * Metodo para devolver una lista de historiales clínicos de la base de
+     * datos , mediante un intervalo
+     *
+     * @param j
+     * @param i
+     * @return
+     */
     public boolean IntervaloHC(int j, int i) {
 
         try {
@@ -73,6 +105,11 @@ public class HistorialClinicoDAO {
         }
     }
 
+    /**
+     * Metodo que cuenta los historiales clínicos existentes en la Base de Datos
+     *
+     * @return
+     */
     public boolean contadorHC() {
 
         try {

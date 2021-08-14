@@ -1,6 +1,9 @@
 
 package vista.principales;
 
+import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import vista.gestionar_personal_medico;
 
 public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
@@ -11,6 +14,12 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
     gestionar_personal_medico gpm = new gestionar_personal_medico();
     public Frm_PrincipalAdministracion() {
         initComponents();
+        //Insertar Logo del Hospital
+        ImageIcon imagen2 = new ImageIcon(getClass().getResource("/vista/Imagen/hospitalLogo.png"));
+        Icon fondo1 = new ImageIcon(imagen2.getImage().getScaledInstance(Logo.getWidth(), Logo.getHeight(), Image.SCALE_DEFAULT));
+        Logo.setIcon(fondo1);
+        this.repaint();
+        
         setLocationRelativeTo(null);
         setResizable(false);
     }
@@ -33,6 +42,7 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        Logo = new javax.swing.JLabel();
         btn_gestionar_PM = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,11 +67,17 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 211, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Logo, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         btn_gestionar_PM.setText("Gestionar Personal");
@@ -161,6 +177,7 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Logo;
     private javax.swing.JPanel PanelPrincipalAdministracion;
     private javax.swing.JButton btn_gestionar_PM;
     private javax.swing.JButton jButton1;

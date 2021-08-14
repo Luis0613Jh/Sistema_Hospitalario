@@ -1,4 +1,3 @@
-
 package controlador.DAO;
 
 import controlador.ExamenJpaController;
@@ -22,6 +21,12 @@ public class ExamenDAO {
         this.exam = exam;
     }
 
+    /**
+     * Metodo que crea un nuevo examen en la base de datos
+     *
+     * @param exam
+     * @return
+     */
     public boolean agregarExam(Examen exam) {
         try {
             examJPAC.create(exam);
@@ -31,6 +36,12 @@ public class ExamenDAO {
         }
     }
 
+    /**
+     * Metodo que edita un examen en la base de datos
+     *
+     * @param exam
+     * @return
+     */
     public boolean editarExam(Examen exam) {
 
         try {
@@ -41,6 +52,11 @@ public class ExamenDAO {
         }
     }
 
+    /**
+     * Metodo que elimina un examen en la base de datos
+     * @param exam
+     * @return
+     */
     public boolean eliminarExam(Examen exam) {
 
         try {
@@ -51,6 +67,11 @@ public class ExamenDAO {
         }
     }
 
+    /**
+     * Metodo que encuentra un examen existente en la base de datos
+     * @param exam
+     * @return
+     */
     public Examen encontrarExam(Examen exam) {
         Examen aux = new Examen();
         try {
@@ -61,6 +82,10 @@ public class ExamenDAO {
         }
     }
 
+    /**
+     * Metodo que lista todos los examenes de la base de datos
+     * @return
+     */
     public List TodosExam() {
         List<Examen> Ecat = new ArrayList<>();
         try {
@@ -71,6 +96,13 @@ public class ExamenDAO {
         }
     }
 
+    /**
+     * Metodo que lista todos los examenes de la base de datos, mediante un
+     * intervalo.
+     * @param j
+     * @param i
+     * @return
+     */
     public boolean IntervaloExam(int j, int i) {
 
         try {
@@ -81,6 +113,10 @@ public class ExamenDAO {
         }
     }
 
+    /**
+     * Metodo que cuenta los examenes existentes en la base de datos
+     * @return
+     */
     public int contadorExam() {
         int total = 0;
         try {
