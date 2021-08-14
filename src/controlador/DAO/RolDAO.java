@@ -75,4 +75,19 @@ public class RolDAO {
     public void setRol(Rol rol) {
         this.rol = rol;
     }
+    
+    public int asignarValorRol(String rol) {
+        switch (rol) {
+            case "MEDICO":
+                return 2;
+            case "LABORATORISTA":
+                return 3;
+            case "ATENCION":
+                return 4;
+            case "ADMINISTRDOR":
+                return 5;
+            default:
+                return 0;
+        }
+    }
 }

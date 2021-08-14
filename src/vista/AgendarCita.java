@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import modelo.Medico;
 import modelo.Persona;
 import modelo.tabla.ModeloTablaPersonalMedico;
+import vista.principales.Frm_PrincipalAtencion_Cliente;
 
 public class AgendarCita extends javax.swing.JFrame {
 
@@ -18,52 +19,64 @@ public class AgendarCita extends javax.swing.JFrame {
     private ConsultaDAO consultaDAO = new ConsultaDAO();
     private MedicoDAO medicoDAO = new MedicoDAO();
     private ModeloTablaPersonalMedico modelo = new ModeloTablaPersonalMedico();
+
     public AgendarCita() {
         initComponents();
+        this.txtNombreApellido.setEditable(false);
+        this.txtcedulamedico.setEditable(false);
         CargarTabla(medicoDAO.listarMedicos());
     }
-    
+
     public void CargarTabla(List lista) {
         modelo.setListaMedico(lista);
         tblMedicos.setModel(modelo);
         tblMedicos.updateUI();
     }
 
-    public Persona buscar(){
-        String cedula = this.txtCedula.getText();
-        for(Object p: personaDAO.listarPersonas()){
-            if(personaDAO.buscarPersona((Persona) p).getCedula().equals(cedula)){
+    public Persona buscar(String cedula) {
+        for (Object p : personaDAO.listarPersonas()) {
+            if (personaDAO.buscarPersona((Persona) p).getCedula().equals(cedula)) {
                 System.out.println("SI ENCONTRO PERSONA");
-                return personaDAO.buscarPersona((Persona)p);
-            }    
+                return personaDAO.buscarPersona((Persona) p);
+            }
         }
         return null;
     }
-    
-    public Medico buscarMedico(){
+
+    public Medico buscarMedico(String cedula) {
         for (Object p : medicoDAO.listarMedicos()) {
-                if (medicoDAO.buscarMedico((Medico) p).getCedula().equals(this.txtcedulamedico.getText().toString())) { 
-                   System.out.println("SI ENCONTRO MEDICO");
-                    return medicoDAO.buscarMedico((Medico) p);
-                }
+            if (medicoDAO.buscarMedico((Medico) p).getCedula().equals(cedula)) {
+                System.out.println("SI ENCONTRO MEDICO");
+                return medicoDAO.buscarMedico((Medico) p);
             }
+        }
         return null;
     }
-    
-    public void agregarConsulta(){
+
+    public void agregarConsulta() {
         Date date = this.dcFechaConsulta.getDate();
-        DateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
-        String fecha = fechaFormato.format(date);
-        consultaDAO.getConsulta().setEstado_consulta("pendiente");
-        consultaDAO.getConsulta().setFecha_cita(fecha);
-        consultaDAO.getConsulta().setHora_cita(this.cboHoraConsulta.getSelectedItem().toString()+":"+this.cboMinutosConsulta.getSelectedItem().toString());
-        consultaDAO.getConsulta().setId_paciente(buscar().getId_persona());
-        consultaDAO.getConsulta().setId_medico(buscarMedico().getId_persona());
-        consultaDAO.getConsulta().setHistorial_clinico(null);
-        consultaDAO.getConsulta().setReceta(null);
-        consultaDAO.setConsulta(consultaDAO.getConsulta());
-        consultaDAO.agregarConsulta(consultaDAO.getConsulta());
+        String cedulaPaciente = this.txtCedula.getText();
+        String cedulaMedico = this.txtcedulamedico.getText();
+        if (!cedulaPaciente.equals("") && !cedulaMedico.equals("") && date != null) {
+            DateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
+            String fecha = fechaFormato.format(date);
+            consultaDAO.getConsulta().setEstado_consulta("pendiente");
+            consultaDAO.getConsulta().setFecha_cita(fecha);
+            consultaDAO.getConsulta().setHora_cita(this.cboHoraConsulta.getSelectedItem().toString() + ":" + this.cboMinutosConsulta.getSelectedItem().toString());
+            consultaDAO.getConsulta().setId_paciente(buscar(cedulaPaciente).getId_persona());
+            consultaDAO.getConsulta().setId_medico(buscarMedico(cedulaMedico).getId_persona());
+            consultaDAO.getConsulta().setHistorial_clinico(null);
+            consultaDAO.getConsulta().setReceta(null);
+            consultaDAO.setConsulta(consultaDAO.getConsulta());
+            consultaDAO.agregarConsulta(consultaDAO.getConsulta());
+            Frm_PrincipalAtencion_Cliente form = new Frm_PrincipalAtencion_Cliente();
+            form.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Debiste realizar lo siguiente:\n- Buscar un paciente.\n- Seleccionar un médico.\n- Fijar una fecha.\n- Fijar una hora.", "ERROR: Datos Faltantes", JOptionPane.WARNING_MESSAGE);
+        }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -109,6 +122,12 @@ public class AgendarCita extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Nombres y Apellidos:");
+
+        txtCedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedulaKeyTyped(evt);
+            }
+        });
 
         btnBuscarPaciente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnBuscarPaciente.setText("Buscar");
@@ -356,13 +375,22 @@ public class AgendarCita extends javax.swing.JFrame {
     }//GEN-LAST:event_cboEspecialidadActionPerformed
 
     private void btnBuscarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPacienteActionPerformed
-        Persona p = buscar();
-        if(p == null){
-            JOptionPane.showMessageDialog(null, "El número de cédula ingresado no se encuentra registrado", "ERROR: Busqueda", JOptionPane.WARNING_MESSAGE);
-        }else{
-            this.txtNombreApellido.setText(p.getNombre()+" "+p.getApellido());
+        String cedula = this.txtCedula.getText().trim();
+        if (!cedula.equals("")) {
+            if (personaDAO.verificarLongitudCedula(cedula)) {
+                Persona p = buscar(cedula);
+                if (p == null) {
+                    JOptionPane.showMessageDialog(null, "El número de cédula ingresado no se encuentra registrado", "ERROR: Busqueda", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    this.txtNombreApellido.setText(p.getNombre() + " " + p.getApellido());
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El campo de Cédula debe tener 10 números", "ERROR: Formato Cédula", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Llene el campo de Cédula", "ERROR: Cédula no digitada", JOptionPane.WARNING_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btnBuscarPacienteActionPerformed
 
     private void btnBuscarMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMedicoActionPerformed
@@ -371,15 +399,16 @@ public class AgendarCita extends javax.swing.JFrame {
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
         int fila = this.tblMedicos.getSelectedRow();
-        this.txtcedulamedico.setText((this.tblMedicos.getValueAt(fila, 0).toString()));
+        if (fila != -1) {
+            this.txtcedulamedico.setText((this.tblMedicos.getValueAt(fila, 0).toString()));
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecciona un registro", "ERROR: No se selecciono un registro.", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnAgregarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarConsultaActionPerformed
-       agregarConsulta();
-       //PRINCIPAL ATENCION AL CLIENTE
-//       gestionar_paciente form = new gestionar_paciente();
-//       form.setVisible(true);
-//       this.dispose();
+        agregarConsulta();
+
     }//GEN-LAST:event_btnAgregarConsultaActionPerformed
 
     private void btnNuevoPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPacienteActionPerformed
@@ -387,6 +416,18 @@ public class AgendarCita extends javax.swing.JFrame {
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnNuevoPacienteActionPerformed
+
+    private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
+        char e = evt.getKeyChar();
+        if (this.txtCedula.getText().length() >= 10) {
+            evt.consume();
+            getToolkit().beep();
+        }
+        if (!(e >= '0' && e <= '9')) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtCedulaKeyTyped
 
     /**
      * @param args the command line arguments
