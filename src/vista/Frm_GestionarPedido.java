@@ -22,10 +22,10 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
      * Creates new form Frm_GestionarPedido
      */
     public Frm_GestionarPedido(long id) {
-        initComponents();        
+        initComponents();
         pedidoDAO.setIdConsulta(id);
         cargarCampos();
-        cargarTabla();        
+        cargarTabla();
     }
 
     public void cargarCampos() {
@@ -33,7 +33,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         if (pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()) != null) {
             pedidoDAO.setConsulta(pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()));
             System.out.println(pedidoDAO.getConsulta().getFecha_cita());
-            lblNroPedido.setText("NRO:"+"00"+pedidoDAO.getConsulta().getId_consulta());
+            lblNroPedido.setText("NRO:" + "00" + pedidoDAO.getConsulta().getId_consulta());
             lblFecha.setText(pedidoDAO.getConsulta().getFecha_cita());
             personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getConsulta().getId_medico()));
             lblMedicoSolicitante.setText(personaDAO.getPersona().getNombre() + personaDAO.getPersona().getApellido());
@@ -60,16 +60,21 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
     }
 
     public void guardar() {
-        pedidoDAO.setConsulta(pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()));
-        pedidoDAO.getPedido().setConsulta(pedidoDAO.getConsulta());
-        pedidoDAO.getPedido().setEstado_pedido("PENDIENTE");
-        pedidoDAO.getPedido().setNro_pedido(String.valueOf(Math.random() * 1000));
-        pedidoDAO.getPedido().setListaExamen(pedidoDAO.getPedido().getListaExamen());
-        pedidoDAO.getPedido().setFecha_pedido(pedidoDAO.getConsulta().getFecha_cita());
-        if (pedidoDAO.agregar(pedidoDAO.getPedido())) {
-            JOptionPane.showMessageDialog(null, "Se ha guardado el pedido");
-        } else {
-            JOptionPane.showMessageDialog(null, "Se ha producido un error en guardar.");
+        if (examenesTabla.getRowCount() != 0) {
+            pedidoDAO.setConsulta(pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()));
+            pedidoDAO.getPedido().setConsulta(pedidoDAO.getConsulta());
+            pedidoDAO.getPedido().setEstado_pedido("PENDIENTE");
+            pedidoDAO.getPedido().setNro_pedido(lblNroPedido.getText());
+            pedidoDAO.getPedido().setListaExamen(pedidoDAO.getPedido().getListaExamen());
+            pedidoDAO.getPedido().setFecha_pedido(pedidoDAO.getConsulta().getFecha_cita());
+            if (pedidoDAO.agregar(pedidoDAO.getPedido())) {
+                JOptionPane.showMessageDialog(null, "Se ha guardado el pedido");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Se ha producido un error en guardar.");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Campos vacios, Añada Examenes");
         }
     }
 
@@ -329,8 +334,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        guardar();
-        this.dispose();
+        guardar();        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
