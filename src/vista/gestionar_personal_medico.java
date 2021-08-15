@@ -83,7 +83,8 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
             this.txtUsuario.setText(aux.getUsuario());
             this.txtClave.setText(seguridad.Desencriptar(aux.getClave()));
             this.txtConfirmarClave.setText(seguridad.Desencriptar(aux.getClave()));
-            limpiar();
+            CargarTabla();
+            this.tblPersonalMedico.setEnabled(false);
             this.btnGuardar.setEnabled(true);
             this.btnNuevo.setEnabled(false);
             activa_desactivar(true);
@@ -195,6 +196,7 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
                             cuentaDAO.setCuenta(cuentaDAO.getCuenta());
                             cuentaDAO.agregarCuenta(cuentaDAO.getCuenta());
                             limpiar();
+                            this.tblPersonalMedico.setEnabled(true);
                             this.btnGuardar.setEnabled(false);
                             this.btnNuevo.setEnabled(true);
                             activa_desactivar(false);
@@ -202,7 +204,6 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
                         } else {
                             JOptionPane.showMessageDialog(null, "No existen coincidencias al confirmar su clave, verifique nuevamente", "ERROR: Clave no coincede", JOptionPane.WARNING_MESSAGE);
                         }
-                        CargarTabla();
                     } else {
                         Medico m = buscarMedico();
                         m.setCedula(cedula);
@@ -220,6 +221,7 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
                         m.setEstado_disponibilidad("Disponible");
                         medicoDAO.editarMedico(m);
                         limpiar();
+                        this.tblPersonalMedico.setEnabled(true);
                         this.btnGuardar.setEnabled(false);
                         this.btnNuevo.setEnabled(true);
                         activa_desactivar(false);
@@ -764,6 +766,7 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         this.btnGuardar.setEnabled(true);
         activa_desactivar(true);
+        this.tblPersonalMedico.setEnabled(false);
         this.btnNuevo.setEnabled(false);
     }//GEN-LAST:event_btnNuevoActionPerformed
 

@@ -84,7 +84,7 @@ public class RolDAO {
                 return 3;
             case "ATENCION":
                 return 4;
-            case "ADMINISTRDOR":
+            case "ADMINISTRADOR":
                 return 5;
             default:
                 return 0;
