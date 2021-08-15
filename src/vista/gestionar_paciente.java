@@ -28,6 +28,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
         limpiar();
         CargarTabla();
         this.btnGuardar.setEnabled(false);
+        
         activa_desactivar(false);
     }
 
@@ -48,6 +49,12 @@ public class gestionar_paciente extends javax.swing.JFrame {
         this.cboEstadoCivil.setEnabled(v);
         this.cboGenero.setEnabled(v);
         this.dcFechaNacimiento.setEnabled(v);
+    }
+    
+    public void activar_desactivarBuscar(boolean v) {
+        this.txtBuscar.setEnabled(v);
+        this.cboBuscar.setEnabled(v);
+        this.btnBuscar.setEnabled(v);
     }
 
     public void limpiar() {
@@ -76,6 +83,12 @@ public class gestionar_paciente extends javax.swing.JFrame {
                 }
             }
             limpiar();
+            this.btnGuardar.setEnabled(false);
+            this.btnDarBaja.setEnabled(true);
+            this.btnNuevo.setEnabled(true);
+            this.btnEditar.setEnabled(true);
+            this.tblPersonas.setEnabled(true);
+            activar_desactivarBuscar(true);
             activa_desactivar(false);
         } else {
             JOptionPane.showMessageDialog(null, "Selecciona un registro", "ERROR: No se selecciono un registro.", JOptionPane.WARNING_MESSAGE);
@@ -109,7 +122,15 @@ public class gestionar_paciente extends javax.swing.JFrame {
             this.dcFechaNacimiento.setDate(fechaFormato.parse(tblPersonas.getValueAt(fila, 9).toString()));
             this.btnGuardar.setEnabled(true);
             this.btnNuevo.setEnabled(false);
+            CargarTabla();
+            this.btnGuardar.setEnabled(true);
+            this.btnNuevo.setEnabled(false);
+            this.btnEditar.setEnabled(false);
+            this.btnDarBaja.setEnabled(false);
+            this.btnNuevo.setEnabled(false);
+            this.activar_desactivarBuscar(true);
             activa_desactivar(true);
+            this.tblPersonas.setEnabled(false);
         } else {
             JOptionPane.showMessageDialog(null, "Selecciona un registro", "ERROR: No se selecciono un registro.", JOptionPane.WARNING_MESSAGE);
         }
@@ -148,9 +169,13 @@ public class gestionar_paciente extends javax.swing.JFrame {
                         personaDAO.setPersona(personaDAO.getPersona());
                         personaDAO.agregarPersona(personaDAO.getPersona());
                         limpiar();
-                        this.btnGuardar.setEnabled(false);
-                        this.btnNuevo.setEnabled(true);
-                        activa_desactivar(false);
+                            this.btnGuardar.setEnabled(false);
+                            this.btnNuevo.setEnabled(true);
+                            this.btnEditar.setEnabled(true);
+                            this.btnDarBaja.setEnabled(true);
+                            this.tblPersonas.setEnabled(true);
+                            this.activar_desactivarBuscar(true);
+                            activa_desactivar(false);
                         JOptionPane.showMessageDialog(null, "Se almacenó correctamente");
                     } else {
                         Persona p = buscar();
@@ -171,6 +196,10 @@ public class gestionar_paciente extends javax.swing.JFrame {
                         limpiar();
                         this.btnGuardar.setEnabled(false);
                         this.btnNuevo.setEnabled(true);
+                        this.btnEditar.setEnabled(true);
+                        this.btnDarBaja.setEnabled(true);
+                        this.tblPersonas.setEnabled(true);
+                        this.activar_desactivarBuscar(true);
                         activa_desactivar(false);
                         JOptionPane.showMessageDialog(null, "Se modificó correctamente");
                         sw = "GUARDAR";
@@ -592,8 +621,13 @@ public class gestionar_paciente extends javax.swing.JFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         this.btnGuardar.setEnabled(true);
-        activa_desactivar(true);
+        this.btnEditar.setEnabled(false);
+        this.btnDarBaja.setEnabled(false);
         this.btnNuevo.setEnabled(false);
+        this.activar_desactivarBuscar(false);
+        activa_desactivar(true);
+        this.tblPersonas.setEnabled(false);
+        limpiar();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
