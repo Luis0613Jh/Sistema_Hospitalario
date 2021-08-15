@@ -1,7 +1,10 @@
 package vista;
 
+import controlador.DAO.ConsultaDAO;
 import controlador.DAO.DiagnosticoDAO;
 import javax.swing.JOptionPane;
+import modelo.Consulta_;
+import vista.principales.PaginaPrincipalMedico;
 
 public class ConsultaMedica extends javax.swing.JFrame {
 
@@ -9,10 +12,15 @@ public class ConsultaMedica extends javax.swing.JFrame {
      * Creates new form ConsultaMedica
      */
     private DiagnosticoDAO diagonosticodao = new DiagnosticoDAO();
+    private ConsultaDAO consultaDAO = new ConsultaDAO();
 
     public ConsultaMedica(long id) {
         initComponents();
         diagonosticodao.setIdConsulta(id);
+        CargarDatos();
+    }
+
+    public void CargarDatos() {
         if (diagonosticodao.encontrarConsulta(diagonosticodao.getIdConsulta()) != null) {
             diagonosticodao.setConsulta(diagonosticodao.encontrarConsulta(diagonosticodao.getIdConsulta()));
             txt_fecha.setText(diagonosticodao.getConsulta().getFecha_cita());
@@ -25,6 +33,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
             txt_nombre.setEditable(false);
             txt_cedula.setEditable(false);
             EditarEstadoMedico("NO DISPONIBLE");
+            EditarEstadoConsulta("en proceso");
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo cargar los datos");
         }
@@ -34,6 +43,37 @@ public class ConsultaMedica extends javax.swing.JFrame {
         diagonosticodao.setMedico(diagonosticodao.getMedicodao().buscarMedicoid(diagonosticodao.getConsulta().getId_medico()));
         diagonosticodao.getMedico().setEstado_disponibilidad(estado);
         diagonosticodao.getMedicodao().editarMedico(diagonosticodao.getMedico());
+    }
+
+    public void EditarEstadoConsulta(String estado) {
+        consultaDAO.setConsulta(consultaDAO.encontrarConsulta(diagonosticodao.getIdConsulta()));
+        consultaDAO.getConsulta().setEstado_consulta(estado);
+        consultaDAO.editarConsulta(consultaDAO.getConsulta());
+    }
+
+    public void EmitirConsulta() {
+        if (txt_enfermedad.getText().length() > 0 && txt_motivo.getText().length() > 0 && txt_observación.getText().length() > 0) {
+            diagonosticodao.getDiagnostico().setId_paciente(diagonosticodao.getConsulta().getId_paciente());
+            diagonosticodao.getDiagnostico().setId_medico(diagonosticodao.getConsulta().getId_medico());
+            diagonosticodao.getDiagnostico().setEnfermedad(txt_enfermedad.getText());
+            diagonosticodao.getDiagnostico().setMotivo_consulta(txt_motivo.getText());
+            diagonosticodao.getDiagnostico().setObservacion(txt_observación.getText());
+            diagonosticodao.getDiagnostico().setConsulta(diagonosticodao.getConsulta());
+            if (diagonosticodao.agregarDiagnostico(diagonosticodao.getDiagnostico())) {
+                JOptionPane.showMessageDialog(null, "Diagnostico Guardado");
+                EditarEstadoMedico("DISPONIBLE");
+                EditarEstadoConsulta("finalizado");
+                txt_enfermedad.setEditable(false);
+                txt_motivo.setEditable(false);
+                txt_observación.setEditable(false);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Se ha producido un error.");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Campos vacios");
+        }
     }
 
     /**
@@ -295,26 +335,7 @@ public class ConsultaMedica extends javax.swing.JFrame {
 
     private void btn_emitirConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_emitirConsultaActionPerformed
         // TODO add your handling code here:
-        if (txt_enfermedad.getText().length() > 0 && txt_motivo.getText().length() > 0 && txt_observación.getText().length() > 0) {
-            diagonosticodao.getDiagnostico().setId_paciente(diagonosticodao.getConsulta().getId_paciente());
-            diagonosticodao.getDiagnostico().setId_medico(diagonosticodao.getConsulta().getId_medico());
-            diagonosticodao.getDiagnostico().setEnfermedad(txt_enfermedad.getText());
-            diagonosticodao.getDiagnostico().setMotivo_consulta(txt_motivo.getText());
-            diagonosticodao.getDiagnostico().setObservacion(txt_observación.getText());
-            diagonosticodao.getDiagnostico().setConsulta(diagonosticodao.getConsulta());
-            if (diagonosticodao.agregarDiagnostico(diagonosticodao.getDiagnostico())) {
-                JOptionPane.showMessageDialog(null, "Diagnostico Guardado");
-                EditarEstadoMedico("DISPONIBLE");
-                txt_enfermedad.setEditable(false);
-                txt_motivo.setEditable(false);
-                txt_observación.setEditable(false);
-            } else {
-                JOptionPane.showMessageDialog(null, "Se ha producido un error.");
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Campos vacios");
-        }
+        EmitirConsulta();
     }//GEN-LAST:event_btn_emitirConsultaActionPerformed
 
     private void btn_generarRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarRActionPerformed

@@ -67,4 +67,41 @@ public class ConsultaDAO {
         }
     }
 
+    /**
+     * Devuelve una lista de consultas filtrando por el estado deseado.
+     *
+     * @param estado
+     * @return
+     */
+    public List<Consulta> getConsultasPorEstado(String estado) {
+        return ConsultaJpa.getConsultasPorEstado(estado);
+    }
+
+    /**
+     * Devuelve una lista de consultas filtrando por el estado que no se desea
+     * mostrar.
+     *
+     * @param estado
+     * @return
+     */
+    public List<Consulta> getPedidosPorTodosMenosUnEstado(String estado) {
+        return ConsultaJpa.getPedidosPorTodosMenosUnEstado(estado);
+    }
+
+    /**
+     * Permite editar una consulta en la BD.
+     *
+     * @param consulta
+     * @return
+     */
+    public boolean editarConsulta(Consulta consulta) {
+        try {
+            ConsultaJpa.edit(consulta);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return false;
+        }
+    }
+
 }

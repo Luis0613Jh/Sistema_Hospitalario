@@ -31,7 +31,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         if (pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()) != null) {
             pedidoDAO.setConsulta(pedidoDAO.encontrarConsulta(pedidoDAO.getIdConsulta()));
             System.out.println(pedidoDAO.getConsulta().getFecha_cita());
-            lblNroPedido.setText(String.valueOf(Math.random() * 1000));
+            lblNroPedido.setText("NRO:"+"00"+pedidoDAO.getConsulta().getId_consulta());
             lblFecha.setText(pedidoDAO.getConsulta().getFecha_cita());
             personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getConsulta().getId_medico()));
             lblMedicoSolicitante.setText(personaDAO.getPersona().getNombre() + personaDAO.getPersona().getApellido());
@@ -328,6 +328,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         guardar();
+        this.dispose();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

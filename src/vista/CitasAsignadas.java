@@ -23,9 +23,15 @@ public class CitasAsignadas extends javax.swing.JFrame {
     }
 
     public void cargarTabla() {
-        modelocitas.setListaCitas(consultadao.listarConsultas());
+        modelocitas.setListaCitas(consultadao.getPedidosPorTodosMenosUnEstado("finalizado"));
         jTable1.setModel(modelocitas);
         jTable1.updateUI();
+    }
+    
+    public boolean ControlarEstado(){
+        int fila = jTable1.getSelectedRow();
+        String name = jTable1.getModel().getValueAt(fila, 2).toString();
+        return name.equals("finalizado");
     }
 
     /**
@@ -42,6 +48,7 @@ public class CitasAsignadas extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        btn_actualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Citas Asignadas");
@@ -86,6 +93,13 @@ public class CitasAsignadas extends javax.swing.JFrame {
             }
         });
 
+        btn_actualizar.setText("Actualizar");
+        btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_actualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelCitasAsignadasLayout = new javax.swing.GroupLayout(PanelCitasAsignadas);
         PanelCitasAsignadas.setLayout(PanelCitasAsignadasLayout);
         PanelCitasAsignadasLayout.setHorizontalGroup(
@@ -96,7 +110,9 @@ public class CitasAsignadas extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(PanelCitasAsignadasLayout.createSequentialGroup()
-                        .addGap(278, 278, 278)
+                        .addGap(19, 19, 19)
+                        .addComponent(btn_actualizar)
+                        .addGap(184, 184, 184)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -107,7 +123,9 @@ public class CitasAsignadas extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelCitasAsignadasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_actualizar))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -119,16 +137,21 @@ public class CitasAsignadas extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int fila = jTable1.getSelectedRow();
-        if (fila != -1) {
+        if (fila != -1 && !ControlarEstado()) {            
             String name = jTable1.getModel().getValueAt(fila, 0).toString();
             long id = Long.valueOf(name);
             ConsultaMedica consulta_frm = new ConsultaMedica(id);
             consulta_frm.setVisible(true);
-            this.setVisible(false);
+            this.dispose();
         }else{
-            JOptionPane.showMessageDialog(null,"Seleccione una fila");
+            JOptionPane.showMessageDialog(null,"Seleccione una Cita, o verifique el estado de la cita");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
+        // TODO add your handling code here:
+        cargarTabla();
+    }//GEN-LAST:event_btn_actualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,6 +191,7 @@ public class CitasAsignadas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JPanel PanelCitasAsignadas;
+    private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

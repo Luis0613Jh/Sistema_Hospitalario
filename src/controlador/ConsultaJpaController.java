@@ -21,7 +21,7 @@ import modelo.Consulta;
 public class ConsultaJpaController implements Serializable {
 
     private EntityManagerFactory emf;
-    
+
     public ConsultaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
@@ -29,11 +29,11 @@ public class ConsultaJpaController implements Serializable {
     public ConsultaJpaController() {
         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    
+
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
-    
+
     public void create(Consulta consulta) throws IllegalOrphanException {
         List<String> illegalOrphanMessages = null;
         Receta recetaOrphanCheck = consulta.getReceta();
@@ -309,5 +309,31 @@ public class ConsultaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
+    public List<Consulta> getConsultasPorEstado(String estado) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("SELECT e "
+                    + "FROM Consulta e "
+                    + "WHERE e.estado_consulta = ?1")
+                    .setParameter(1, estado);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public List<Consulta> getPedidosPorTodosMenosUnEstado(String estado) {
+        EntityManager em = getEntityManager();
+        try {
+            Query q = em.createQuery("SELECT e "
+                    + "FROM Consulta e "
+                    + "WHERE NOT e.estado_consulta = ?1")
+                    .setParameter(1, estado);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
 }

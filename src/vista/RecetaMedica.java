@@ -27,9 +27,15 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
     public RecetaMedica(long id) {
         initComponents();
         recetaDAO.setIdConsulta(id);
+        CargarDatos();
+        
+    }
+
+    public void CargarDatos() {
         if (recetaDAO.encontrarConsulta(recetaDAO.getIdConsulta()) != null) {
-            recetaDAO.setConsulta(recetaDAO.encontrarConsulta(recetaDAO.getIdConsulta()));
+            recetaDAO.setConsulta(recetaDAO.encontrarConsulta(recetaDAO.getIdConsulta()));            
             recetaDAO.setReceta(recetaDAO.buscarReceta(recetaDAO.getConsulta().getReceta().getId_receta()));
+            txta_receta.setText(recetaDAO.getReceta().getIndicaciones());
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo cargar los datos");
         }
@@ -180,13 +186,14 @@ public class RecetaMedica extends javax.swing.JFrame implements Printable {
             recetaDAO.getReceta().setFecha(recetaDAO.getConsulta().getFecha_cita());
             recetaDAO.getReceta().setIndicaciones(txta_receta.getText());
             if (recetaDAO.editarReceta(recetaDAO.getReceta())) {
-                JOptionPane.showMessageDialog(null,"Se guardado la receta");
+                JOptionPane.showMessageDialog(null, "Se guardado la receta");
                 txta_receta.setEditable(false);
-            }else{
-                JOptionPane.showMessageDialog(null,"Se ha producido un error.");
-            }          
-        }else{
-            JOptionPane.showMessageDialog(null,"Campos vacios , por favor ingrese una receta.");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Se ha producido un error.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Campos vacios , por favor ingrese una receta.");
         }
     }//GEN-LAST:event_btn_guardarRecetaActionPerformed
 
