@@ -1,8 +1,12 @@
 package modelo.tabla;
 
+import controlador.DAO.MedicoDAO;
+import controlador.DAO.PersonaDAO;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
+import modelo.Medico;
 import modelo.Pedido;
+import modelo.Persona;
 
 public class PedidosTabla extends AbstractTableModel {
 
@@ -55,16 +59,19 @@ public class PedidosTabla extends AbstractTableModel {
                     return pedido.getNro_pedido();
                 }
             case 1:
+                
                 if (pedido.getConsulta().getId_medico() == null) {
                     return "Sin Asignar";
                 } else {
-                    return pedido.getConsulta().getId_medico();
+                    Medico medico = new MedicoDAO().buscarMedicoid(pedido.getConsulta().getId_medico());
+                    return medico.toString();
                 }
             case 2:
                 if (pedido.getConsulta().getId_paciente() == null) {
                     return "Sin Asignar";
                 } else {
-                    return pedido.getConsulta().getId_paciente();
+                    Persona persona = new PersonaDAO().buscarPersonaPorId(pedido.getConsulta().getId_paciente());
+                    return persona.toString();
                 }
             case 3:
                 if (pedido.getEstado_pedido()== null) {

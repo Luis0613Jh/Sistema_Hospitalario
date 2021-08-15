@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controlador.DAO;
 import controlador.PersonaJpaController;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
 import modelo.Persona;
 public class PersonaDAO {
     private PersonaJpaController PersonaJpa = new PersonaJpaController();
@@ -44,18 +38,6 @@ public class PersonaDAO {
         }
     }
 
-    public List<Persona> filtro(Long idRol, String estado) {
-        List<Persona> lista = new ArrayList<Persona>();
-        try {
-            lista = PersonaJpa.getPersonasPorRol(idRol, estado);
-            System.out.println("Si vale");
-            return lista;
-        } catch (Exception e) {
-            System.out.println("Valio VRG: " + e);
-            return lista;
-        }
-    }
-
     public boolean agregarPersona(Persona persona) {
         try {
             PersonaJpa.create(persona);
@@ -76,6 +58,15 @@ public class PersonaDAO {
         }
     }
 
+    /**
+     * Método que devuelve una lista con todos los personas que cumplan con el estado indicado.
+     * @param estado Estado por el cual se van a filtar los personas, es de tipo String.
+     * @return Retorna una lista de tipo List.
+     */
+    public List<Persona> getPersonasPorEstado(String estado) {
+        return PersonaJpa.getPersonasPorEstado(estado);
+    }
+    
     public boolean editarPersona(Persona persona) {
         try {
             PersonaJpa.edit(persona);

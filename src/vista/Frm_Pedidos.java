@@ -18,10 +18,10 @@ public class Frm_Pedidos extends javax.swing.JFrame {
     }
 
     public void verResultadosPedido() {
+        pedidoDAO.setPedido(null);
         if (tblPedidos.getSelectedRow() != - 1) {
             pedidoDAO.setPedido(pedidoDAO.getPedidosPorTodosMenosUnEstado("PENDIENTE").get(tblPedidos.getSelectedRow()));
-            new Frm_Resultados().setVisible(true);
-            pedidoDAO.setPedido(null);
+            new Frm_Resultados(pedidoDAO).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
         }

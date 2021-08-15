@@ -32,7 +32,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
 
     public void CargarTabla() {
         //modelo.setListaPersona(personaDAO.listarPersonas());
-        modelo.setListaPersona(personaDAO.filtro(Long.valueOf(2), "activo"));
+        modelo.setListaPersona(personaDAO.getPersonasPorEstado("activo"));
         tblPersonas.setModel(modelo);
         tblPersonas.updateUI();
     }
