@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.DAO.ConsultaDAO;
+import controlador.DAO.HistorialClinicoDAO;
 import controlador.DAO.MedicoDAO;
 import controlador.DAO.PersonaDAO;
 import java.text.DateFormat;
@@ -8,8 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
+import modelo.HistorialClinico;
 import modelo.Medico;
 import modelo.Persona;
+import modelo.tabla.ModeloTablaPaciente;
 import modelo.tabla.ModeloTablaPersonalMedico;
 import vista.principales.Frm_PrincipalAtencion_Cliente;
 
@@ -17,8 +20,9 @@ public class AgendarCita extends javax.swing.JFrame {
 
     private PersonaDAO personaDAO = new PersonaDAO();
     private ConsultaDAO consultaDAO = new ConsultaDAO();
+    private HistorialClinicoDAO historialClinicoDAO = new HistorialClinicoDAO();
     private MedicoDAO medicoDAO = new MedicoDAO();
-    private ModeloTablaPersonalMedico modelo = new ModeloTablaPersonalMedico();
+    private ModeloTablaPaciente modelo = new ModeloTablaPaciente();
 
     public AgendarCita() {
         initComponents();
@@ -28,7 +32,7 @@ public class AgendarCita extends javax.swing.JFrame {
     }
 
     public void CargarTabla(List lista) {
-        modelo.setListaMedico(lista);
+        modelo.setListaPersona(lista);
         tblMedicos.setModel(modelo);
         tblMedicos.updateUI();
     }
@@ -38,6 +42,16 @@ public class AgendarCita extends javax.swing.JFrame {
             if (personaDAO.buscarPersona((Persona) p).getCedula().equals(cedula)) {
                 System.out.println("SI ENCONTRO PERSONA");
                 return personaDAO.buscarPersona((Persona) p);
+            }
+        }
+        return null;
+    }
+    
+    public HistorialClinico buscarHistorial(String cedula) {
+        for (Object p : historialClinicoDAO.TodosHistorialClinico()) {
+            if (personaDAO.buscarPersona(((HistorialClinico) p).getPersona()).getCedula().equals(cedula)) {
+                System.out.println("SI ENCONTRO HISTORIAL");
+                return (HistorialClinico) p;
             }
         }
         return null;
@@ -52,6 +66,7 @@ public class AgendarCita extends javax.swing.JFrame {
         }
         return null;
     }
+    
 
     public void agregarConsulta() {
         Date date = this.dcFechaConsulta.getDate();
@@ -65,7 +80,7 @@ public class AgendarCita extends javax.swing.JFrame {
             consultaDAO.getConsulta().setHora_cita(this.cboHoraConsulta.getSelectedItem().toString() + ":" + this.cboMinutosConsulta.getSelectedItem().toString());
             consultaDAO.getConsulta().setId_paciente(buscar(cedulaPaciente).getId_persona());
             consultaDAO.getConsulta().setId_medico(buscarMedico(cedulaMedico).getId_persona());
-            consultaDAO.getConsulta().setHistorial_clinico(null);
+            consultaDAO.getConsulta().setHistorial_clinico(buscarHistorial(cedulaPaciente));
             consultaDAO.getConsulta().setReceta(null);
             consultaDAO.setConsulta(consultaDAO.getConsulta());
             consultaDAO.agregarConsulta(consultaDAO.getConsulta());
