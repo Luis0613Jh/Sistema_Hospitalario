@@ -1,9 +1,9 @@
 package vista;
 
 import controlador.DAO.LaboratorioDAO;
-import controlador.DAO.PersonaDAO;
+import controlador.DAO.MedicoDAO;
 import javax.swing.JOptionPane;
-import modelo.Persona;
+import modelo.Medico;
 import modelo.tabla.LaboratoriosTabla;
 import vista.utilidades.UtilidadesVista;
 
@@ -11,7 +11,7 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
     
     private LaboratorioDAO laboratorioDAO = new LaboratorioDAO();
     private LaboratoriosTabla laboratoriosTabla = new LaboratoriosTabla();
-    private PersonaDAO personaDAO = new PersonaDAO();
+    private MedicoDAO medicoDAO = new MedicoDAO();
 
     /**
      * Creates new form Frm_Laboratorio
@@ -23,7 +23,7 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
     }
     
     public void cargarCbxPersonas() {
-        UtilidadesVista.cargarCbxPersonas(cbxEncargado, personaDAO.filtro(Long.valueOf(1), "Disponible"));
+        UtilidadesVista.cargarCbxMedicos(cbxEncargado, medicoDAO.filtrarPor_EstadoDiponibilidad_IdRol(Long.parseLong("3"), "Disponible"));
     }
     
     public void limpiarCampos() {
@@ -58,9 +58,9 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
                 if (!txtNombre.getText().equals("") && !txtDescripcion.getText().equals("")) {
                     laboratorioDAO.getLaboratorio().setNombre_lab(txtNombre.getText());
                     laboratorioDAO.getLaboratorio().setDescripcion_lab(txtDescripcion.getText());
-                    personaDAO.setPersona((Persona) cbxEncargado.getSelectedItem());
-                    laboratorioDAO.getLaboratorio().setId_encargado(personaDAO.getPersona().getId_persona());
-                    personaDAO.setPersona(null);
+                    medicoDAO.setMedico((Medico) cbxEncargado.getSelectedItem());
+                    laboratorioDAO.getLaboratorio().setId_encargado(medicoDAO.getMedico().getId_persona());
+                    medicoDAO.setMedico(null);
                     laboratorioDAO.getLaboratorio().setEstado("activo");
                     if (laboratorioDAO.agregar(laboratorioDAO.getLaboratorio())) {
                         
@@ -82,10 +82,10 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
                     laboratorioDAO.setLaboratorio(laboratorioDAO.listar().get(tblLaboratorios.getSelectedRow()));
                     laboratorioDAO.getLaboratorio().setNombre_lab(txtNombre.getText());
                     laboratorioDAO.getLaboratorio().setDescripcion_lab(txtDescripcion.getText());
-                    personaDAO.setPersona((Persona) cbxEncargado.getSelectedItem());
-                    laboratorioDAO.getLaboratorio().setId_encargado(personaDAO.getPersona().getId_persona());
-                    personaDAO.setPersona(null);
-                    
+                    medicoDAO.setMedico((Medico) cbxEncargado.getSelectedItem());
+                    laboratorioDAO.getLaboratorio().setId_encargado(medicoDAO.getMedico().getId_persona());
+                    medicoDAO.setMedico(null);
+
                     if (laboratorioDAO.editar(laboratorioDAO.getLaboratorio())) {
                         
                         JOptionPane.showMessageDialog(this, "Laboratorio actualizado exitosamente");

@@ -3,9 +3,6 @@ package controlador.DAO;
 import controlador.PersonaJpaController;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
 import modelo.Persona;
 
 public class PersonaDAO {
@@ -42,18 +39,8 @@ public class PersonaDAO {
             return aux;
         }
     }
-    
-    public List<Persona> filtro(Long idRol, String estado) {
-        List<Persona> lista = new ArrayList<Persona>();
-        try {
-            lista = PersonaJpa.getPersonasPorRol(idRol, estado);
-            return lista;
-        } catch (Exception e) {
-            return lista;
-        }
-    }
-    
-    public boolean agregarPersona(Persona persona){
+
+    public boolean agregarPersona(Persona persona) {
         try {
             PersonaJpa.create(persona);
             return true;
@@ -73,8 +60,16 @@ public class PersonaDAO {
         }
     }
 
+    /**
+     * Método que devuelve una lista con todos los personas que cumplan con el estado indicado.
+     * @param estado Estado por el cual se van a filtar los personas, es de tipo String.
+     * @return Retorna una lista de tipo List.
+     */
+    public List<Persona> getPersonasPorEstado(String estado) {
+        return PersonaJpa.getPersonasPorEstado(estado);
+    }
     
-    public boolean editarPersona(Persona persona){
+    public boolean editarPersona(Persona persona) {
         try {
             PersonaJpa.edit(persona);
             return true;

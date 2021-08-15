@@ -261,5 +261,6 @@ public class MedicoJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }    
+    }  
+    
 }

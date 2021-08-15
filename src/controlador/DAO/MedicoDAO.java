@@ -60,8 +60,37 @@ public class MedicoDAO {
         }
     }
 
-    
-    public boolean editarMedico(Medico medico){
+    public List<Medico> filtrarPor_EstadoDiponibilidad_IdRol(Long idRol, String estadoDisponibilidad) {
+        List<Medico> listaMedicos = getMedicosPorEstado("activo");
+        List<Medico> listaMedicosPorEstadoDisponibilidad = new ArrayList<Medico>();
+
+        for (Medico medico : listaMedicos) {
+            if (medico.getEstado_disponibilidad().equalsIgnoreCase(estadoDisponibilidad) && medico.getRol().getId_rol() == idRol) {
+                listaMedicosPorEstadoDisponibilidad.add(medico);
+            }
+        }
+        return listaMedicosPorEstadoDisponibilidad;
+    }
+
+    /**
+     * Método que devuelve una lista con todos los medicos que cumplan con el
+     * estado indicado.
+     *
+     * @param estado Estado por el cual se van a filtar los medicos, es de tipo String.
+     * @return Retorna una lista de tipo List.
+     */
+    public List<Medico> getMedicosPorEstado(String estado) {
+        List<Medico> listaMedicos = listarMedicos();
+        List<Medico> listaMedicosPorEstado = new ArrayList<Medico>();
+        for (Medico medico : listaMedicos) {
+            if(medico.getEstado().equalsIgnoreCase(estado)) {
+                listaMedicosPorEstado.add(medico);
+            }
+        }
+        return listaMedicosPorEstado;
+    }
+
+    public boolean editarMedico(Medico medico) {
         try {
             medicoJpa.edit(medico);
             return true;

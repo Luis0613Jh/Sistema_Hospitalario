@@ -1,5 +1,6 @@
 package vista;
 
+import controlador.DAO.MedicoDAO;
 import controlador.DAO.PedidoDAO;
 import controlador.DAO.PersonaDAO;
 import controlador.utilidades.UtilidadesControlador;
@@ -19,6 +20,7 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
 
     private PedidoDAO pedidoDAO;
     private PersonaDAO personaDAO = new PersonaDAO();
+    private MedicoDAO medicoDAO = new MedicoDAO();
     private ResultadosTabla resultadosTabla = new ResultadosTabla();
 
     /**
@@ -56,9 +58,9 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
         lblFecha.setText(String.valueOf(LocalDate.now()));
 
         // Datos Médico Solicitante
-        personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_medico()));
-        lblMedicoSolicitante.setText(personaDAO.getPersona().toString());
-        personaDAO.setPersona(null);
+        medicoDAO.setMedico(medicoDAO.buscarMedicoid(pedidoDAO.getPedido().getConsulta().getId_medico()));
+        lblMedicoSolicitante.setText(medicoDAO.getMedico().toString());
+        medicoDAO.setMedico(null);
 
         // Datos Paciente
         personaDAO.setPersona(personaDAO.buscarPersonaPorId(pedidoDAO.getPedido().getConsulta().getId_paciente()));
@@ -98,7 +100,7 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblResultados = new javax.swing.JTable();
-        btnCancelar = new javax.swing.JButton();
+        btnVolver = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -188,14 +190,14 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
         jPanel1.add(panelImpresion);
         panelImpresion.setBounds(10, 10, 490, 630);
 
-        btnCancelar.setText("Volver");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                btnVolverActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelar);
-        btnCancelar.setBounds(10, 650, 90, 22);
+        jPanel1.add(btnVolver);
+        btnVolver.setBounds(10, 650, 90, 22);
 
         btnImprimir.setText("Imprimir");
         btnImprimir.addActionListener(new java.awt.event.ActionListener() {
@@ -212,9 +214,10 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        // Código de Cubito
         this.dispose();
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
         imprimir();
@@ -257,8 +260,8 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnImprimir;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

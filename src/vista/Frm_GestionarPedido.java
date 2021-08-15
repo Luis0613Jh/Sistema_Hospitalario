@@ -6,7 +6,6 @@ import controlador.DAO.PersonaDAO;
 import controlador.utilidades.UtilidadesControlador;
 import javax.swing.JOptionPane;
 import modelo.Examen;
-import modelo.tabla.modeloCitas;
 import modelo.tabla.ExamenTabla;
 import vista.utilidades.UtilidadesVista;
 
@@ -14,7 +13,6 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
     private PedidoDAO pedidoDAO = new PedidoDAO();
     private ExamenDAO examenDAO = new ExamenDAO();
-    private modeloCitas modelocitas = new modeloCitas();
     private PersonaDAO personaDAO = new PersonaDAO();
     private ExamenTabla examenesTabla = new ExamenTabla();
 
