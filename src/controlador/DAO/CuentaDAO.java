@@ -20,6 +20,12 @@ public class CuentaDAO {
         this.cuenta = cuenta;
     }
     
+    /**
+     * Método que permite agregar una cuenta.
+     *
+     * @param cuenta Objeto que va a ser agregado al sistema, es de tipo Cuenta.
+     * @return Retorna true si se logró agregar la cuenta, caso contrario, devuelve false.
+     */
     public boolean agregarCuenta(Cuenta cuenta){
         try {
             cuentaJpa.create(cuenta);
@@ -30,6 +36,12 @@ public class CuentaDAO {
         }
     }
     
+    /**
+     * Método que busca la cuenta solicitada.
+     *
+     * @param cuenta Objeto que va a ser buscado en el sistema, es de tipo Cuenta.
+     * @return Retorna Cuenta si se logró encontrar la cuenta, caso contrario, devuelve vacio.
+     */
     public Cuenta buscarCuenta(Cuenta cuenta){
         Cuenta aux = new Cuenta();
         try {
@@ -40,6 +52,11 @@ public class CuentaDAO {
         }
     }
     
+    /**
+     * Método que devuelve una lista con todas las cuentas ingresadas en el sistema.
+     *
+     * @return Retorna una lista de tipo List.
+     */
     public List listarCuentas(){
         List<Cuenta> listaCuenta = new ArrayList<Cuenta>();
         try {
