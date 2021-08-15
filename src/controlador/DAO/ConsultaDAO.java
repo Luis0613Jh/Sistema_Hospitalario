@@ -6,11 +6,12 @@ import java.util.List;
 import modelo.Consulta;
 
 public class ConsultaDAO {
+
     private ConsultaJpaController ConsultaJpa = new ConsultaJpaController();
-    private Consulta consulta; 
+    private Consulta consulta;
 
     public Consulta getConsulta() {
-        if(consulta == null){
+        if (consulta == null) {
             consulta = new Consulta();
         }
         return consulta;
@@ -19,8 +20,15 @@ public class ConsultaDAO {
     public void setConsulta(Consulta consulta) {
         this.consulta = consulta;
     }
-    
-    public boolean agregarConsulta(Consulta consulta){
+
+    /**
+     * Permite agregar nuevas consultas a la BD sin preocuparnos por errores en
+     * el sistema.
+     *
+     * @param consulta
+     * @return
+     */
+    public boolean agregarConsulta(Consulta consulta) {
         try {
             ConsultaJpa.create(consulta);
             return true;
@@ -28,8 +36,13 @@ public class ConsultaDAO {
             return false;
         }
     }
-    
-     public List listarConsultas() {
+
+    /**
+     * Devuelveen una lista todos las consultas guardadas en la BD.
+     *
+     * @return
+     */
+    public List listarConsultas() {
         List<Consulta> listaPersona = new ArrayList<Consulta>();
         try {
             listaPersona = ConsultaJpa.findConsultaEntities();
@@ -39,6 +52,12 @@ public class ConsultaDAO {
         }
     }
 
+    /**
+     * ¨Permite encontrar una consulta en la BD, mediante un ID.
+     *
+     * @param id
+     * @return
+     */
     public Consulta encontrarConsulta(Long id) {
         try {
             return ConsultaJpa.findConsulta(id);
@@ -46,5 +65,5 @@ public class ConsultaDAO {
             return null;
         }
     }
-    
+
 }
