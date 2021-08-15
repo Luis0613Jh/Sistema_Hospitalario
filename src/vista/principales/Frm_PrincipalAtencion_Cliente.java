@@ -144,7 +144,7 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
 
             EsconderPanel();
 
-            gestionar_paciente.PanelGestionarPaciente.setVisible(true);
+            new gestionar_paciente().PanelGestionarPaciente.setVisible(true);
             PanelPrincipalAtencion_Cliente.add(gestionar_paciente.PanelGestionarPaciente);
             PanelPrincipalAtencion_Cliente.updateUI();
         } catch (Exception e) {
@@ -156,7 +156,7 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
 
             EsconderPanel();
 
-            AgendarCita.PanelAgendarCita.setVisible(true);
+            new AgendarCita().PanelAgendarCita.setVisible(true);
             PanelPrincipalAtencion_Cliente.add(AgendarCita.PanelAgendarCita);
             PanelPrincipalAtencion_Cliente.updateUI();
         } catch (Exception e) {

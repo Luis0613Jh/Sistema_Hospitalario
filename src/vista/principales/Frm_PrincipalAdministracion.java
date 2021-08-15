@@ -134,7 +134,7 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
     private void btn_gestionar_PMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_gestionar_PMActionPerformed
        try {
             EsconderPanel();
-            gestionar_personal_medico.PanelGestionar_Personal_Medico.setVisible(true);
+            new gestionar_personal_medico().PanelGestionar_Personal_Medico.setVisible(true);
             PanelPrincipalAdministracion.add(gestionar_personal_medico.PanelGestionar_Personal_Medico);
             PanelPrincipalAdministracion.updateUI();
         } catch (Exception e) {

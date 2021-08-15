@@ -187,7 +187,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
         try {
             EsconderPanel();
 
-            Frm_Laboratorio.PanelLab.setVisible(true);
+           new  Frm_Laboratorio().PanelLab.setVisible(true);
             PanelPLaboratorio.add(Frm_Laboratorio.PanelLab);
             PanelPLaboratorio.updateUI();
         } catch (Exception e) {
@@ -198,7 +198,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
         try {
             EsconderPanel();
 
-            Frm_Categoria.PanelCategoria.setVisible(true);
+            new Frm_Categoria().PanelCategoria.setVisible(true);
             PanelPLaboratorio.add(Frm_Categoria.PanelCategoria);
             PanelPLaboratorio.updateUI();
         } catch (Exception e) {
@@ -209,7 +209,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
         try {
             EsconderPanel();
 
-            Frm_SolicitudPedido.PanelSolP.setVisible(true);
+           new  Frm_SolicitudPedido().PanelSolP.setVisible(true);
             PanelPLaboratorio.add(Frm_SolicitudPedido.PanelSolP);
             PanelPLaboratorio.updateUI();
         } catch (Exception e) {
@@ -219,8 +219,8 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
     private void btn_ExamenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ExamenActionPerformed
         try {
             EsconderPanel();
-
-            Frm_Examenes.PanelExamen.setVisible(true);
+           new  Frm_Examenes().PanelExamen.setVisible(true);
+            //Frm_Examenes.PanelExamen.setVisible(true);
             PanelPLaboratorio.add(Frm_Examenes.PanelExamen);
             PanelPLaboratorio.updateUI();
         } catch (Exception e) {
@@ -231,7 +231,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
         try {
             EsconderPanel();
 
-            Frm_Pedidos.PanelPedido.setVisible(true);
+           new  Frm_Pedidos().PanelPedido.setVisible(true);
             PanelPLaboratorio.add(Frm_Pedidos.PanelPedido);
             PanelPLaboratorio.updateUI();
         } catch (Exception e) {

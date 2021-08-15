@@ -581,6 +581,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDarBajaActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        btnGuardar.setEnabled(true);
         activa_desactivar(true);
         this.btnNuevo.setEnabled(false);
     }//GEN-LAST:event_btnNuevoActionPerformed

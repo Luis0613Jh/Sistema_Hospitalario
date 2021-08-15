@@ -40,6 +40,11 @@ public class historial_clinico extends javax.swing.JFrame {
        // cargarTablaDiagnosticos();
     }
 
+    public void limpiar(){
+    txt_Habito.setText("");
+    txt_tipoSangre.setText("");
+    txt_enfermedad.setText("");
+    }
     public void bloquearDatosPersona() {
         txt_apellido.setEnabled(false);
         txt_cedula.setEnabled(false);
@@ -413,6 +418,7 @@ public class historial_clinico extends javax.swing.JFrame {
         hcDAO.setHc(hcDAO.getHc());
         hcDAO.agregarHC(hcDAO.getHc());
         cargarTabla();
+       limpiar();
         bloquearDatosHC();
 
     }//GEN-LAST:event_btn_agregarTS_HActionPerformed
@@ -438,6 +444,7 @@ public class historial_clinico extends javax.swing.JFrame {
             hcDAO.setHc(hcDAO.getHc());
             hcDAO.editarHC(hcDAO.getHc());
             cargarTabla();
+            limpiar();
             bloquearDatosHC();
 
             tbl_HC.removeRowSelectionInterval(0, tbl_HC.getRowCount() - 1);
@@ -448,6 +455,7 @@ public class historial_clinico extends javax.swing.JFrame {
 
     private void btn_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelarActionPerformed
         bloquearDatosHC();
+        limpiar();
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
     private void tbl_HCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_HCMouseClicked

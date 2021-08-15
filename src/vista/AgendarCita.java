@@ -24,7 +24,7 @@ public class AgendarCita extends javax.swing.JFrame {
         initComponents();
         this.txtNombreApellido.setEditable(false);
         this.txtcedulamedico.setEditable(false);
-        CargarTabla(medicoDAO.listarMedicos());
+        CargarTabla(personaDAO.listarPersonas());
     }
 
     public void CargarTabla(List lista) {
