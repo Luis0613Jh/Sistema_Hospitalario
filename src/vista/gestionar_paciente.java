@@ -2,12 +2,15 @@ package vista;
 
 import controlador.DAO.PersonaDAO;
 import controlador.DAO.RolDAO;
+import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import modelo.Persona;
 import modelo.Rol;
@@ -24,6 +27,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
         initComponents();
         limpiar();
         CargarTabla();
+        this.btnGuardar.setEnabled(false);
         activa_desactivar(false);
     }
 
@@ -41,8 +45,6 @@ public class gestionar_paciente extends javax.swing.JFrame {
         this.txtDireccion.setEnabled(v);
         this.txtTelefono.setEnabled(v);
         this.txtTelefonoAuxiliar.setEnabled(v);
-        this.txtBuscar.setEnabled(v);
-        this.cboBuscar.setEnabled(v);
         this.cboEstadoCivil.setEnabled(v);
         this.cboGenero.setEnabled(v);
         this.dcFechaNacimiento.setEnabled(v);
@@ -61,7 +63,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
         this.cboEstadoCivil.setSelectedIndex(0);
         this.cboGenero.setSelectedIndex(0);
         this.dcFechaNacimiento.setCalendar(null);
-        //CargarTabla();
+        CargarTabla();
     }
 
     public void DarBaja() {
@@ -105,6 +107,8 @@ public class gestionar_paciente extends javax.swing.JFrame {
             this.cboGenero.setSelectedItem(this.tblPersonas.getValueAt(fila, 7).toString());
             this.cboEstadoCivil.setSelectedItem(this.tblPersonas.getValueAt(fila, 8).toString());
             this.dcFechaNacimiento.setDate(fechaFormato.parse(tblPersonas.getValueAt(fila, 9).toString()));
+            this.btnGuardar.setEnabled(true);
+            this.btnNuevo.setEnabled(false);
             activa_desactivar(true);
         } else {
             JOptionPane.showMessageDialog(null, "Selecciona un registro", "ERROR: No se selecciono un registro.", JOptionPane.WARNING_MESSAGE);
@@ -112,51 +116,70 @@ public class gestionar_paciente extends javax.swing.JFrame {
     }
 
     public void Guardar() {
-        if (!this.txtCedula.equals("") && !this.txtNombre.equals("") && !this.txtApellido.equals("") && !this.txtCorreo.equals("") && !this.txtDireccion.equals("")
-                && !this.txtTelefono.equals("") && !this.txtTelefonoAuxiliar.equals("")) {
-            Date date = this.dcFechaNacimiento.getDate();
-            DateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
-            String fecha = fechaFormato.format(date);
-            if (sw.equals("GUARDAR")) {
-                personaDAO.setPersona(null);
-                personaDAO.getPersona().setCedula(this.txtCedula.getText().trim());
-                personaDAO.getPersona().setNombre(this.txtNombre.getText().trim());
-                personaDAO.getPersona().setApellido(this.txtApellido.getText().trim());
-                personaDAO.getPersona().setCorreo(this.txtCorreo.getText().trim());
-                personaDAO.getPersona().setCelular(this.txtTelefono.getText().trim());
-                personaDAO.getPersona().setContacto_auxiliar(this.txtTelefonoAuxiliar.getText().trim());
-                personaDAO.getPersona().setDireccion(this.txtDireccion.getText().trim());
-                personaDAO.getPersona().setGenero(this.cboGenero.getSelectedItem().toString());
-                personaDAO.getPersona().setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
-                personaDAO.getPersona().setFecha_nacimiento(fecha);
-                personaDAO.getPersona().setEstado("activo");
-                personaDAO.getPersona().setRol(rolDAO.buscarRolId(1));
-                personaDAO.getPersona().setEstado_disponibilidad("");
-                personaDAO.setPersona(personaDAO.getPersona());
-                personaDAO.agregarPersona(personaDAO.getPersona());
-                limpiar();
-                activa_desactivar(false);
-                JOptionPane.showMessageDialog(null, "Se almacenó correctamente");
+        String cedula = this.txtCedula.getText().trim();
+        String nombre = this.txtNombre.getText().trim();
+        String apellido = this.txtApellido.getText().trim();
+        String telefono = this.txtTelefono.getText().trim();
+        String telefonoAuxiliar = this.txtTelefonoAuxiliar.getText().trim();
+        String correo = this.txtCorreo.getText().trim();
+        String direccion = this.txtDireccion.getText().trim();
+        Date date = this.dcFechaNacimiento.getDate();
+        if (!cedula.equals("") && !nombre.equals("") && !apellido.equals("") && !correo.equals("") && !direccion.equals("") && !telefono.equals("")
+                && !telefonoAuxiliar.equals("") && date != null) {
+            if (personaDAO.verificarLongitudDiez(cedula, telefono, telefonoAuxiliar)) {
+                if (personaDAO.verificarCorreo(correo)) {
+                    DateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
+                    String fecha = fechaFormato.format(date);
+                    if (sw.equals("GUARDAR")) {
+                        personaDAO.setPersona(null);
+                        personaDAO.getPersona().setCedula(cedula);
+                        personaDAO.getPersona().setNombre(nombre);
+                        personaDAO.getPersona().setApellido(apellido);
+                        personaDAO.getPersona().setCorreo(correo);
+                        personaDAO.getPersona().setCelular(telefono);
+                        personaDAO.getPersona().setContacto_auxiliar(telefonoAuxiliar);
+                        personaDAO.getPersona().setDireccion(direccion);
+                        personaDAO.getPersona().setGenero(this.cboGenero.getSelectedItem().toString());
+                        personaDAO.getPersona().setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
+                        personaDAO.getPersona().setFecha_nacimiento(fecha);
+                        personaDAO.getPersona().setEstado("activo");
+                        personaDAO.getPersona().setRol(rolDAO.buscarRolId(1));
+                        personaDAO.getPersona().setEstado_disponibilidad("");
+                        personaDAO.setPersona(personaDAO.getPersona());
+                        personaDAO.agregarPersona(personaDAO.getPersona());
+                        limpiar();
+                        this.btnGuardar.setEnabled(false);
+                        this.btnNuevo.setEnabled(true);
+                        activa_desactivar(false);
+                        JOptionPane.showMessageDialog(null, "Se almacenó correctamente");
+                    } else {
+                        Persona p = buscar();
+                        p.setCedula(cedula);
+                        p.setNombre(nombre);
+                        p.setApellido(apellido);
+                        p.setCorreo(correo);
+                        p.setCelular(telefono);
+                        p.setContacto_auxiliar(telefonoAuxiliar);
+                        p.setDireccion(direccion);
+                        p.setGenero(this.cboGenero.getSelectedItem().toString());
+                        p.setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
+                        p.setFecha_nacimiento(fecha);
+                        p.setEstado("activo");
+                        p.setRol(rolDAO.buscarRolId(1));
+                        p.setEstado_disponibilidad("");
+                        personaDAO.editarPersona(p);
+                        limpiar();
+                        this.btnGuardar.setEnabled(false);
+                        this.btnNuevo.setEnabled(true);
+                        activa_desactivar(false);
+                        JOptionPane.showMessageDialog(null, "Se modificó correctamente");
+                        sw = "GUARDAR";
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El correo ingresado no es valido", "ERROR: Formato Correo", JOptionPane.WARNING_MESSAGE);
+                }
             } else {
-                Persona p = buscar();
-                p.setCedula(this.txtCedula.getText().trim());
-                p.setNombre(this.txtNombre.getText().trim());
-                p.setApellido(this.txtApellido.getText().trim());
-                p.setCorreo(this.txtCorreo.getText().trim());
-                p.setCelular(this.txtTelefono.getText().trim());
-                p.setContacto_auxiliar(this.txtTelefonoAuxiliar.getText().trim());
-                p.setDireccion(this.txtDireccion.getText().trim());
-                p.setGenero(this.cboGenero.getSelectedItem().toString());
-                p.setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
-                p.setFecha_nacimiento(fecha);
-                p.setEstado("activo");
-                p.setRol(rolDAO.buscarRolId(1));
-                p.setEstado_disponibilidad("");
-                personaDAO.editarPersona(p);
-                limpiar();
-                activa_desactivar(false);
-                JOptionPane.showMessageDialog(null, "Se modificó correctamente");
-                sw = "GUARDAR";
+                JOptionPane.showMessageDialog(null, "Los campos de Cédula o Telonos deben tener 10 números", "ERROR: Formato Cédula/Telefono", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Llena correctamente los campos", "ERROR: Datos Personales", JOptionPane.WARNING_MESSAGE);
@@ -223,7 +246,50 @@ public class gestionar_paciente extends javax.swing.JFrame {
 
         jLabel7.setText("Estado Civil:");
 
+        txtCedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCedulaKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedulaKeyTyped(evt);
+            }
+        });
+
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
+
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
+            }
+        });
+
         jLabel8.setText("Apellido:");
+
+        txtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidoKeyTyped(evt);
+            }
+        });
+
+        txtTelefonoAuxiliar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelefonoAuxiliarActionPerformed(evt);
+            }
+        });
+        txtTelefonoAuxiliar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoAuxiliarKeyTyped(evt);
+            }
+        });
 
         cboEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Soltero/a", "Casado/a", "Divorciado/a", "Viudo/a" }));
 
@@ -516,7 +582,72 @@ public class gestionar_paciente extends javax.swing.JFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         activa_desactivar(true);
+        this.btnNuevo.setEnabled(false);
     }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
+        char e = evt.getKeyChar();
+        if (this.txtCedula.getText().length() >= 10) {
+            evt.consume();
+            getToolkit().beep();
+        }
+        if (!(e >= '0' && e <= '9')) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtCedulaKeyTyped
+
+    private void txtCedulaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedulaKeyPressed
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        char e = evt.getKeyChar();
+        if (this.txtTelefono.getText().length() >= 10) {
+            evt.consume();
+            getToolkit().beep();
+        }
+        if (!(e >= '0' && e <= '9')) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtTelefonoKeyTyped
+
+    private void txtTelefonoAuxiliarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoAuxiliarActionPerformed
+
+    }//GEN-LAST:event_txtTelefonoAuxiliarActionPerformed
+
+    private void txtTelefonoAuxiliarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoAuxiliarKeyTyped
+        char e = evt.getKeyChar();
+        if (this.txtTelefonoAuxiliar.getText().length() >= 10) {
+            evt.consume();
+            getToolkit().beep();
+        }
+        if (!(e >= '0' && e <= '9')) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtTelefonoAuxiliarKeyTyped
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+        
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        char e = evt.getKeyChar();
+        if (!Character.isLetter(e) && (e != (char) KeyEvent.VK_BACK_SPACE) && (e != (char) KeyEvent.VK_SPACE)) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
+        char e = evt.getKeyChar();
+        if (!Character.isLetter(e) && (e != (char) KeyEvent.VK_BACK_SPACE) && (e != (char) KeyEvent.VK_SPACE)) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtApellidoKeyTyped
 
     /**
      * @param args the command line arguments

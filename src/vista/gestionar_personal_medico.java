@@ -2,11 +2,13 @@ package vista;
 
 import controlador.DAO.CuentaDAO;
 import controlador.DAO.MedicoDAO;
+import controlador.DAO.PersonaDAO;
 import controlador.DAO.RolDAO;
 import javax.swing.JOptionPane;
 import modelo.Persona;
 import modelo.Rol;
 import controlador.Seguridad;
+import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +22,7 @@ import modelo.tabla.ModeloTablaPersonalMedico;
 public class gestionar_personal_medico extends javax.swing.JFrame {
 
     private MedicoDAO medicoDAO = new MedicoDAO();
+    private PersonaDAO personaDAO = new PersonaDAO();
     private CuentaDAO cuentaDAO = new CuentaDAO();
     private RolDAO rolDAO = new RolDAO();
     private ModeloTablaPersonalMedico modelo = new ModeloTablaPersonalMedico();
@@ -29,21 +32,8 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
     public gestionar_personal_medico() {
         initComponents();
         CargarTabla();
-    }
-
-    public int asignarValorRol(String rol) {
-        switch (rol) {
-            case "MEDICO":
-                return 2;
-            case "LABORATORISTA":
-                return 3;
-            case "ATENCION":
-                return 4;
-            case "ADMINISTRDOR":
-                return 5;
-            default:
-                return 0;
-        }
+        this.btnGuardar.setEnabled(false);
+        activa_desactivar(false);
     }
 
     public void CargarTabla() {
@@ -51,7 +41,7 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
         tblPersonalMedico.setModel(modelo);
         tblPersonalMedico.updateUI();
     }
-    
+
     public void activa_desactivar(boolean v) {
         this.txtCedula.setEnabled(v);
         this.txtNombre.setEnabled(v);
@@ -93,7 +83,10 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
             this.txtUsuario.setText(aux.getUsuario());
             this.txtClave.setText(seguridad.Desencriptar(aux.getClave()));
             this.txtConfirmarClave.setText(seguridad.Desencriptar(aux.getClave()));
-            CargarTabla();
+            limpiar();
+            this.btnGuardar.setEnabled(true);
+            this.btnNuevo.setEnabled(false);
+            activa_desactivar(true);
         } else {
             JOptionPane.showMessageDialog(null, "Selecciona un registro", "ERROR: No se selecciono un registro.", JOptionPane.WARNING_MESSAGE);
         }
@@ -122,8 +115,8 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
         }
         return null;
     }
-    
-    public void limpiar(){
+
+    public void limpiar() {
         this.txtCedula.setText("");
         this.txtNombre.setText("");
         this.txtApellido.setText("");
@@ -147,74 +140,97 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
     public void DarBaja() {
         int fila = this.tblPersonalMedico.getSelectedRow();
         if (fila > -1) {
-        for (Object p : medicoDAO.listarMedicos()) {
-            if (medicoDAO.buscarMedico((Medico) p).getCedula().equals(this.tblPersonalMedico.getValueAt(fila, 0).toString())) {
-                ((Persona) p).setEstado("inactivo");
-                medicoDAO.editarMedico((Medico) p);
+            for (Object p : medicoDAO.listarMedicos()) {
+                if (medicoDAO.buscarMedico((Medico) p).getCedula().equals(this.tblPersonalMedico.getValueAt(fila, 0).toString())) {
+                    ((Persona) p).setEstado("inactivo");
+                    medicoDAO.editarMedico((Medico) p);
+                }
             }
-        }
-        CargarTabla();
+            limpiar();
+            activa_desactivar(false);
         } else {
             JOptionPane.showMessageDialog(null, "Selecciona un registro", "ERROR: No se selecciono un registro.", JOptionPane.WARNING_MESSAGE);
         }
     }
 
     public void Guardar() {
-        if (!this.txtCedula.equals("") && !this.txtNombre.equals("") && !this.txtApellido.equals("") && !this.txtCorreo.equals("") && !this.txtDireccion.equals("")
-                && !this.txtTelefono.equals("") && !this.txtTelefonoAuxiliar.equals("")) {
-            Date date = this.dcFechaNacimiento.getDate();
+        String cedula = this.txtCedula.getText().trim();
+        String nombre = this.txtNombre.getText().trim();
+        String apellido = this.txtApellido.getText().trim();
+        String telefono = this.txtTelefono.getText().trim();
+        String telefonoAuxiliar = this.txtTelefonoAuxiliar.getText().trim();
+        String correo = this.txtCorreo.getText().trim();
+        String direccion = this.txtDireccion.getText().trim();
+        String clave = this.txtClave.getText();
+        Date date = this.dcFechaNacimiento.getDate();
+        if (!cedula.equals("") && !nombre.equals("") && !apellido.equals("") && !correo.equals("") && !direccion.equals("") && !telefono.equals("")
+                && !telefonoAuxiliar.equals("") && date != null) {
             DateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
             String fecha = fechaFormato.format(date);
-            if (sw.equals("GUARDAR")) {
-                medicoDAO.setMedico(null);
-                medicoDAO.getMedico().setCedula(this.txtCedula.getText().trim());
-                medicoDAO.getMedico().setNombre(this.txtNombre.getText().trim());
-                medicoDAO.getMedico().setApellido(this.txtApellido.getText().trim());
-                medicoDAO.getMedico().setCorreo(this.txtCorreo.getText().trim());
-                medicoDAO.getMedico().setCelular(this.txtTelefono.getText().trim());
-                medicoDAO.getMedico().setContacto_auxiliar(this.txtTelefonoAuxiliar.getText().trim());
-                medicoDAO.getMedico().setDireccion(this.txtDireccion.getText().trim());
-                medicoDAO.getMedico().setGenero(this.cboGenero.getSelectedItem().toString());
-                medicoDAO.getMedico().setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
-                medicoDAO.getMedico().setFecha_nacimiento(fecha);
-                medicoDAO.getMedico().setEstado("activo");
-                medicoDAO.getMedico().setRol(rolDAO.buscarRolId(asignarValorRol(this.cboRol.getSelectedItem().toString())));
-                medicoDAO.getMedico().setEstado_disponibilidad("Disponible");
-                medicoDAO.getMedico().setEspecialidad(this.cboEspecialidad.getSelectedItem().toString());
-                medicoDAO.setMedico(medicoDAO.getMedico());
-                if (this.txtClave.getText().equals(this.txtConfirmarClave.getText())) {
-                    medicoDAO.agregarMedico(medicoDAO.getMedico());
-                    cuentaDAO.setCuenta(null);
-                    cuentaDAO.getCuenta().setUsuario(this.txtUsuario.getText());
-                    cuentaDAO.getCuenta().setClave(seguridad.Encriptar(this.txtClave.getText()));
-                    cuentaDAO.getCuenta().setPersona(medicoDAO.getMedico());
-                    cuentaDAO.setCuenta(cuentaDAO.getCuenta());
-                    cuentaDAO.agregarCuenta(cuentaDAO.getCuenta());
-                    limpiar();
-                    JOptionPane.showMessageDialog(null, "Se almacenó correctamente");
+            if (personaDAO.verificarLongitudDiez(cedula, telefono, telefonoAuxiliar)) {
+                if (personaDAO.verificarCorreo(correo)) {
+                    if (sw.equals("GUARDAR")) {
+                        medicoDAO.setMedico(null);
+                        medicoDAO.getMedico().setCedula(cedula);
+                        medicoDAO.getMedico().setNombre(nombre);
+                        medicoDAO.getMedico().setApellido(apellido);
+                        medicoDAO.getMedico().setCorreo(correo);
+                        medicoDAO.getMedico().setCelular(telefono);
+                        medicoDAO.getMedico().setContacto_auxiliar(telefonoAuxiliar);
+                        medicoDAO.getMedico().setDireccion(direccion);
+                        medicoDAO.getMedico().setGenero(this.cboGenero.getSelectedItem().toString());
+                        medicoDAO.getMedico().setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
+                        medicoDAO.getMedico().setFecha_nacimiento(fecha);
+                        medicoDAO.getMedico().setEstado("activo");
+                        medicoDAO.getMedico().setRol(rolDAO.buscarRolId(rolDAO.asignarValorRol(this.cboRol.getSelectedItem().toString())));
+                        medicoDAO.getMedico().setEstado_disponibilidad("Disponible");
+                        medicoDAO.getMedico().setEspecialidad(this.cboEspecialidad.getSelectedItem().toString());
+                        medicoDAO.setMedico(medicoDAO.getMedico());
+                        if (clave.equals(this.txtConfirmarClave.getText())) {
+                            medicoDAO.agregarMedico(medicoDAO.getMedico());
+                            cuentaDAO.setCuenta(null);
+                            cuentaDAO.getCuenta().setUsuario(this.txtUsuario.getText());
+                            cuentaDAO.getCuenta().setClave(seguridad.Encriptar(clave));
+                            cuentaDAO.getCuenta().setPersona(medicoDAO.getMedico());
+                            cuentaDAO.setCuenta(cuentaDAO.getCuenta());
+                            cuentaDAO.agregarCuenta(cuentaDAO.getCuenta());
+                            limpiar();
+                            this.btnGuardar.setEnabled(false);
+                            this.btnNuevo.setEnabled(true);
+                            activa_desactivar(false);
+                            JOptionPane.showMessageDialog(null, "Se almacenó correctamente");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No existen coincidencias al confirmar su clave, verifique nuevamente", "ERROR: Clave no coincede", JOptionPane.WARNING_MESSAGE);
+                        }
+                        CargarTabla();
+                    } else {
+                        Medico m = buscarMedico();
+                        m.setCedula(cedula);
+                        m.setNombre(nombre);
+                        m.setApellido(apellido);
+                        m.setCorreo(correo);
+                        m.setCelular(telefono);
+                        m.setContacto_auxiliar(telefonoAuxiliar);
+                        m.setDireccion(direccion);
+                        m.setGenero(this.cboGenero.getSelectedItem().toString());
+                        m.setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
+                        m.setFecha_nacimiento(fecha);
+                        m.setEstado("activo");
+                        m.setRol(rolDAO.buscarRolId(rolDAO.asignarValorRol(this.cboRol.getSelectedItem().toString())));
+                        m.setEstado_disponibilidad("Disponible");
+                        medicoDAO.editarMedico(m);
+                        limpiar();
+                        this.btnGuardar.setEnabled(false);
+                        this.btnNuevo.setEnabled(true);
+                        activa_desactivar(false);
+                        JOptionPane.showMessageDialog(null, "Se modificó correctamente");
+                        sw = "GUARDAR";
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null, "No existen coincidencias al confirmar su clave, verifique nuevamente", "ERROR: Confirmar Clave de Usuario", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "El correo ingresado no es valido", "ERROR: Formato Correo", JOptionPane.WARNING_MESSAGE);
                 }
-                CargarTabla();
             } else {
-                Medico m = buscarMedico();
-                m.setCedula(this.txtCedula.getText().trim());
-                m.setNombre(this.txtNombre.getText().trim());
-                m.setApellido(this.txtApellido.getText().trim());
-                m.setCorreo(this.txtCorreo.getText().trim());
-                m.setCelular(this.txtTelefono.getText().trim());
-                m.setContacto_auxiliar(this.txtTelefonoAuxiliar.getText().trim());
-                m.setDireccion(this.txtDireccion.getText().trim());
-                m.setGenero(this.cboGenero.getSelectedItem().toString());
-                m.setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
-                m.setFecha_nacimiento(fecha);
-                m.setEstado("activo");
-                m.setRol(rolDAO.buscarRolId(1));
-                m.setEstado_disponibilidad("Disponible");
-                medicoDAO.editarMedico(m);
-                limpiar();
-                JOptionPane.showMessageDialog(null, "Se modificó correctamente");
-                sw = "GUARDAR";
+                JOptionPane.showMessageDialog(null, "Los campos de Cédula o Telonos deben tener 10 números", "ERROR: Formato Cédula/Telefono", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Llena correctamente los campos", "ERROR: Datos Personales", JOptionPane.WARNING_MESSAGE);
@@ -296,7 +312,37 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
 
         jLabel7.setText("Estado Civil:");
 
+        txtCedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedulaKeyTyped(evt);
+            }
+        });
+
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
+
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyTyped(evt);
+            }
+        });
+
         jLabel8.setText("Apellido:");
+
+        txtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidoKeyTyped(evt);
+            }
+        });
+
+        txtTelefonoAuxiliar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefonoAuxiliarKeyTyped(evt);
+            }
+        });
 
         cboEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Soltero/a", "Casado/a", "Divorciado/a", "Viudo/a" }));
 
@@ -475,6 +521,11 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -644,6 +695,64 @@ public class gestionar_personal_medico extends javax.swing.JFrame {
             Logger.getLogger(gestionar_personal_medico.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
+        char e = evt.getKeyChar();
+        if (this.txtCedula.getText().length() >= 10) {
+            evt.consume();
+            getToolkit().beep();
+        }
+        if (!(e >= '0' && e <= '9')) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtCedulaKeyTyped
+
+    private void txtTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyTyped
+        char e = evt.getKeyChar();
+        if (this.txtTelefono.getText().length() >= 10) {
+            evt.consume();
+            getToolkit().beep();
+        }
+        if (!(e >= '0' && e <= '9')) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtTelefonoKeyTyped
+
+    private void txtTelefonoAuxiliarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoAuxiliarKeyTyped
+        char e = evt.getKeyChar();
+        if (this.txtTelefonoAuxiliar.getText().length() >= 10) {
+            evt.consume();
+            getToolkit().beep();
+        }
+        if (!(e >= '0' && e <= '9')) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtTelefonoAuxiliarKeyTyped
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        char e = evt.getKeyChar();
+        if (!Character.isLetter(e) && (e != (char) KeyEvent.VK_BACK_SPACE) && (e != (char) KeyEvent.VK_SPACE)) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
+        char e = evt.getKeyChar();
+        if (!Character.isLetter(e) && (e != (char) KeyEvent.VK_BACK_SPACE) && (e != (char) KeyEvent.VK_SPACE)) {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtApellidoKeyTyped
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        this.btnGuardar.setEnabled(true);
+        activa_desactivar(true);
+        this.btnNuevo.setEnabled(false);
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     /**
      * @param args the command line arguments

@@ -3,6 +3,9 @@ package controlador.DAO;
 import controlador.PersonaJpaController;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import modelo.Persona;
 
 public class PersonaDAO {
@@ -78,6 +81,34 @@ public class PersonaDAO {
         } catch (Exception e) {
             System.out.println("Error: "+e);
             return false;
+        }
+    }
+    
+    public boolean verificarCorreo(String correo){
+         Pattern pattern = Pattern
+                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+         if(pattern.matcher(correo).find()){
+              return true;
+         }else{
+             //JOptionPane.showMessageDialog(null, "El correo ingresado no es valido", "ERROR: Formato Correo", JOptionPane.WARNING_MESSAGE);
+              return false;
+         }
+    }
+    
+    public boolean verificarLongitudCedula(String cedula){
+        if(cedula.length() == 10){
+            return true; 
+        }else{
+            return false;   
+        }
+    }
+    
+    public boolean verificarLongitudDiez(String cedula, String telefono, String telefonoAuxiliar){
+        if(cedula.length() == 10 && telefono.length() == 10 && telefonoAuxiliar.length() == 10){
+            return true; 
+        }else{
+            return false;   
         }
     }
 }
