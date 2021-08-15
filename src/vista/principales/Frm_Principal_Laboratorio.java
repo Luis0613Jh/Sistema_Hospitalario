@@ -286,7 +286,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel PanelPLaboratorio;
+    public static javax.swing.JPanel PanelPLaboratorio;
     private javax.swing.JButton btn_Examen;
     private javax.swing.JButton btn_Pedido;
     private javax.swing.JButton btn_SolPedido;

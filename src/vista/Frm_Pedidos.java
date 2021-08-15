@@ -43,6 +43,10 @@ public class Frm_Pedidos extends javax.swing.JFrame {
         tblPedidos.updateUI();
     }
 
+    public void actualizar() {
+        cargarTabla();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,6 +62,7 @@ public class Frm_Pedidos extends javax.swing.JFrame {
         tblPedidos = new javax.swing.JTable();
         btnVerDetalles = new javax.swing.JButton();
         btnVerResultados = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +95,13 @@ public class Frm_Pedidos extends javax.swing.JFrame {
             }
         });
 
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -101,6 +113,8 @@ public class Frm_Pedidos extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(btnVerResultados)
+                .addGap(85, 85, 85)
+                .addComponent(btnActualizar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnVerDetalles)
                 .addGap(34, 34, 34))
@@ -113,7 +127,8 @@ public class Frm_Pedidos extends javax.swing.JFrame {
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVerDetalles)
-                    .addComponent(btnVerResultados))
+                    .addComponent(btnVerResultados)
+                    .addComponent(btnActualizar))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -147,6 +162,10 @@ public class Frm_Pedidos extends javax.swing.JFrame {
     private void btnVerResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerResultadosActionPerformed
         verResultadosPedido();
     }//GEN-LAST:event_btnVerResultadosActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        actualizar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,6 +211,7 @@ public class Frm_Pedidos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JPanel PanelPedido;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnVerDetalles;
     private javax.swing.JButton btnVerResultados;
     private javax.swing.JPanel jPanel3;

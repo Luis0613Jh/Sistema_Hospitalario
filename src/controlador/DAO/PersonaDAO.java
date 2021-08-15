@@ -3,6 +3,7 @@ package controlador.DAO;
 import controlador.PersonaJpaController;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import modelo.Persona;
 
 public class PersonaDAO {

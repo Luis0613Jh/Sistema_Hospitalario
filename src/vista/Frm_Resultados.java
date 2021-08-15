@@ -35,7 +35,7 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
         initComponents();
         cargarCampos();
     }
-
+    
     public void imprimir() {
         try {
             PrinterJob pinterJob = PrinterJob.getPrinterJob();
