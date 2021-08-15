@@ -23,7 +23,7 @@ public class CitasAsignadas extends javax.swing.JFrame {
     }
 
     public void cargarTabla() {
-        modelocitas.setListaCitas(consultadao.getConsultasPorEstado("pendiente"));
+        modelocitas.setListaCitas(consultadao.getPedidosPorTodosMenosUnEstado("finalizado"));
         jTable1.setModel(modelocitas);
         jTable1.updateUI();
     }
