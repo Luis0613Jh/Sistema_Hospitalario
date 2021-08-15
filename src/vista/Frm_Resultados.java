@@ -41,8 +41,10 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
             boolean verificarImpresion = pinterJob.printDialog();
             if (verificarImpresion) {
                 pinterJob.print();
-                pedidoDAO.getPedido().setEstado_pedido("FINALIZADO");
-                pedidoDAO.editar(pedidoDAO.getPedido());
+                if (!pedidoDAO.getPedido().getEstado_pedido().equalsIgnoreCase("FINALIZADO")) {
+                    pedidoDAO.getPedido().setEstado_pedido("FINALIZADO");
+                    pedidoDAO.editar(pedidoDAO.getPedido());
+                }
             }
         } catch (PrinterException e) {
             JOptionPane.showMessageDialog(null, "No se pudo imprimir los resultados, por favor, intente nuevamente", "ERROR EN LA IMPRESIÓN\n " + e, JOptionPane.INFORMATION_MESSAGE);
@@ -63,7 +65,7 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
         lblPaciente.setText(personaDAO.getPersona().toString());
         lblEdad.setText(String.valueOf(UtilidadesControlador.determinarEdad(personaDAO.getPersona().getFecha_nacimiento())));
         personaDAO.setPersona(null);
-        
+
         cargarTabla();
     }
 
