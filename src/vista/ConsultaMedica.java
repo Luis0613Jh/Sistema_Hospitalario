@@ -8,7 +8,6 @@ package vista;
 import controlador.DAO.DiagnosticoDAO;
 import javax.crypto.AEADBadTagException;
 import javax.swing.JOptionPane;
-import modelo.Consulta_;
 
 public class ConsultaMedica extends javax.swing.JFrame {
 

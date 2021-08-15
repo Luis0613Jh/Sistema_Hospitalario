@@ -54,7 +54,7 @@ PersonaDAO personaDAO = new PersonaDAO();
     @Override
     public Object getValueAt(int fila, int columna) {
         Diagnostico diagnostico = listaDiagnosticos.get(fila);
-        
+
        switch (columna) {
             case 0:
                 if (diagnostico.getConsulta().getId_medico()== null) {

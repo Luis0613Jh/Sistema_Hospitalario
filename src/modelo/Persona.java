@@ -204,7 +204,7 @@ public class Persona implements Serializable {
 
     @Override
     public String toString() {
-        return nombre + apellido + " - " + cedula;
+        return nombre + " " + apellido + " - " + cedula;
     }
 
 }

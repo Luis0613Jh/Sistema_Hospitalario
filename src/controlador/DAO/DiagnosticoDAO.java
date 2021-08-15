@@ -128,6 +128,7 @@ public class DiagnosticoDAO {
     /**
      * Devuelveen una lista todos los Diagnosticos guardadas en la BD.
      *
+     * @param id_persona
      * @return
      */
     public List<Diagnostico> diagnosticoPorPersona(Long id_persona) {

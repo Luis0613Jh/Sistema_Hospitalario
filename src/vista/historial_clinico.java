@@ -22,22 +22,25 @@ public class historial_clinico extends javax.swing.JFrame {
     
     Long idPersona;
     public historial_clinico() {
-        initComponents();
-        bloquearDatosPersona();
-        bloquearDatosHC();
-        cargarTabla();
-        cargarPersona();
+//        initComponents();
+//        bloquearDatosPersona();
+//        bloquearDatosHC();
+//        cargarTabla();
+//        cargarPersona();
        // cargarTablaDiagnosticos();
     }
     
     public historial_clinico(Long idPersona) {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
+        
         this.idPersona = idPersona;
         bloquearDatosPersona();
         bloquearDatosHC();
         cargarTabla();
         cargarPersona();
-       // cargarTablaDiagnosticos();
+        cargarTablaDiagnosticos();
     }
 
     public void limpiar(){
@@ -77,8 +80,8 @@ public class historial_clinico extends javax.swing.JFrame {
     
     public void cargarTablaDiagnosticos() {
         hcdt.setListaDiagnosticos(dDAO.diagnosticoPorPersona(idPersona)); // cambiar por variable global
-        tbl_HC.setModel(mhc);
-        tbl_HC.updateUI();
+        tbl_diagnosticos.setModel(hcdt);
+        tbl_diagnosticos.updateUI();
     }
 
     public void cargarPersona() {
@@ -126,7 +129,7 @@ public class historial_clinico extends javax.swing.JFrame {
         btn_nuevo = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Historial Clínico");
 
         panel_hc.setBackground(new java.awt.Color(204, 204, 204));

@@ -46,6 +46,9 @@ public class RecetaDAO {
     }
 
     public Receta getReceta() {
+        if (receta == null) {
+            receta = new Receta();
+        }
         return receta;
     }
 
@@ -53,6 +56,20 @@ public class RecetaDAO {
         this.receta = receta;
     }
 
+    /**
+     * Metodo para agregar una receta en la base de datos
+     * @param rec
+     * @return
+     */
+    public boolean agregarReceta(Receta rec) {
+
+        try {
+            recetajpa.create(rec);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
     /**
      * Permite editar una receta de la BD controlando las posibles excepciones.
      *

@@ -21,10 +21,13 @@ public class Frm_Detalle_Diagnostico extends javax.swing.JFrame {
     PersonaDAO personaDAO = new PersonaDAO();
     public Frm_Detalle_Diagnostico() {
         initComponents();
+        
     }
 
     public Frm_Detalle_Diagnostico(DiagnosticoDAO diagnosticoDAO) {
         initComponents();
+        setLocationRelativeTo(null);
+        setResizable(false);
         this.diagnosticoDAO = diagnosticoDAO;
         bloquear();
         cargarCampos();
@@ -32,9 +35,9 @@ public class Frm_Detalle_Diagnostico extends javax.swing.JFrame {
         
     }
     public void bloquear(){
-    txtArea_Observaciones.setEnabled(false);
-    txt_enfermedad.setEnabled(false);
-    txt_medico.setEnabled(false);
+    txtArea_Observaciones.setEditable(false);
+    txt_enfermedad.setEditable(false);
+    txt_medico.setEditable(false);
     }
     
     public void cargarCampos(){
@@ -73,7 +76,7 @@ public class Frm_Detalle_Diagnostico extends javax.swing.JFrame {
         txt_enfermedad = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

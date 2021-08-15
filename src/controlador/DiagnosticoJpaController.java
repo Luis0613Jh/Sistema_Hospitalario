@@ -196,7 +196,7 @@ public class DiagnosticoJpaController implements Serializable {
         try {
             Query q = em.createQuery("SELECT e "
                     + "FROM Diagnostico e " 
-                    + "WHERE e.id_persona = ?3")
+                    + "WHERE e.id_paciente = ?3")
                     .setParameter(3, id_persona);
             return q.getResultList();
         } finally {

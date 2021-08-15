@@ -4,6 +4,7 @@ import controlador.DAO.ConsultaDAO;
 import controlador.DAO.HistorialClinicoDAO;
 import controlador.DAO.MedicoDAO;
 import controlador.DAO.PersonaDAO;
+import controlador.DAO.RecetaDAO;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,9 +13,7 @@ import javax.swing.JOptionPane;
 import modelo.HistorialClinico;
 import modelo.Medico;
 import modelo.Persona;
-import modelo.tabla.ModeloTablaPaciente;
 import modelo.tabla.ModeloTablaPersonalMedico;
-import vista.principales.Frm_PrincipalAtencion_Cliente;
 
 public class AgendarCita extends javax.swing.JFrame {
 
@@ -22,17 +21,18 @@ public class AgendarCita extends javax.swing.JFrame {
     private ConsultaDAO consultaDAO = new ConsultaDAO();
     private HistorialClinicoDAO historialClinicoDAO = new HistorialClinicoDAO();
     private MedicoDAO medicoDAO = new MedicoDAO();
-    private ModeloTablaPaciente modelo = new ModeloTablaPaciente();
+    private RecetaDAO recetaDAO = new RecetaDAO();
+    private ModeloTablaPersonalMedico modelo = new ModeloTablaPersonalMedico();
 
     public AgendarCita() {
         initComponents();
         this.txtNombreApellido.setEditable(false);
         this.txtcedulamedico.setEditable(false);
-        CargarTabla(personaDAO.listarPersonas());
+        CargarTabla(medicoDAO.listarMedicos());
     }
 
     public void CargarTabla(List lista) {
-        modelo.setListaPersona(lista);
+        modelo.setListaMedico(lista);
         tblMedicos.setModel(modelo);
         tblMedicos.updateUI();
     }
@@ -75,18 +75,25 @@ public class AgendarCita extends javax.swing.JFrame {
         if (!cedulaPaciente.equals("") && !cedulaMedico.equals("") && date != null) {
             DateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
             String fecha = fechaFormato.format(date);
+            consultaDAO.setConsulta(null);
             consultaDAO.getConsulta().setEstado_consulta("pendiente");
             consultaDAO.getConsulta().setFecha_cita(fecha);
             consultaDAO.getConsulta().setHora_cita(this.cboHoraConsulta.getSelectedItem().toString() + ":" + this.cboMinutosConsulta.getSelectedItem().toString());
             consultaDAO.getConsulta().setId_paciente(buscar(cedulaPaciente).getId_persona());
             consultaDAO.getConsulta().setId_medico(buscarMedico(cedulaMedico).getId_persona());
             consultaDAO.getConsulta().setHistorial_clinico(buscarHistorial(cedulaPaciente));
-            consultaDAO.getConsulta().setReceta(null);
+                recetaDAO.setReceta(null);
+                
+                recetaDAO.getReceta().setFecha("");
+                recetaDAO.getReceta().setIndicaciones("");
+      
+                recetaDAO.setReceta(recetaDAO.getReceta());
+               recetaDAO.agregarReceta(recetaDAO.getReceta());
+                
+            consultaDAO.getConsulta().setReceta(recetaDAO.getReceta());
             consultaDAO.setConsulta(consultaDAO.getConsulta());
             consultaDAO.agregarConsulta(consultaDAO.getConsulta());
-            Frm_PrincipalAtencion_Cliente form = new Frm_PrincipalAtencion_Cliente();
-            form.setVisible(true);
-            this.dispose();
+            JOptionPane.showMessageDialog(null, "Consulta agendada con exito !");
         } else {
             JOptionPane.showMessageDialog(null, "Debiste realizar lo siguiente:\n- Buscar un paciente.\n- Seleccionar un médico.\n- Fijar una fecha.\n- Fijar una hora.", "ERROR: Datos Faltantes", JOptionPane.WARNING_MESSAGE);
         }
@@ -108,7 +115,6 @@ public class AgendarCita extends javax.swing.JFrame {
         txtCedula = new javax.swing.JTextField();
         txtNombreApellido = new javax.swing.JTextField();
         btnBuscarPaciente = new javax.swing.JButton();
-        btnNuevoPaciente = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -153,14 +159,6 @@ public class AgendarCita extends javax.swing.JFrame {
             }
         });
 
-        btnNuevoPaciente.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnNuevoPaciente.setText("Nuevo Paciente");
-        btnNuevoPaciente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoPacienteActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -178,19 +176,16 @@ public class AgendarCita extends javax.swing.JFrame {
                         .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnBuscarPaciente)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnNuevoPaciente)
-                .addGap(14, 14, 14))
+                .addContainerGap(238, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscarPaciente)
-                    .addComponent(btnNuevoPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnBuscarPaciente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -377,7 +372,7 @@ public class AgendarCita extends javax.swing.JFrame {
                 .addGroup(PanelAgendarCitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAgregarConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 52, Short.MAX_VALUE))
+                .addGap(0, 55, Short.MAX_VALUE))
         );
 
         getContentPane().add(PanelAgendarCita, java.awt.BorderLayout.CENTER);
@@ -426,12 +421,6 @@ public class AgendarCita extends javax.swing.JFrame {
         agregarConsulta();
 
     }//GEN-LAST:event_btnAgregarConsultaActionPerformed
-
-    private void btnNuevoPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoPacienteActionPerformed
-        gestionar_paciente form = new gestionar_paciente();
-        form.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnNuevoPacienteActionPerformed
 
     private void txtCedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyTyped
         char e = evt.getKeyChar();
@@ -493,7 +482,6 @@ public class AgendarCita extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarMedico;
     private javax.swing.JButton btnBuscarPaciente;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnNuevoPaciente;
     private javax.swing.JButton btnSeleccionar;
     private javax.swing.JComboBox<String> cboEspecialidad;
     private javax.swing.JComboBox<String> cboHoraConsulta;

@@ -1,6 +1,7 @@
 package controlador.DAO;
 
 import controlador.ConsultaJpaController;
+import controlador.exceptions.IllegalOrphanException;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Consulta;
@@ -32,7 +33,7 @@ public class ConsultaDAO {
         try {
             ConsultaJpa.create(consulta);
             return true;
-        } catch (Exception e) {
+        } catch (IllegalOrphanException e) {
             return false;
         }
     }

@@ -11,6 +11,7 @@ import vista.Frm_Examenes;
 import vista.Frm_Laboratorio;
 import vista.Frm_Pedidos;
 import vista.Frm_SolicitudPedido;
+import vista.inicio_sesion;
 
 /**
  *
@@ -78,7 +79,12 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
         jButton1.setText("Cerrar Sesión");
         jButton1.setBorderPainted(false);
         jButton1.setContentAreaFilled(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBackground(new java.awt.Color(153, 204, 255));
 
@@ -237,6 +243,12 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btn_PedidoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       inicio_sesion is = new inicio_sesion();
+       this.dispose();
+       is.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
