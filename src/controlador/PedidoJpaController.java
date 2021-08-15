@@ -21,18 +21,21 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Pedido;
 
+/**
+ *
+ * @author RICARDO
+ */
 public class PedidoJpaController implements Serializable {
 
-    private EntityManagerFactory emf;
-    
     public PedidoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+    private EntityManagerFactory emf;
 
     public PedidoJpaController() {
         this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -271,4 +274,5 @@ public class PedidoJpaController implements Serializable {
             em.close();
         }
     }
+    
 }

@@ -20,19 +20,21 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Cuenta;
 
-
+/**
+ *
+ * @author RICARDO
+ */
 public class CuentaJpaController implements Serializable {
 
-    private EntityManagerFactory emf;
-    
     public CuentaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+    private EntityManagerFactory emf;
 
     public CuentaJpaController() {
         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }

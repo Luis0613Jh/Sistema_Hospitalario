@@ -1,13 +1,19 @@
 package controlador.DAO;
 
 import controlador.PersonaJpaController;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.regex.Pattern;
 import modelo.Persona;
 
 public class PersonaDAO {
     private PersonaJpaController PersonaJpa = new PersonaJpaController();
+    private RolDAO rolDAO = new RolDAO();
     private Persona persona; 
 
     public Persona getPersona() {
@@ -21,6 +27,12 @@ public class PersonaDAO {
         this.persona = persona;
     }
     
+    /**
+     * Método que busca la persona solicitada.
+     *
+     * @param persona Objeto que va a ser buscado en el sistema, es de tipo Persona.
+     * @return Retorna Persona si se logró encontrar la persona, caso contrario, devuelve vacio.
+     */
     public Persona buscarPersona(Persona persona){
         Persona aux = new Persona();
         try {
@@ -41,6 +53,16 @@ public class PersonaDAO {
         }
     }
 
+    public Persona buscarPorCedula(String cedula) {
+        for (Object p : listarPersonas()) {
+            if (buscarPersona((Persona) p).getCedula().equals(cedula)) {
+                System.out.println("SI ENCONTRO PERSONA");
+                return buscarPersona((Persona) p);
+            }
+        }
+        return null;
+    }
+    
     public boolean agregarPersona(Persona persona) {
         try {
             PersonaJpa.create(persona);
@@ -87,24 +109,96 @@ public class PersonaDAO {
          if(pattern.matcher(correo).find()){
               return true;
          }else{
-             //JOptionPane.showMessageDialog(null, "El correo ingresado no es valido", "ERROR: Formato Correo", JOptionPane.WARNING_MESSAGE);
-              return false;
+            return false;
          }
     }
-    
-    public boolean verificarLongitudCedula(String cedula){
-        if(cedula.length() == 10){
+   
+    public boolean verificarLongitudDiez(String telefono, String telefonoAuxiliar){
+        if(telefono.length() == 10 && telefonoAuxiliar.length() == 10){
             return true; 
         }else{
             return false;   
         }
     }
     
-    public boolean verificarLongitudDiez(String cedula, String telefono, String telefonoAuxiliar){
-        if(cedula.length() == 10 && telefono.length() == 10 && telefonoAuxiliar.length() == 10){
-            return true; 
-        }else{
-            return false;   
+    public boolean verificarCedula(String cedula) {
+        Character cedulaC[] = new Character[10];
+        Character comp[] = {'2', '1', '2', '1', '2', '1', '2', '1', '2'};
+        int ver = 0;
+        int suma = 0;
+        boolean validar = false;
+
+        for (int i = 0; i < cedulaC.length; i++) {
+            cedulaC[i] = cedula.charAt(i);
         }
+        for (int i = 0; i < cedulaC.length - 1; i++) {
+            ver = Integer.parseInt(String.valueOf(cedulaC[i])) * Integer.parseInt(String.valueOf(comp[i]));
+            if (ver > 9) {
+                ver = ver - 9;
+            }
+            suma += ver;
+        }
+        if ((suma - (suma % 10) + 10 - suma) == Integer.parseInt(String.valueOf(cedulaC[9]))) {
+            validar = true;
+        }
+        return validar;
+    }
+    
+    public boolean MetodoVaidarFechaCita(String fcita) {
+        boolean verificacion = false;
+        try {
+            Calendar fecha = new GregorianCalendar();
+            int año = fecha.get(Calendar.YEAR);
+            int mes = fecha.get(Calendar.MONTH);
+            int dia = fecha.get(Calendar.DAY_OF_MONTH);
+            String actual = dia + "/" + (mes + 1) + "/" + año;
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            Date fechaactual = formato.parse(actual);
+            Date fechaCita = formato.parse(fcita);
+            if (fechaCita.compareTo(fechaactual) >= 0) {
+                //System.out.println(" fecha correcta");
+                verificacion = true;
+            } else {
+                //System.out.println("fecha incorrecta");
+                verificacion = false;
+            }
+        } catch (ParseException ex) {
+            System.out.println("Error: "+ex);
+        }
+        return verificacion;
+    }
+
+    public boolean MetodoVaidarFechaNacimiento(String fnac) {
+        boolean verificacion = false;
+        try {
+            Calendar fecha = new GregorianCalendar();
+            int año = fecha.get(Calendar.YEAR);
+            int mes = fecha.get(Calendar.MONTH);
+            int dia = fecha.get(Calendar.DAY_OF_MONTH);
+            String actual = dia + "/" + (mes + 1) + "/" + año;
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            Date fechaactual = formato.parse(actual);
+            Date fechaNaci = formato.parse(fnac);
+            if (fechaNaci.compareTo(fechaactual) <= 0) {
+                //System.out.println(" fecha correcta");
+                verificacion = true;
+            } else {
+                //System.out.println("fecha incorrecta");
+                verificacion = false;
+            }
+        } catch (ParseException ex) {
+            System.out.println("Error: "+ex);
+        }
+        return verificacion;
+    }
+    
+    public List buscarPersonasPresentar() {
+        List<Persona> personas = new ArrayList();
+        for (Object p : getPersonasPorEstado("activo")) {
+            if (buscarPersona((Persona) p).getRol().toString().equals(rolDAO.buscarRolId(1).toString())) {
+                personas.add((Persona) p);
+            }
+        }
+        return personas;
     }
 }

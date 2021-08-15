@@ -22,18 +22,21 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Persona;
 
+/**
+ *
+ * @author RICARDO
+ */
 public class PersonaJpaController implements Serializable {
 
-    private EntityManagerFactory emf;
-    
     public PersonaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
-
+    private EntityManagerFactory emf;
+    
     public PersonaJpaController() {
         emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-    
+
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -275,4 +278,5 @@ public class PersonaJpaController implements Serializable {
             em.close();
         }
     }
+    
 }

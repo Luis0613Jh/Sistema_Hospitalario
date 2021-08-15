@@ -8,6 +8,7 @@ import modelo.HistorialClinico;
 public class HistorialClinicoDAO {
 
     private HistorialClinicoJpaController hcJPAC = new HistorialClinicoJpaController();
+    private PersonaDAO personaDAO = new PersonaDAO();
     private HistorialClinico hc = new HistorialClinico();
 
     public HistorialClinico getHc() {
@@ -118,6 +119,16 @@ public class HistorialClinicoDAO {
         } catch (Exception e) {
             return false;
         }
+    }
+    
+    public HistorialClinico buscarHistorial(String cedula) {
+        for (Object p : TodosHistorialClinico()) {
+            if (personaDAO.buscarPersona(((HistorialClinico) p).getPersona()).getCedula().equals(cedula)) {
+                System.out.println("SI ENCONTRO HISTORIAL");
+                return (HistorialClinico) p;
+            }
+        }
+        return null;
     }
 
 }

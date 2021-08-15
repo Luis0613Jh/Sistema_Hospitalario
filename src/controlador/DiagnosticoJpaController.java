@@ -20,13 +20,21 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import modelo.Diagnostico;
 
-
+/**
+ *
+ * @author RICARDO
+ */
 public class DiagnosticoJpaController implements Serializable {
+
+    public DiagnosticoJpaController(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
     private EntityManagerFactory emf;
+
     public DiagnosticoJpaController() {
         this.emf = Persistence.createEntityManagerFactory("SistemaHospitalarioPU");
     }
-
+    
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -203,4 +211,5 @@ public class DiagnosticoJpaController implements Serializable {
             em.close();
         }
     }
+    
 }

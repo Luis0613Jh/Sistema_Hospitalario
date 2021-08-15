@@ -2,16 +2,21 @@ package vista;
 
 import controlador.DAO.PersonaDAO;
 import controlador.DAO.RolDAO;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 import modelo.Persona;
 import modelo.Rol;
 import modelo.tabla.ModeloTablaPaciente;
@@ -22,18 +27,20 @@ public class gestionar_paciente extends javax.swing.JFrame {
     private ModeloTablaPaciente modelo = new ModeloTablaPaciente();
     private RolDAO rolDAO = new RolDAO();
     private String sw = "GUARDAR";
+    private TableRowSorter tr;
 
     public gestionar_paciente() {
         initComponents();
         limpiar();
         CargarTabla();
         this.btnGuardar.setEnabled(false);
-        
+        this.btnCancelar.setEnabled(false);
+        this.tblPersonas.setEnabled(true);
         activa_desactivar(false);
     }
 
     public void CargarTabla() {
-        modelo.setListaPersona(personaDAO.getPersonasPorEstado("activo"));
+        modelo.setListaPersona(personaDAO.buscarPersonasPresentar());
         tblPersonas.setModel(modelo);
         tblPersonas.updateUI();
     }
@@ -50,11 +57,9 @@ public class gestionar_paciente extends javax.swing.JFrame {
         this.cboGenero.setEnabled(v);
         this.dcFechaNacimiento.setEnabled(v);
     }
-    
+
     public void activar_desactivarBuscar(boolean v) {
         this.txtBuscar.setEnabled(v);
-        this.cboBuscar.setEnabled(v);
-        this.btnBuscar.setEnabled(v);
     }
 
     public void limpiar() {
@@ -66,7 +71,6 @@ public class gestionar_paciente extends javax.swing.JFrame {
         this.txtTelefono.setText("");
         this.txtTelefonoAuxiliar.setText("");
         this.txtBuscar.setText("");
-        this.cboBuscar.setSelectedIndex(0);
         this.cboEstadoCivil.setSelectedIndex(0);
         this.cboGenero.setSelectedIndex(0);
         this.dcFechaNacimiento.setCalendar(null);
@@ -82,20 +86,22 @@ public class gestionar_paciente extends javax.swing.JFrame {
                     personaDAO.editarPersona((Persona) p);
                 }
             }
-            limpiar();
             this.btnGuardar.setEnabled(false);
             this.btnDarBaja.setEnabled(true);
             this.btnNuevo.setEnabled(true);
             this.btnEditar.setEnabled(true);
             this.tblPersonas.setEnabled(true);
+            this.btnCancelar.setEnabled(false);
+            this.btnHistoriaClinica.setEnabled(true);
             activar_desactivarBuscar(true);
             activa_desactivar(false);
+            limpiar();
         } else {
             JOptionPane.showMessageDialog(null, "Selecciona un registro", "ERROR: No se selecciono un registro.", JOptionPane.WARNING_MESSAGE);
         }
     }
 
-    public Persona buscar() {
+    public Persona buscarParaEditar() {
         int fila = this.tblPersonas.getSelectedRow();
         for (Object p : personaDAO.listarPersonas()) {
             if (personaDAO.buscarPersona((Persona) p).getCedula().equals(this.tblPersonas.getValueAt(fila, 0).toString())) {
@@ -128,12 +134,18 @@ public class gestionar_paciente extends javax.swing.JFrame {
             this.btnEditar.setEnabled(false);
             this.btnDarBaja.setEnabled(false);
             this.btnNuevo.setEnabled(false);
-            this.activar_desactivarBuscar(true);
+            this.activar_desactivarBuscar(false);
+            this.btnCancelar.setEnabled(true);
+            this.btnHistoriaClinica.setEnabled(true);
             activa_desactivar(true);
             this.tblPersonas.setEnabled(false);
         } else {
             JOptionPane.showMessageDialog(null, "Selecciona un registro", "ERROR: No se selecciono un registro.", JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    public void filtro() {
+        tr.setRowFilter(RowFilter.regexFilter(txtBuscar.getText().trim(), 0));
     }
 
     public void Guardar() {
@@ -147,68 +159,80 @@ public class gestionar_paciente extends javax.swing.JFrame {
         Date date = this.dcFechaNacimiento.getDate();
         if (!cedula.equals("") && !nombre.equals("") && !apellido.equals("") && !correo.equals("") && !direccion.equals("") && !telefono.equals("")
                 && !telefonoAuxiliar.equals("") && date != null) {
-            if (personaDAO.verificarLongitudDiez(cedula, telefono, telefonoAuxiliar)) {
-                if (personaDAO.verificarCorreo(correo)) {
-                    DateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
-                    String fecha = fechaFormato.format(date);
-                    if (sw.equals("GUARDAR")) {
-                        personaDAO.setPersona(null);
-                        personaDAO.getPersona().setCedula(cedula);
-                        personaDAO.getPersona().setNombre(nombre);
-                        personaDAO.getPersona().setApellido(apellido);
-                        personaDAO.getPersona().setCorreo(correo);
-                        personaDAO.getPersona().setCelular(telefono);
-                        personaDAO.getPersona().setContacto_auxiliar(telefonoAuxiliar);
-                        personaDAO.getPersona().setDireccion(direccion);
-                        personaDAO.getPersona().setGenero(this.cboGenero.getSelectedItem().toString());
-                        personaDAO.getPersona().setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
-                        personaDAO.getPersona().setFecha_nacimiento(fecha);
-                        personaDAO.getPersona().setEstado("activo");
-                        personaDAO.getPersona().setRol(rolDAO.buscarRolId(1));
-                        personaDAO.getPersona().setEstado_disponibilidad("");
-                        personaDAO.setPersona(personaDAO.getPersona());
-                        personaDAO.agregarPersona(personaDAO.getPersona());
-                        limpiar();
-                            this.btnGuardar.setEnabled(false);
-                            this.btnNuevo.setEnabled(true);
-                            this.btnEditar.setEnabled(true);
-                            this.btnDarBaja.setEnabled(true);
-                            this.tblPersonas.setEnabled(true);
-                            this.activar_desactivarBuscar(true);
-                            activa_desactivar(false);
-                        JOptionPane.showMessageDialog(null, "Se almacenó correctamente");
+            if (personaDAO.verificarCedula(cedula)) {
+                if (personaDAO.verificarLongitudDiez(telefono, telefonoAuxiliar)) {
+                    if (personaDAO.verificarCorreo(correo)) {
+                        DateFormat fechaFormato = new SimpleDateFormat("dd/MM/yyyy");
+                        String fecha = fechaFormato.format(date);
+                        if (personaDAO.MetodoVaidarFechaNacimiento(fecha)) {
+                            if (sw.equals("GUARDAR")) {
+                                personaDAO.setPersona(null);
+                                personaDAO.getPersona().setCedula(cedula);
+                                personaDAO.getPersona().setNombre(nombre);
+                                personaDAO.getPersona().setApellido(apellido);
+                                personaDAO.getPersona().setCorreo(correo);
+                                personaDAO.getPersona().setCelular(telefono);
+                                personaDAO.getPersona().setContacto_auxiliar(telefonoAuxiliar);
+                                personaDAO.getPersona().setDireccion(direccion);
+                                personaDAO.getPersona().setGenero(this.cboGenero.getSelectedItem().toString());
+                                personaDAO.getPersona().setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
+                                personaDAO.getPersona().setFecha_nacimiento(fecha);
+                                personaDAO.getPersona().setEstado("activo");
+                                personaDAO.getPersona().setRol(rolDAO.buscarRolId(1));
+                                personaDAO.getPersona().setEstado_disponibilidad("");
+                                personaDAO.setPersona(personaDAO.getPersona());
+                                personaDAO.agregarPersona(personaDAO.getPersona());
+                                limpiar();
+                                this.btnGuardar.setEnabled(false);
+                                this.btnNuevo.setEnabled(true);
+                                this.btnEditar.setEnabled(true);
+                                this.btnDarBaja.setEnabled(true);
+                                this.tblPersonas.setEnabled(true);
+                                this.btnCancelar.setEnabled(false);
+                                this.btnHistoriaClinica.setEnabled(true);
+                                this.activar_desactivarBuscar(true);
+                                activa_desactivar(false);
+                                JOptionPane.showMessageDialog(null, "Se almacenó correctamente");
+                            } else {
+                                Persona p = buscarParaEditar();
+                                p.setCedula(cedula);
+                                p.setNombre(nombre);
+                                p.setApellido(apellido);
+                                p.setCorreo(correo);
+                                p.setCelular(telefono);
+                                p.setContacto_auxiliar(telefonoAuxiliar);
+                                p.setDireccion(direccion);
+                                p.setGenero(this.cboGenero.getSelectedItem().toString());
+                                p.setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
+                                p.setFecha_nacimiento(fecha);
+                                p.setEstado("activo");
+                                p.setRol(rolDAO.buscarRolId(1));
+                                p.setEstado_disponibilidad("");
+                                personaDAO.editarPersona(p);
+                                limpiar();
+                                this.btnGuardar.setEnabled(false);
+                                this.btnNuevo.setEnabled(true);
+                                this.btnEditar.setEnabled(true);
+                                this.btnDarBaja.setEnabled(true);
+                                this.tblPersonas.setEnabled(true);
+                                this.btnCancelar.setEnabled(false);
+                                this.btnHistoriaClinica.setEnabled(true);
+                                this.activar_desactivarBuscar(true);
+                                activa_desactivar(false);
+                                JOptionPane.showMessageDialog(null, "Se modificó correctamente");
+                                sw = "GUARDAR";
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No puede ingresar una fecha que aún no existio", "ERROR: Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+                        }
                     } else {
-                        Persona p = buscar();
-                        p.setCedula(cedula);
-                        p.setNombre(nombre);
-                        p.setApellido(apellido);
-                        p.setCorreo(correo);
-                        p.setCelular(telefono);
-                        p.setContacto_auxiliar(telefonoAuxiliar);
-                        p.setDireccion(direccion);
-                        p.setGenero(this.cboGenero.getSelectedItem().toString());
-                        p.setEstado_civil(this.cboEstadoCivil.getSelectedItem().toString());
-                        p.setFecha_nacimiento(fecha);
-                        p.setEstado("activo");
-                        p.setRol(rolDAO.buscarRolId(1));
-                        p.setEstado_disponibilidad("");
-                        personaDAO.editarPersona(p);
-                        limpiar();
-                        this.btnGuardar.setEnabled(false);
-                        this.btnNuevo.setEnabled(true);
-                        this.btnEditar.setEnabled(true);
-                        this.btnDarBaja.setEnabled(true);
-                        this.tblPersonas.setEnabled(true);
-                        this.activar_desactivarBuscar(true);
-                        activa_desactivar(false);
-                        JOptionPane.showMessageDialog(null, "Se modificó correctamente");
-                        sw = "GUARDAR";
+                        JOptionPane.showMessageDialog(null, "El correo ingresado no es valido", "ERROR: Formato Correo", JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "El correo ingresado no es valido", "ERROR: Formato Correo", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Los campos de telefonos debe tener 10 números", "ERROR: Formato Teléfono", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Los campos de Cédula o Telonos deben tener 10 números", "ERROR: Formato Cédula/Telefono", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "La cédula ingresa no es valida", "ERROR: Formato Cédula", JOptionPane.WARNING_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Llena correctamente los campos", "ERROR: Datos Personales", JOptionPane.WARNING_MESSAGE);
@@ -245,8 +269,6 @@ public class gestionar_paciente extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
-        cboBuscar = new javax.swing.JComboBox<>();
-        btnBuscar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnHistoriaClinica = new javax.swing.JButton();
@@ -255,6 +277,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
         tblPersonas = new javax.swing.JTable();
         btnEditar = new javax.swing.JButton();
         btnDarBaja = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestionar Paciente");
@@ -429,26 +452,32 @@ public class gestionar_paciente extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
 
-        jLabel10.setText("Por:");
+        jLabel10.setText("Cédula:");
 
-        cboBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cédula", "Nombre" }));
-
-        btnBuscar.setText("Buscar");
+        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarActionPerformed(evt);
+            }
+        });
+        txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBuscarKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(22, 22, 22)
                 .addComponent(jLabel10)
-                .addGap(26, 26, 26)
-                .addComponent(cboBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(79, 79, 79)
                 .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(btnBuscar)
-                .addGap(39, 39, 39))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -456,9 +485,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -512,6 +539,13 @@ public class gestionar_paciente extends javax.swing.JFrame {
             }
         });
 
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -519,14 +553,16 @@ public class gestionar_paciente extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 912, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 931, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addComponent(btnNuevo)
-                        .addGap(78, 78, 78)
+                        .addGap(80, 80, 80)
+                        .addComponent(btnCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEditar)
                         .addGap(82, 82, 82)
                         .addComponent(btnHistoriaClinica)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(47, 47, 47)
                         .addComponent(btnDarBaja)
                         .addGap(91, 91, 91)
                         .addComponent(btnGuardar)))
@@ -541,7 +577,8 @@ public class gestionar_paciente extends javax.swing.JFrame {
                     .addComponent(btnHistoriaClinica)
                     .addComponent(btnGuardar)
                     .addComponent(btnEditar)
-                    .addComponent(btnDarBaja))
+                    .addComponent(btnDarBaja)
+                    .addComponent(btnCancelar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(21, Short.MAX_VALUE))
@@ -557,7 +594,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelGestionarPacienteLayout.setVerticalGroup(
             PanelGestionarPacienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -599,7 +636,6 @@ public class gestionar_paciente extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         try {
             Editar();
-
         } catch (ParseException ex) {
             Logger.getLogger(gestionar_paciente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -614,6 +650,8 @@ public class gestionar_paciente extends javax.swing.JFrame {
         this.btnEditar.setEnabled(false);
         this.btnDarBaja.setEnabled(false);
         this.btnNuevo.setEnabled(false);
+        this.btnCancelar.setEnabled(true);
+        this.btnHistoriaClinica.setEnabled(false);
         this.activar_desactivarBuscar(false);
         activa_desactivar(true);
         this.tblPersonas.setEnabled(false);
@@ -665,7 +703,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTelefonoAuxiliarKeyTyped
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        
+
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
@@ -683,6 +721,49 @@ public class gestionar_paciente extends javax.swing.JFrame {
             getToolkit().beep();
         }
     }//GEN-LAST:event_txtApellidoKeyTyped
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        limpiar();
+        this.tblPersonas.setEnabled(true);
+        this.btnCancelar.setEnabled(false);
+        this.btnNuevo.setEnabled(true);
+        this.btnEditar.setEnabled(true);
+        this.btnDarBaja.setEnabled(true);
+        this.btnGuardar.setEnabled(false);
+        this.btnHistoriaClinica.setEnabled(true);
+        activa_desactivar(false);
+        activar_desactivarBuscar(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void txtBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyTyped
+        char e = evt.getKeyChar();
+        if (this.txtCedula.getText().length() >= 10) {
+            evt.consume();
+            getToolkit().beep();
+        }
+        if (!(e >= '0' && e <= '9')) {
+            evt.consume();
+            getToolkit().beep();
+        }
+        txtBuscar.addKeyListener(new KeyAdapter() {
+            public void keyReleased(final KeyEvent e) {
+                String cadena = (txtBuscar.getText());
+                txtBuscar.setText(cadena);
+                repaint();
+                filtro();
+            }
+        });
+        tr = new TableRowSorter(tblPersonas.getModel());
+        tblPersonas.setRowSorter(tr);
+    }//GEN-LAST:event_txtBuscarKeyTyped
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -722,13 +803,12 @@ public class gestionar_paciente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JPanel PanelGestionarPaciente;
-    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnDarBaja;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnHistoriaClinica;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JComboBox<String> cboBuscar;
     private javax.swing.JComboBox<String> cboEstadoCivil;
     private javax.swing.JComboBox<String> cboGenero;
     private com.toedter.calendar.JDateChooser dcFechaNacimiento;
