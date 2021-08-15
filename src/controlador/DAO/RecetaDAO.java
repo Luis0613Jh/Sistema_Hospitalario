@@ -1,4 +1,3 @@
-
 package controlador.DAO;
 
 import controlador.ConsultaJpaController;
@@ -52,8 +51,14 @@ public class RecetaDAO {
 
     public void setReceta(Receta receta) {
         this.receta = receta;
-    }    
+    }
 
+    /**
+     * Permite editar una receta de la BD controlando las posibles excepciones.
+     *
+     * @param receta
+     * @return
+     */
     public boolean editarReceta(Receta receta) {
         try {
             recetajpa.edit(receta);
@@ -64,6 +69,12 @@ public class RecetaDAO {
         }
     }
 
+    /**
+     * ¨Permite encontrar una consulta en la BD, mediante un ID.
+     *
+     * @param id
+     * @return
+     */
     public Consulta encontrarConsulta(Long id) {
         try {
             return jpaconsulta.findConsulta(idConsulta);
@@ -71,7 +82,14 @@ public class RecetaDAO {
             return null;
         }
     }
-        public Receta buscarReceta(long id){
+
+    /**
+     * ¨Permite encontrar una Receta en la BD, mediante un ID.
+     *
+     * @param id
+     * @return
+     */
+    public Receta buscarReceta(long id) {
         Receta aux = new Receta();
         try {
             aux = recetajpa.findReceta(id);
@@ -81,6 +99,9 @@ public class RecetaDAO {
         }
     }
 
+    /**
+     * Permite cargar una consulta dentro del objeto de RecetaDAO
+     */
     public void CargarConsulta() {
         this.setConsulta(jpaconsulta.findConsulta(idConsulta));
     }

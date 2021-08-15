@@ -1,4 +1,3 @@
-
 package controlador.DAO;
 
 import controlador.ConsultaJpaController;
@@ -18,7 +17,6 @@ public class DiagnosticoDAO {
     private PersonaDAO pesonadao = new PersonaDAO();
     private MedicoDAO medicodao = new MedicoDAO();
     private Medico medico = new Medico();
-
 
     public DiagnosticoJpaController getJpadiagnostico() {
         return jpadiagnostico;
@@ -77,7 +75,7 @@ public class DiagnosticoDAO {
 
     public void setMedicodao(MedicoDAO medicodao) {
         this.medicodao = medicodao;
-    }  
+    }
 
     public Medico getMedico() {
         if (medico == null) {
@@ -88,8 +86,15 @@ public class DiagnosticoDAO {
 
     public void setMedico(Medico medico) {
         this.medico = medico;
-    }    
+    }
 
+    /**
+     * Permite agregar nuevos diagnosticos a la BD, sin preocuparnos por errores en
+     * el sistema.
+     *
+     * @param consulta
+     * @return
+     */
     public boolean agregarDiagnostico(Diagnostico diag) {
         try {
             this.jpadiagnostico.create(diag);
@@ -99,19 +104,33 @@ public class DiagnosticoDAO {
         }
     }
 
+    /**
+     * Permite cargar una consulta dentro del objeto de el DiagnosticoDAO
+     */
     public void CargarConsulta() {
         this.setConsulta(jpaconsulta.findConsulta(idConsulta));
     }
-    
-    public Consulta encontrarConsulta (Long id) {
+
+    /**
+     * ¨Permite encontrar una consulta en la BD, mediante un ID.
+     *
+     * @param id
+     * @return
+     */
+    public Consulta encontrarConsulta(Long id) {
         try {
             return jpaconsulta.findConsulta(idConsulta);
         } catch (Exception e) {
             return null;
         }
     }
-    
-     public List<Diagnostico> diagnosticoPorPersona(Long id_persona) {
+
+    /**
+     * Devuelveen una lista todos los Diagnosticos guardadas en la BD.
+     *
+     * @return
+     */
+    public List<Diagnostico> diagnosticoPorPersona(Long id_persona) {
         return jpadiagnostico.getDiagnosticoPorPersona(id_persona);
     }
 
