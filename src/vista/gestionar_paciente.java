@@ -223,7 +223,7 @@ public class gestionar_paciente extends javax.swing.JFrame {
                                 sw = "GUARDAR";
                             }
                         } else {
-                            JOptionPane.showMessageDialog(null, "No puede ingresar una fecha que aún no existio", "ERROR: Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "La fecha de nacimiento no puede ser mayor a la fecha actual", "ERROR: Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "El correo ingresado no es valido", "ERROR: Formato Correo", JOptionPane.WARNING_MESSAGE);

@@ -3,8 +3,6 @@ package vista;
 import controlador.DAO.ConsultaDAO;
 import controlador.DAO.DiagnosticoDAO;
 import javax.swing.JOptionPane;
-import modelo.Consulta_;
-import vista.principales.PaginaPrincipalMedico;
 
 public class ConsultaMedica extends javax.swing.JFrame {
 

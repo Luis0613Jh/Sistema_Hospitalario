@@ -1,18 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package vista.principales;
 
+import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import modelo.Persona;
 import vista.AgendarCita;
 import vista.gestionar_paciente;
 import vista.inicio_sesion;
 
-/**
- *
- * @author Jean Agreda
- */
 public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
 
     /**
@@ -23,6 +19,22 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
 
     public Frm_PrincipalAtencion_Cliente() {
         initComponents();
+//        ImageIcon imagen2 = new ImageIcon(getClass().getResource("/vista/Imagen/hospitalLogo.png"));
+//        Icon fondo1 = new ImageIcon(imagen2.getImage().getScaledInstance(Logo.getWidth(), Logo.getHeight(), Image.SCALE_DEFAULT));
+//        Logo.setIcon(fondo1);
+//        this.repaint();
+//        
+//        setLocationRelativeTo(null);
+//        setResizable(false);
+    }
+    
+    public Frm_PrincipalAtencion_Cliente(Persona persona) {
+        initComponents();
+        ImageIcon imagen2 = new ImageIcon(getClass().getResource("/vista/Imagen/hospitalLogo.png"));
+        Icon fondo1 = new ImageIcon(imagen2.getImage().getScaledInstance(Logo.getWidth(), Logo.getHeight(), Image.SCALE_DEFAULT));
+        Logo.setIcon(fondo1);
+        this.repaint();
+        lblPrincipal_Atencion_Cliente.setText(persona.getNombre()+" "+persona.getApellido());
         setLocationRelativeTo(null);
         setResizable(false);
     }
@@ -43,9 +55,10 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         PanelPrincipalAtencion_Cliente = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        lblPrincipal_Atencion_Cliente = new javax.swing.JLabel();
+        btnCerrarSesion = new javax.swing.JButton();
+        PanelLog = new javax.swing.JPanel();
+        Logo = new javax.swing.JLabel();
         btn_CitasAsignadas = new javax.swing.JButton();
         btn_turno = new javax.swing.JButton();
 
@@ -57,30 +70,36 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
         PanelPrincipalAtencion_Cliente.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         PanelPrincipalAtencion_Cliente.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("Usuario");
+        lblPrincipal_Atencion_Cliente.setText("Usuario");
 
-        jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jButton1.setText("Cerrar Sesión");
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCerrarSesion.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        btnCerrarSesion.setText("Cerrar Sesión");
+        btnCerrarSesion.setBorderPainted(false);
+        btnCerrarSesion.setContentAreaFilled(false);
+        btnCerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnCerrarSesionActionPerformed(evt);
             }
         });
 
-        jPanel3.setBackground(new java.awt.Color(153, 204, 255));
+        PanelLog.setBackground(new java.awt.Color(153, 204, 255));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout PanelLogLayout = new javax.swing.GroupLayout(PanelLog);
+        PanelLog.setLayout(PanelLogLayout);
+        PanelLogLayout.setHorizontalGroup(
+            PanelLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelLogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 211, Short.MAX_VALUE)
+        PanelLogLayout.setVerticalGroup(
+            PanelLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelLogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Logo, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         btn_CitasAsignadas.setText("Gestionar Paciente");
@@ -105,7 +124,7 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btn_CitasAsignadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_turno, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(PanelLog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelPrincipalAtencion_Cliente, javax.swing.GroupLayout.DEFAULT_SIZE, 964, Short.MAX_VALUE)
                 .addContainerGap())
@@ -113,23 +132,23 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblPrincipal_Atencion_Cliente)
                         .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnCerrarSesion)
                         .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jLabel1)
+                .addComponent(lblPrincipal_Atencion_Cliente)
                 .addGap(10, 10, 10)
-                .addComponent(jButton1)
+                .addComponent(btnCerrarSesion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(PanelLog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_CitasAsignadas, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
@@ -169,11 +188,11 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_turnoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
        inicio_sesion is = new inicio_sesion();
        this.dispose();
        is.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,12 +230,13 @@ public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Logo;
+    private javax.swing.JPanel PanelLog;
     private javax.swing.JPanel PanelPrincipalAtencion_Cliente;
+    private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btn_CitasAsignadas;
     private javax.swing.JButton btn_turno;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblPrincipal_Atencion_Cliente;
     // End of variables declaration//GEN-END:variables
 }

@@ -20,7 +20,7 @@ import modelo.Persona;
 import modelo.tabla.ModeloTablaPersonalMedico;
 
 public class AgendarCita extends javax.swing.JFrame {
-
+    
     private PersonaDAO personaDAO = new PersonaDAO();
     private ConsultaDAO consultaDAO = new ConsultaDAO();
     private HistorialClinicoDAO historialClinicoDAO = new HistorialClinicoDAO();
@@ -28,7 +28,7 @@ public class AgendarCita extends javax.swing.JFrame {
     private RecetaDAO recetaDAO = new RecetaDAO();
     private ModeloTablaPersonalMedico modelo = new ModeloTablaPersonalMedico();
     private TableRowSorter tr;
-
+    
     public AgendarCita() {
         initComponents();
         this.txtNombreApellido.setEditable(false);
@@ -36,12 +36,22 @@ public class AgendarCita extends javax.swing.JFrame {
         CargarTabla(medicoDAO.listarMedicos());
     }
 
+    public void limpiar() {
+        txtCedula.setText("");
+        txtBuscar.setText("");
+        txtNombreApellido.setText("");
+        txtcedulamedico.setText("");
+        dcFechaConsulta.setCalendar(null);
+        cboHoraConsulta.setSelectedIndex(0);
+        cboMinutosConsulta.setSelectedIndex(0);
+    }
+    
     public void CargarTabla(List lista) {
         modelo.setListaMedico(medicoDAO.FiltrarMedicos());
         tblMedicos.setModel(modelo);
         tblMedicos.updateUI();
     }
-
+    
     public void filtro() {
         tr.setRowFilter(RowFilter.regexFilter(this.txtBuscar.getText().toUpperCase().trim(), 11));
     }
@@ -144,17 +154,16 @@ public class AgendarCita extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNombreApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNombreApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 262, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(65, 65, 65)
                         .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscarPaciente)))
-                .addContainerGap(238, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,17 +280,17 @@ public class AgendarCita extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(dcFechaConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(dcFechaConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(121, 121, 121)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboHoraConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cboHoraConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cboMinutosConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,6 +309,11 @@ public class AgendarCita extends javax.swing.JFrame {
 
         btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnAgregarConsulta.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnAgregarConsulta.setText("Agendar Consulta");
@@ -404,6 +418,10 @@ public class AgendarCita extends javax.swing.JFrame {
         tr = new TableRowSorter(this.tblMedicos.getModel());
         this.tblMedicos.setRowSorter(tr);
     }//GEN-LAST:event_txtBuscarKeyTyped
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments

@@ -50,19 +50,19 @@ public class inicio_sesion extends javax.swing.JFrame {
             
             switch (c.getPersona().getRol().getNombre_rol()) {
                 case "MEDICO":
-                    PaginaPrincipalMedico form = new PaginaPrincipalMedico();
+                    PaginaPrincipalMedico form = new PaginaPrincipalMedico(c.getPersona());
                     form.setVisible(true);
                     this.dispose(); break;
                 case "ATENCION":
-                    Frm_PrincipalAtencion_Cliente form1 = new Frm_PrincipalAtencion_Cliente();
+                    Frm_PrincipalAtencion_Cliente form1 = new Frm_PrincipalAtencion_Cliente(c.getPersona());
                     form1.setVisible(true);
                     this.dispose(); break;
                 case "LABORATORISTA":
-                    Frm_Principal_Laboratorio form2 = new Frm_Principal_Laboratorio();
+                    Frm_Principal_Laboratorio form2 = new Frm_Principal_Laboratorio(c.getPersona());
                     form2.setVisible(true);
                     this.dispose(); break;
                 case "ADMINISTRADOR":
-                    Frm_PrincipalAdministracion form3 = new Frm_PrincipalAdministracion();
+                    Frm_PrincipalAdministracion form3 = new Frm_PrincipalAdministracion(c.getPersona());
                     form3.setVisible(true);
                     this.dispose(); break;
             }

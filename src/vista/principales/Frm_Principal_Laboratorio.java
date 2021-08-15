@@ -1,11 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package vista.principales;
 
-import javax.swing.JPanel;
+import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import modelo.Persona;
 import vista.Frm_Categoria;
 import vista.Frm_Examenes;
 import vista.Frm_Laboratorio;
@@ -13,10 +12,6 @@ import vista.Frm_Pedidos;
 import vista.Frm_SolicitudPedido;
 import vista.inicio_sesion;
 
-/**
- *
- * @author Jean Agreda
- */
 public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
 
     /**
@@ -31,6 +26,23 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
 
     public Frm_Principal_Laboratorio() {
         initComponents();
+//        ImageIcon imagen2 = new ImageIcon(getClass().getResource("/vista/Imagen/hospitalLogo.png"));
+//        Icon fondo1 = new ImageIcon(imagen2.getImage().getScaledInstance(Logo.getWidth(), Logo.getHeight(), Image.SCALE_DEFAULT));
+//        Logo.setIcon(fondo1);
+//        this.repaint();
+//        
+//        setLocationRelativeTo(this);
+//        setResizable(false);
+
+    }
+    
+    public Frm_Principal_Laboratorio(Persona persona) {
+        initComponents();
+        ImageIcon imagen2 = new ImageIcon(getClass().getResource("/vista/Imagen/hospitalLogo.png"));
+        Icon fondo1 = new ImageIcon(imagen2.getImage().getScaledInstance(Logo.getWidth(), Logo.getHeight(), Image.SCALE_DEFAULT));
+        Logo.setIcon(fondo1);
+        this.repaint();
+        lblUsuarioPrincipalLab.setText(persona.getNombre()+" "+persona.getApellido());
         setLocationRelativeTo(this);
         setResizable(false);
 
@@ -56,9 +68,10 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         PanelPLaboratorio = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblUsuarioPrincipalLab = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        PanelLogoL = new javax.swing.JPanel();
+        Logo = new javax.swing.JLabel();
         btn_laboratorio = new javax.swing.JButton();
         btn_categoria = new javax.swing.JButton();
         btn_SolPedido = new javax.swing.JButton();
@@ -73,7 +86,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
         PanelPLaboratorio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         PanelPLaboratorio.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("Usuario");
+        lblUsuarioPrincipalLab.setText("Usuario");
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton1.setText("Cerrar Sesión");
@@ -86,17 +99,23 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
             }
         });
 
-        jPanel3.setBackground(new java.awt.Color(153, 204, 255));
+        PanelLogoL.setBackground(new java.awt.Color(153, 204, 255));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout PanelLogoLLayout = new javax.swing.GroupLayout(PanelLogoL);
+        PanelLogoL.setLayout(PanelLogoLLayout);
+        PanelLogoLLayout.setHorizontalGroup(
+            PanelLogoLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelLogoLLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 192, Short.MAX_VALUE)
+        PanelLogoLLayout.setVerticalGroup(
+            PanelLogoLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelLogoLLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Logo, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         btn_laboratorio.setText("Laboratorio");
@@ -144,7 +163,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
                     .addComponent(btn_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
                     .addComponent(btn_Examen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_SolPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelLogoL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_Pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelPLaboratorio, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE))
@@ -152,7 +171,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblUsuarioPrincipalLab)
                         .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -162,13 +181,13 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jLabel1)
+                .addComponent(lblUsuarioPrincipalLab)
                 .addGap(10, 10, 10)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(PanelLogoL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_laboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
@@ -286,6 +305,8 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Logo;
+    private javax.swing.JPanel PanelLogoL;
     public static javax.swing.JPanel PanelPLaboratorio;
     private javax.swing.JButton btn_Examen;
     private javax.swing.JButton btn_Pedido;
@@ -293,8 +314,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
     private javax.swing.JButton btn_categoria;
     private javax.swing.JButton btn_laboratorio;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblUsuarioPrincipalLab;
     // End of variables declaration//GEN-END:variables
 }

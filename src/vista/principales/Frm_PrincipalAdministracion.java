@@ -4,6 +4,7 @@ package vista.principales;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import modelo.Persona;
 import vista.gestionar_personal_medico;
 import vista.inicio_sesion;
 
@@ -16,15 +17,29 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
     public Frm_PrincipalAdministracion() {
         initComponents();
         //Insertar Logo del Hospital
+//        ImageIcon imagen2 = new ImageIcon(getClass().getResource("/vista/Imagen/hospitalLogo.png"));
+//        Icon fondo1 = new ImageIcon(imagen2.getImage().getScaledInstance(Logo.getWidth(), Logo.getHeight(), Image.SCALE_DEFAULT));
+//        Logo.setIcon(fondo1);
+//        this.repaint();
+//        
+//        setLocationRelativeTo(null);
+//        setResizable(false);
+    }
+    
+    public Frm_PrincipalAdministracion(Persona persona) {
+        initComponents();
+        //Insertar Logo del Hospital
         ImageIcon imagen2 = new ImageIcon(getClass().getResource("/vista/Imagen/hospitalLogo.png"));
         Icon fondo1 = new ImageIcon(imagen2.getImage().getScaledInstance(Logo.getWidth(), Logo.getHeight(), Image.SCALE_DEFAULT));
         Logo.setIcon(fondo1);
         this.repaint();
-        
+        lblPrincipalAdministracion.setText(persona.getNombre()+" "+persona.getApellido());
         setLocationRelativeTo(null);
         setResizable(false);
     }
 
+    
+    
     public void EsconderPanel() {
         gestionar_personal_medico.PanelGestionar_Personal_Medico.setVisible(false);
       
@@ -40,7 +55,7 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         PanelPrincipalAdministracion = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblPrincipalAdministracion = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         Logo = new javax.swing.JLabel();
@@ -54,7 +69,7 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
         PanelPrincipalAdministracion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         PanelPrincipalAdministracion.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("Usuario");
+        lblPrincipalAdministracion.setText("Usuario");
 
         jButton1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jButton1.setText("Cerrar Sesión");
@@ -108,7 +123,7 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(lblPrincipalAdministracion)
                         .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -118,7 +133,7 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jLabel1)
+                .addComponent(lblPrincipalAdministracion)
                 .addGap(10, 10, 10)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -193,8 +208,8 @@ public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
     private javax.swing.JPanel PanelPrincipalAdministracion;
     private javax.swing.JButton btn_gestionar_PM;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblPrincipalAdministracion;
     // End of variables declaration//GEN-END:variables
 }
