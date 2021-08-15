@@ -121,10 +121,8 @@ public class PaginaPrincipalMedico extends javax.swing.JFrame {
     private void btn_CitasAsignadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CitasAsignadasActionPerformed
 
         try {
-
             EsconderPanel();
-
-            CitasAsignadas.PanelCitasAsignadas.setVisible(true);
+            new CitasAsignadas().PanelCitasAsignadas.setVisible(true);
             PanelPrincipalMed.add(CitasAsignadas.PanelCitasAsignadas);
             PanelPrincipalMed.updateUI();
         } catch (Exception e) {

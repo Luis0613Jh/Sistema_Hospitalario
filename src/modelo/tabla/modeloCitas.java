@@ -37,7 +37,7 @@ public class modeloCitas extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -48,8 +48,10 @@ public class modeloCitas extends AbstractTableModel {
             case 1:
                 return "Fecha";
             case 2:
-                return "Hora";
+                return "Estado";
             case 3:
+                return "Hora";
+            case 4:
                 return "Paciente";
             default:
                 return "--";
@@ -65,8 +67,10 @@ public class modeloCitas extends AbstractTableModel {
             case 1:
                 return consulta.getFecha_cita();
             case 2:
-                return consulta.getHora_cita();
+                return consulta.getEstado_consulta();
             case 3:
+                return consulta.getHora_cita();
+            case 4:
                 Persona per = personadao.buscarPersonaPorId(consulta.getId_paciente());
                 return per.getNombre() + " " + per.getApellido();
             default:

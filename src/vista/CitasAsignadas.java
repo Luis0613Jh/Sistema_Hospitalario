@@ -23,7 +23,7 @@ public class CitasAsignadas extends javax.swing.JFrame {
     }
 
     public void cargarTabla() {
-        modelocitas.setListaCitas(consultadao.listarConsultas());
+        modelocitas.setListaCitas(consultadao.getConsultasPorEstado("pendiente"));
         jTable1.setModel(modelocitas);
         jTable1.updateUI();
     }
@@ -124,7 +124,7 @@ public class CitasAsignadas extends javax.swing.JFrame {
             long id = Long.valueOf(name);
             ConsultaMedica consulta_frm = new ConsultaMedica(id);
             consulta_frm.setVisible(true);
-            this.setVisible(false);
+            this.dispose();
         }else{
             JOptionPane.showMessageDialog(null,"Seleccione una fila");
         }
