@@ -1,4 +1,3 @@
-
 package vista;
 
 import controlador.DAO.PedidoDAO;
@@ -9,7 +8,7 @@ public class Frm_Pedidos extends javax.swing.JFrame {
 
     private PedidoDAO pedidoDAO = new PedidoDAO();
     private PedidosTabla pedidosTabla = new PedidosTabla();
-    
+
     /**
      * Creates new form Frm_Pedidos
      */
@@ -27,7 +26,7 @@ public class Frm_Pedidos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Por favor, primero seleccione un pedido de la tabla");
         }
     }
-    
+
     public void verDetallesPedido() {
         if (tblPedidos.getSelectedRow() != - 1) {
             pedidoDAO.setPedido(pedidoDAO.getPedidosPorTodosMenosUnEstado("PENDIENTE").get(tblPedidos.getSelectedRow()));
@@ -43,7 +42,7 @@ public class Frm_Pedidos extends javax.swing.JFrame {
         tblPedidos.setModel(pedidosTabla);
         tblPedidos.updateUI();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -6,22 +6,11 @@ import java.time.format.DateTimeFormatter;
 
 public class UtilidadesControlador {
 
-    public static boolean validarNumeroEntero(String numero) {
-        return numero.matches("^[0-9]+$");
-    }
-
-    public static boolean validarCadena(String cadena) {
-        return cadena.matches("^([A-Za-z]+[ ]?)+$");
-    }
-
-    public static boolean validarNombre(String nombre) {
-        return nombre.matches("^(([A-Za-z]{1})?[a-z]+[ ]?)+$");
-    }
-
-    public static boolean validarCedula(String cedula) {
-        return cedula.matches("^[0-9]{10}$");
-    }
-
+    /**
+     * Método que determina los años de edad a partir de la fecha de nacimiento.
+     * @param fechaNacimientoString Fecha de nacimiento (de la forma: dd/MM/yyyy), es de tipo String.
+     * @return Retorna la edad en años, es de tipo int.
+     */
     public static int determinarEdad(String fechaNacimientoString) {
         DateTimeFormatter fechaFormato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fechaNacimiento = LocalDate.parse(fechaNacimientoString, fechaFormato);
