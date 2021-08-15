@@ -59,7 +59,7 @@ public class MedicoDAO {
      * Método que permite agregar un médico.
      *
      * @param medico Objeto que va a ser agregado al sistema, es de tipo Medico.
-     * @return Retorna true si se logró agregar el pedido, caso contrario,
+     * @return Retorna true si se logró agregar el medico, caso contrario,
      * devuelve false.
      */
     public boolean agregarMedico(Medico medico) {
@@ -144,7 +144,7 @@ public class MedicoDAO {
      * Método que permite editar un medico ingresado en el sistema.
      * 
      * @param medico Objeto que contiene los datos actualizados del medico, es de tipo Medico.
-     * @return Retorna true si se logró actualizar elmedico, caso contrario, devuelve false.
+     * @return Retorna true si se logró actualizar el médico, caso contrario, devuelve false.
      */
     public boolean editarMedico(Medico medico) {
         try {

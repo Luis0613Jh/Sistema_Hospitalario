@@ -43,6 +43,12 @@ public class PersonaDAO {
         }
     }
     
+    /**
+     * Método que busca la persona solicitada por su identificador.
+     *
+     * @param id identificador que va a ser buscado en el sistema, es de tipo Long.
+     * @return Retorna Persona si se logró encontrar la persona, caso contrario, devuelve vacio.
+     */
     public Persona buscarPersonaPorId(Long id){
         Persona aux = new Persona();
         try {
@@ -53,6 +59,12 @@ public class PersonaDAO {
         }
     }
 
+    /**
+     * Método que busca la persona solicitada por su cédula.
+     *
+     * @param cedula cédula que va a ser buscada en el sistema, es de tipo String.
+     * @return Retorna Persona si se logró encontrar la persona, caso contrario, devuelve vacio.
+     */
     public Persona buscarPorCedula(String cedula) {
         for (Object p : listarPersonas()) {
             if (buscarPersona((Persona) p).getCedula().equals(cedula)) {
@@ -63,6 +75,12 @@ public class PersonaDAO {
         return null;
     }
     
+    /**
+     * Método que permite agregar una persona.
+     *
+     * @param persona Objeto que va a ser agregado al sistema, es de tipo Persona.
+     * @return Retorna true si se logró agregar la persona, caso contrario, devuelve false.
+     */
     public boolean agregarPersona(Persona persona) {
         try {
             PersonaJpa.create(persona);
@@ -73,6 +91,11 @@ public class PersonaDAO {
         }
     }
     
+    /**
+     * Método que devuelve una lista con todas las personas ingresadas en el sistema.
+     *
+     * @return Retorna una lista de tipo List.
+     */
     public List listarPersonas(){
         List<Persona> listaPersona = new ArrayList<Persona>();
         try {
@@ -85,6 +108,7 @@ public class PersonaDAO {
 
     /**
      * Método que devuelve una lista con todos los personas que cumplan con el estado indicado.
+     * 
      * @param estado Estado por el cual se van a filtar los personas, es de tipo String.
      * @return Retorna una lista de tipo List.
      */
@@ -92,6 +116,12 @@ public class PersonaDAO {
         return PersonaJpa.getPersonasPorEstado(estado);
     }
     
+    /**
+     * Método que permite editar una persona ingresada en el sistema.
+     * 
+     * @param persona Objeto que contiene los datos actualizados de la persona, es de tipo Persona.
+     * @return Retorna true si se logró actualizar la persona, caso contrario, devuelve false.
+     */
     public boolean editarPersona(Persona persona) {
         try {
             PersonaJpa.edit(persona);
@@ -102,6 +132,12 @@ public class PersonaDAO {
         }
     }
     
+    /**
+     * Método que permite verificar si un correo es válido.
+     * 
+     * @param correo Correo que se validará si esta escrito correctamente, es de tipo String.
+     * @return Retorna true si se logró validar el correo, caso contrario, devuelve false.
+     */
     public boolean verificarCorreo(String correo){
          Pattern pattern = Pattern
                 .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -113,6 +149,13 @@ public class PersonaDAO {
          }
     }
    
+    /**
+     * Método que permite verificar si los campos telefónicos tienen una longitud correcta.
+     * 
+     * @param telefono Telefóno que se validará si esta escrito correctamente, es de tipo String.
+     * @param telefonoAuxiliar Telefóno que se validará si esta escrito correctamente, es de tipo String.
+     * @return Retorna true si se logró validar los teléfonos, caso contrario, devuelve false.
+     */
     public boolean verificarLongitudDiez(String telefono, String telefonoAuxiliar){
         if(telefono.length() == 10 && telefonoAuxiliar.length() == 10){
             return true; 
@@ -121,6 +164,12 @@ public class PersonaDAO {
         }
     }
     
+    /**
+     * Método que permite verificar si una cédula es válida.
+     * 
+     * @param cedula Cédula que se validará si esta escrita correctamente, es de tipo String.
+     * @return Retorna true si se logró validar la cédula, caso contrario, devuelve false.
+     */
     public boolean verificarCedula(String cedula) {
         Character cedulaC[] = new Character[10];
         Character comp[] = {'2', '1', '2', '1', '2', '1', '2', '1', '2'};
@@ -144,6 +193,12 @@ public class PersonaDAO {
         return validar;
     }
     
+    /**
+     * Método que permite verificar si una fecha es mayor que la fecha actual.
+     * 
+     * @param fcita Fecha que se validará si fue seleccionada correctamente, es de tipo String.
+     * @return Retorna true si se logró validar la fecha, caso contrario, devuelve false.
+     */
     public boolean MetodoVaidarFechaCita(String fcita) {
         boolean verificacion = false;
         try {
@@ -168,6 +223,12 @@ public class PersonaDAO {
         return verificacion;
     }
 
+    /**
+     * Método que permite verificar si una fecha es menor que la fecha actual.
+     * 
+     * @param fcita Fecha que se validará si fue seleccionada correctamente, es de tipo String.
+     * @return Retorna true si se logró validar la fecha, caso contrario, devuelve false.
+     */
     public boolean MetodoVaidarFechaNacimiento(String fnac) {
         boolean verificacion = false;
         try {
@@ -192,6 +253,11 @@ public class PersonaDAO {
         return verificacion;
     }
     
+    /**
+     * Método que devuelve una lista con todas las personas encontradas con el estado "activo" y con un rol "PERSONA".
+     *
+     * @return Retorna una lista de tipo List.
+     */
     public List buscarPersonasPresentar() {
         List<Persona> personas = new ArrayList();
         for (Object p : getPersonasPorEstado("activo")) {
