@@ -58,8 +58,8 @@ public class RecetaDAO {
 
     /**
      * Metodo para agregar una receta en la base de datos
-     * @param rec
-     * @return
+     * @param rec objeto de receta que va a ser agregado al que ya estaba en la BD.
+     * @return retorna un true si la receta fue guardado con éxito y un false si existe un error.
      */
     public boolean agregarReceta(Receta rec) {
 
