@@ -90,10 +90,10 @@ public class DiagnosticoDAO {
 
     /**
      * Permite agregar nuevos diagnosticos a la BD, sin preocuparnos por errores en
-     * el sistema.
+     * el sistema.     
      *
-     * @param diag
-     * @return
+     * @param diag el objeto diagnostico ha ser guardado en la BD 
+     * @return retorna un true si el Diagnostico fué guardado con exito y un false si existe un error.
      */
     public boolean agregarDiagnostico(Diagnostico diag) {
         try {
@@ -114,8 +114,8 @@ public class DiagnosticoDAO {
     /**
      * ¨Permite encontrar una consulta en la BD, mediante un ID.
      *
-     * @param id
-     * @return
+     * @param id identificador de la consulta.
+     * @return Retorna Consulta si se logró encontrar la consulta, caso contrario, devuelve vacio.
      */
     public Consulta encontrarConsulta(Long id) {
         try {
@@ -128,8 +128,8 @@ public class DiagnosticoDAO {
     /**
      * Devuelveen una lista todos los Diagnosticos guardadas en la BD.
      *
-     * @param id_persona
-     * @return
+     * @param id_persona identificador de la persona.
+     * @return retorna una lista de de diagnosticos.
      */
     public List<Diagnostico> diagnosticoPorPersona(Long id_persona) {
         return jpadiagnostico.getDiagnosticoPorPersona(id_persona);

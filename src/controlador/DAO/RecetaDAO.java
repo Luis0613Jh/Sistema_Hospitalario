@@ -73,8 +73,8 @@ public class RecetaDAO {
     /**
      * Permite editar una receta de la BD controlando las posibles excepciones.
      *
-     * @param receta
-     * @return
+     * @param receta objeto de receta que va a remplazar al que ya estaba en la BD.
+     * @return un true si se edito exitosamente en la BD.
      */
     public boolean editarReceta(Receta receta) {
         try {
@@ -89,8 +89,8 @@ public class RecetaDAO {
     /**
      * ¨Permite encontrar una consulta en la BD, mediante un ID.
      *
-     * @param id
-     * @return
+     * @param id identificador de la consulta.
+     * @return Retorna Consulta si se logró encontrar la consulta, caso contrario, devuelve vacio.
      */
     public Consulta encontrarConsulta(Long id) {
         try {
@@ -103,8 +103,8 @@ public class RecetaDAO {
     /**
      * ¨Permite encontrar una Receta en la BD, mediante un ID.
      *
-     * @param id
-     * @return
+     * @param id identificador de la receta.
+     * @return retorna una receta si se logro realizar la consulta exitosamente.
      */
     public Receta buscarReceta(long id) {
         Receta aux = new Receta();
