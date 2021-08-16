@@ -105,6 +105,7 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setLayout(null);
 
         panelImpresion.setBackground(new java.awt.Color(255, 255, 255));
@@ -188,7 +189,7 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
         jPanel3.setBounds(10, 170, 470, 450);
 
         jPanel1.add(panelImpresion);
-        panelImpresion.setBounds(10, 10, 490, 630);
+        panelImpresion.setBounds(20, 10, 490, 630);
 
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -197,7 +198,7 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
             }
         });
         jPanel1.add(btnVolver);
-        btnVolver.setBounds(10, 650, 90, 22);
+        btnVolver.setBounds(20, 650, 90, 29);
 
         btnImprimir.setText("Imprimir");
         btnImprimir.addActionListener(new java.awt.event.ActionListener() {
@@ -206,7 +207,7 @@ public class Frm_Resultados extends javax.swing.JFrame implements Printable {
             }
         });
         jPanel1.add(btnImprimir);
-        btnImprimir.setBounds(410, 650, 90, 22);
+        btnImprimir.setBounds(420, 650, 90, 29);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 

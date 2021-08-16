@@ -87,18 +87,20 @@ public class Frm_DetallesPedido extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setLayout(null);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(null);
 
         jLabel1.setText("Nro de Pedido:");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(20, 20, 90, 16);
+        jLabel1.setBounds(20, 20, 100, 16);
 
         jLabel2.setText("Médico solicitante:");
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(20, 60, 110, 16);
+        jLabel2.setBounds(20, 60, 120, 16);
 
         lblMedicoSolicitante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblMedicoSolicitante);
@@ -159,6 +161,7 @@ public class Frm_DetallesPedido extends javax.swing.JFrame {
         jPanel1.add(jPanel2);
         jPanel2.setBounds(10, 10, 600, 220);
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(null);
 
@@ -188,11 +191,11 @@ public class Frm_DetallesPedido extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnVolver);
-        btnVolver.setBounds(10, 490, 80, 22);
+        btnVolver.setBounds(10, 490, 80, 29);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(634, 539));
+        setSize(new java.awt.Dimension(634, 552));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

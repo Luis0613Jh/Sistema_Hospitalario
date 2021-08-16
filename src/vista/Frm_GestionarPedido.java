@@ -145,27 +145,26 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
 
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setLayout(null);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.setLayout(null);
 
         jLabel1.setText("Nro de Pedido:");
         jPanel2.add(jLabel1);
-        jLabel1.setBounds(20, 20, 90, 16);
+        jLabel1.setBounds(20, 20, 100, 16);
 
         jLabel2.setText("Médico solicitante:");
         jPanel2.add(jLabel2);
-        jLabel2.setBounds(20, 60, 110, 16);
+        jLabel2.setBounds(20, 60, 120, 16);
 
-        lblMedicoSolicitante.setForeground(new java.awt.Color(0, 0, 0));
         lblMedicoSolicitante.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblMedicoSolicitante);
         lblMedicoSolicitante.setBounds(150, 60, 430, 20);
 
-        lblNroPedido.setForeground(new java.awt.Color(0, 0, 0));
         lblNroPedido.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblNroPedido);
         lblNroPedido.setBounds(150, 20, 130, 20);
@@ -174,12 +173,10 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel2.add(jLabel3);
         jLabel3.setBounds(350, 20, 50, 16);
 
-        lblFecha.setForeground(new java.awt.Color(0, 0, 0));
         lblFecha.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblFecha);
         lblFecha.setBounds(410, 20, 170, 20);
 
-        lblPaciente.setForeground(new java.awt.Color(0, 0, 0));
         lblPaciente.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblPaciente);
         lblPaciente.setBounds(150, 100, 430, 20);
@@ -188,7 +185,6 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel2.add(jLabel4);
         jLabel4.setBounds(20, 100, 110, 16);
 
-        lblDireccion.setForeground(new java.awt.Color(0, 0, 0));
         lblDireccion.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblDireccion);
         lblDireccion.setBounds(150, 140, 430, 20);
@@ -201,21 +197,18 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
         jPanel2.add(jLabel6);
         jLabel6.setBounds(20, 180, 40, 16);
 
-        lblSexo.setForeground(new java.awt.Color(0, 0, 0));
         lblSexo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblSexo);
         lblSexo.setBounds(80, 180, 60, 20);
 
-        lblFechaNacimiento.setForeground(new java.awt.Color(0, 0, 0));
         lblFechaNacimiento.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblFechaNacimiento);
         lblFechaNacimiento.setBounds(300, 180, 130, 20);
 
         jLabel7.setText("Fecha de Nacimiento:");
         jPanel2.add(jLabel7);
-        jLabel7.setBounds(160, 180, 130, 16);
+        jLabel7.setBounds(160, 180, 140, 16);
 
-        lblEdad.setForeground(new java.awt.Color(0, 0, 0));
         lblEdad.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel2.add(lblEdad);
         lblEdad.setBounds(510, 180, 70, 20);
@@ -230,7 +223,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
 
         cbxExamenes.setEnabled(false);
         jPanel2.add(cbxExamenes);
-        cbxExamenes.setBounds(150, 230, 230, 22);
+        cbxExamenes.setBounds(150, 230, 230, 27);
 
         btnCancelar.setText("Cancelar");
         btnCancelar.setEnabled(false);
@@ -240,7 +233,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnCancelar);
-        btnCancelar.setBounds(600, 230, 80, 22);
+        btnCancelar.setBounds(600, 230, 80, 29);
 
         btnAñadir.setText("Añadir");
         btnAñadir.setEnabled(false);
@@ -250,11 +243,12 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnAñadir);
-        btnAñadir.setBounds(600, 170, 72, 22);
+        btnAñadir.setBounds(600, 170, 85, 29);
 
         jPanel1.add(jPanel2);
         jPanel2.setBounds(10, 10, 690, 270);
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(null);
 
@@ -281,7 +275,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
             }
         });
         jPanel3.add(btnEliminar);
-        btnEliminar.setBounds(600, 110, 80, 22);
+        btnEliminar.setBounds(600, 110, 80, 29);
 
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -290,7 +284,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
             }
         });
         jPanel3.add(btnNuevo);
-        btnNuevo.setBounds(600, 10, 80, 22);
+        btnNuevo.setBounds(600, 10, 80, 29);
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -299,7 +293,7 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
             }
         });
         jPanel3.add(btnGuardar);
-        btnGuardar.setBounds(600, 200, 80, 22);
+        btnGuardar.setBounds(600, 200, 80, 29);
 
         jButton1.setText("Cerrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -308,15 +302,14 @@ public class Frm_GestionarPedido extends javax.swing.JFrame {
             }
         });
         jPanel3.add(jButton1);
-        jButton1.setBounds(10, 200, 72, 22);
+        jButton1.setBounds(10, 200, 82, 29);
 
         jPanel1.add(jPanel3);
         jPanel3.setBounds(10, 290, 690, 240);
 
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 720, 570);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(739, 581));
+        setSize(new java.awt.Dimension(715, 581));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

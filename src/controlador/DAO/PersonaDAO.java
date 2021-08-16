@@ -226,7 +226,7 @@ public class PersonaDAO {
     /**
      * Método que permite verificar si una fecha es menor que la fecha actual.
      * 
-     * @param fcita Fecha que se validará si fue seleccionada correctamente, es de tipo String.
+     * @param fnac Fecha que se validará si fue seleccionada correctamente, es de tipo String.
      * @return Retorna true si se logró validar la fecha, caso contrario, devuelve false.
      */
     public boolean MetodoVaidarFechaNacimiento(String fnac) {

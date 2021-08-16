@@ -1,4 +1,3 @@
-
 package vista.principales;
 
 import java.awt.Image;
@@ -17,7 +16,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
     /**
      * Creates new form Frm_Principal_Laboratorio
      */
-       
+    
     Frm_Laboratorio fl = new Frm_Laboratorio();
     Frm_Categoria fc = new Frm_Categoria();
     Frm_SolicitudPedido fsp = new Frm_SolicitudPedido();
@@ -26,30 +25,20 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
 
     public Frm_Principal_Laboratorio() {
         initComponents();
-//        ImageIcon imagen2 = new ImageIcon(getClass().getResource("/vista/Imagen/hospitalLogo.png"));
-//        Icon fondo1 = new ImageIcon(imagen2.getImage().getScaledInstance(Logo.getWidth(), Logo.getHeight(), Image.SCALE_DEFAULT));
-//        Logo.setIcon(fondo1);
-//        this.repaint();
-//        
-//        setLocationRelativeTo(this);
-//        setResizable(false);
-
     }
-    
+
     public Frm_Principal_Laboratorio(Persona persona) {
         initComponents();
         ImageIcon imagen2 = new ImageIcon(getClass().getResource("/vista/Imagen/hospitalLogo.png"));
         Icon fondo1 = new ImageIcon(imagen2.getImage().getScaledInstance(Logo.getWidth(), Logo.getHeight(), Image.SCALE_DEFAULT));
         Logo.setIcon(fondo1);
         this.repaint();
-        lblUsuarioPrincipalLab.setText(persona.getNombre()+" "+persona.getApellido());
+        lblUsuarioPrincipalLab.setText(persona.getNombre() + " " + persona.getApellido());
         setLocationRelativeTo(this);
         setResizable(false);
-
     }
 
     public void EsconderPanel() {
-
         Frm_Categoria.PanelCategoria.setVisible(false);
         Frm_Examenes.PanelExamen.setVisible(false);
         Frm_Laboratorio.PanelLab.setVisible(false);
@@ -157,25 +146,29 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_laboratorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_categoria, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
-                    .addComponent(btn_Examen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_SolPedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PanelLogoL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_Pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelPLaboratorio, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblUsuarioPrincipalLab)
-                        .addGap(29, 29, 29))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addContainerGap())))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_SolPedido, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_Examen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_categoria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_laboratorio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelLogoL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_Pedido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelPLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 685, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblUsuarioPrincipalLab)
+                                .addGap(29, 29, 29))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addContainerGap())))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,8 +204,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
 
         try {
             EsconderPanel();
-
-           new  Frm_Laboratorio().PanelLab.setVisible(true);
+            new Frm_Laboratorio().PanelLab.setVisible(true);
             PanelPLaboratorio.add(Frm_Laboratorio.PanelLab);
             PanelPLaboratorio.updateUI();
         } catch (Exception e) {
@@ -233,8 +225,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
     private void btn_SolPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SolPedidoActionPerformed
         try {
             EsconderPanel();
-
-           new  Frm_SolicitudPedido().PanelSolP.setVisible(true);
+            new Frm_SolicitudPedido().PanelSolP.setVisible(true);
             PanelPLaboratorio.add(Frm_SolicitudPedido.PanelSolP);
             PanelPLaboratorio.updateUI();
         } catch (Exception e) {
@@ -244,7 +235,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
     private void btn_ExamenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ExamenActionPerformed
         try {
             EsconderPanel();
-           new  Frm_Examenes().PanelExamen.setVisible(true);
+            new Frm_Examenes().PanelExamen.setVisible(true);
             //Frm_Examenes.PanelExamen.setVisible(true);
             PanelPLaboratorio.add(Frm_Examenes.PanelExamen);
             PanelPLaboratorio.updateUI();
@@ -255,8 +246,7 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
     private void btn_PedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_PedidoActionPerformed
         try {
             EsconderPanel();
-
-           new  Frm_Pedidos().PanelPedido.setVisible(true);
+            new Frm_Pedidos().PanelPedido.setVisible(true);
             PanelPLaboratorio.add(Frm_Pedidos.PanelPedido);
             PanelPLaboratorio.updateUI();
         } catch (Exception e) {
@@ -264,9 +254,9 @@ public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_PedidoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       inicio_sesion is = new inicio_sesion();
-       this.dispose();
-       is.setVisible(true);
+        inicio_sesion is = new inicio_sesion();
+        this.dispose();
+        is.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

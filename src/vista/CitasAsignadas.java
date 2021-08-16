@@ -53,6 +53,9 @@ public class CitasAsignadas extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Citas Asignadas");
 
+        PanelCitasAsignadas.setBackground(new java.awt.Color(153, 204, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Citas Asignadas"));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(

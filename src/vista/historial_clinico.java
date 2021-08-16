@@ -132,8 +132,9 @@ public class historial_clinico extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Historial Clínico");
 
-        panel_hc.setBackground(new java.awt.Color(204, 204, 204));
+        panel_hc.setBackground(new java.awt.Color(153, 204, 255));
 
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Personales"));
 
         jLabel15.setText("Cédula:");
@@ -182,6 +183,7 @@ public class historial_clinico extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Diagnósticos"));
 
         tbl_diagnosticos.setModel(new javax.swing.table.DefaultTableModel(
@@ -228,6 +230,7 @@ public class historial_clinico extends javax.swing.JFrame {
                 .addGap(206, 206, 206))
         );
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de Sangre , Habito y Enfermedades Hereditarias"));
 
         jLabel1.setText("Tipo de Sangre:");
