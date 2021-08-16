@@ -25,8 +25,8 @@ public class HistorialClinicoDAO {
     /**
      * Metodo para crear un nuevo historial clínico en la base de datos
      *
-     * @param hc
-     * @return
+     * @param hc Objeto que va a ser agregado al sistema
+     * @return Retorna true si se logró agregar el Historial Clinico, caso contrario, devuelve false.
      */
     public boolean agregarHC(HistorialClinico hc) {
 
@@ -41,8 +41,8 @@ public class HistorialClinicoDAO {
     /**
      * Metodo para editar un historial clínico en la base de datos
      *
-     * @param hc
-     * @return
+     * @param hc Objeto que contiene los datos actualizados del Historial Clinico.
+     * @return Retorna true si se logró actualizar el Historial Clinico, caso contrario, devuelve false.
      */
     public boolean editarHC(HistorialClinico hc) {
 
@@ -58,8 +58,8 @@ public class HistorialClinicoDAO {
      * Metodo para encontrar un historial clínico en la base de datos mediante
      * su id
      *
-     * @param hc
-     * @return
+     * @param hc Objeto que contiene el id del Historial Clinico a buscar
+     * @return Retorna el Historial Clinico en caso de encontrarlo.
      */
     public HistorialClinico encontrarHC(HistorialClinico hc) {
         HistorialClinico aux = new HistorialClinico();
@@ -76,7 +76,7 @@ public class HistorialClinicoDAO {
      * Metodo para devolver una lista de historiales clínicos de la base de
      * datos
      *
-     * @return
+     * @return Retorna una lista de tipo List. que contiene todos los Historiales Clinicos
      */
     public List TodosHistorialClinico() {
         List<HistorialClinico> Lhc = new ArrayList<HistorialClinico>();
@@ -92,39 +92,43 @@ public class HistorialClinicoDAO {
      * Metodo para devolver una lista de historiales clínicos de la base de
      * datos , mediante un intervalo
      *
-     * @param j
-     * @param i
-     * @return
+     * @param j Ultima posición del objeto
+     * @param i Primera posición del objeto
+     * @return Devuelve una lista de historiales clínicos dependiendo del intervalo ingresado
      */
-    public boolean IntervaloHC(int j, int i) {
-
+    public List IntervaloHC(int j, int i) {
+         List<HistorialClinico> Lhc = new ArrayList<HistorialClinico>();
         try {
-            hcJPAC.findHistorialClinicoEntities(j, i);
-            return true;
+            Lhc =hcJPAC.findHistorialClinicoEntities(j, i);
+            return Lhc;
         } catch (Exception e) {
-            return false;
+            return Lhc;
         }
     }
 
     /**
      * Metodo que cuenta los historiales clínicos existentes en la Base de Datos
      *
-     * @return
+     * @return Devuelve la cantidad de historiales clínicos que se encuentran en el sistema
      */
-    public boolean contadorHC() {
-
+    public int contadorHC() {
+        int total = 0;
         try {
-            hcJPAC.getHistorialClinicoCount();
-            return true;
+            total = hcJPAC.getHistorialClinicoCount();
+            return total;
         } catch (Exception e) {
-            return false;
+            return total;
         }
     }
-    
+    /**
+     * 
+     * @param cedula String con la que se va a comparar la cedula de una 
+     * persona ingresada en el sistema, para encontrar su historial clínico
+     * @return Retorna el historial clínico encontrado, caso controario retorna null
+     */
     public HistorialClinico buscarHistorial(String cedula) {
         for (Object p : TodosHistorialClinico()) {
             if (personaDAO.buscarPersona(((HistorialClinico) p).getPersona()).getCedula().equals(cedula)) {
-                System.out.println("SI ENCONTRO HISTORIAL");
                 return (HistorialClinico) p;
             }
         }

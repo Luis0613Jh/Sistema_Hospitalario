@@ -13,9 +13,6 @@ public class Frm_Laboratorio extends javax.swing.JFrame {
     private LaboratoriosTabla laboratoriosTabla = new LaboratoriosTabla();
     private MedicoDAO medicoDAO = new MedicoDAO();
 
-    /**
-     * Creates new form Frm_Laboratorio
-     */
     public Frm_Laboratorio() {
         initComponents();
         cargarTabla();

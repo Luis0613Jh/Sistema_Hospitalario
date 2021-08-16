@@ -24,8 +24,8 @@ public class ExamenDAO {
     /**
      * Metodo que crea un nuevo examen en la base de datos
      *
-     * @param exam
-     * @return
+     * @param exam Objeto que va a ser agregado al sistema
+     * @return Retorna true si se logró agregar el examen, caso contrario, devuelve false.
      */
     public boolean agregarExam(Examen exam) {
         try {
@@ -39,8 +39,8 @@ public class ExamenDAO {
     /**
      * Metodo que edita un examen en la base de datos
      *
-     * @param exam
-     * @return
+     * @param exam Objeto que contiene los datos actualizados del examen.
+     * @return Retorna true si se logró atualizar el examen, caso contrario, devuelve false.
      */
     public boolean editarExam(Examen exam) {
 
@@ -54,8 +54,8 @@ public class ExamenDAO {
 
     /**
      * Metodo que elimina un examen en la base de datos
-     * @param exam
-     * @return
+     * @param exam Objeto a eliminar 
+     * @return Retorna true si se logró eliminar el examen, caso contrario, devuelve false.
      */
     public boolean eliminarExam(Examen exam) {
 
@@ -69,8 +69,8 @@ public class ExamenDAO {
 
     /**
      * Metodo que encuentra un examen existente en la base de datos
-     * @param exam
-     * @return
+     * @param exam  Objeto que contiene el id del examen a buscar
+     * @return Retorna el examen en caso de encontrarlo.
      */
     public Examen encontrarExam(Examen exam) {
         Examen aux = new Examen();
@@ -84,7 +84,7 @@ public class ExamenDAO {
 
     /**
      * Metodo que lista todos los examenes de la base de datos
-     * @return
+     * @return Retorna una lista de todos los examenes existentes en el sistema
      */
     public List TodosExam() {
         List<Examen> Ecat = new ArrayList<>();
@@ -99,23 +99,23 @@ public class ExamenDAO {
     /**
      * Metodo que lista todos los examenes de la base de datos, mediante un
      * intervalo.
-     * @param j
-     * @param i
-     * @return
+     * @param j  Ultima posición del objeto
+     * @param i  Primera posición del  objeto
+     * @return Devuelve una lista de examenes dependiendo del intervalo ingresado
      */
-    public boolean IntervaloExam(int j, int i) {
-
+    public List IntervaloExam(int j, int i) {
+        List<Examen> Ecat = new ArrayList<>();
         try {
-            examJPAC.findExamenEntities(j, i);
-            return true;
+            Ecat = examJPAC.findExamenEntities(j, i);
+            return Ecat;
         } catch (Exception e) {
-            return false;
+            return Ecat;
         }
     }
 
     /**
      * Metodo que cuenta los examenes existentes en la base de datos
-     * @return
+     * @return Retorna la cantidad de examenes que se encuentran en el sistema 
      */
     public int contadorExam() {
         int total = 0;

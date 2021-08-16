@@ -11,9 +11,6 @@ public class Frm_DetallesPedido extends javax.swing.JFrame {
     private PersonaDAO personaDAO = new PersonaDAO();
     private ExamenTabla examenesTabla = new ExamenTabla();
 
-    /**
-     * Creates new form Frm_GestionarPedido
-     */
     public Frm_DetallesPedido() {
         initComponents();
     }

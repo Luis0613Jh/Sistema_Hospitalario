@@ -12,10 +12,6 @@ import vista.Frm_SolicitudPedido;
 import vista.inicio_sesion;
 
 public class Frm_Principal_Laboratorio extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Frm_Principal_Laboratorio
-     */
     
     Frm_Laboratorio fl = new Frm_Laboratorio();
     Frm_Categoria fc = new Frm_Categoria();

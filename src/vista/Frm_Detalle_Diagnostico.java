@@ -1,22 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package vista;
 
 import controlador.DAO.DiagnosticoDAO;
 import controlador.DAO.PersonaDAO;
 
-/**
- *
- * @author Jean Agreda
- */
 public class Frm_Detalle_Diagnostico extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Frm_Detalle_Diagnostico
-     */
     DiagnosticoDAO diagnosticoDAO ;
     PersonaDAO personaDAO = new PersonaDAO();
     public Frm_Detalle_Diagnostico() {

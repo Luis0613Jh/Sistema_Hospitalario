@@ -9,7 +9,7 @@ public class UtilidadesVista {
     /**
      * Método que permite cargar objetos de tipo Medico en un combobox.
      * @param cbx Combobox en el que se va a cargar los objetos de tipo Medico.
-     * @param objetos Lista de objetos de tipo Medico que se van a cargar.
+     * @param medicos Lista de objetos de tipo Medico que se van a cargar.
      */
     public static void cargarCbxMedicos(JComboBox cbx, List<Medico> medicos) {
         cbx.removeAllItems();

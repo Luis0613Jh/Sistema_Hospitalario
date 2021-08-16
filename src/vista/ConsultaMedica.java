@@ -6,9 +6,6 @@ import javax.swing.JOptionPane;
 
 public class ConsultaMedica extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ConsultaMedica
-     */
     private DiagnosticoDAO diagonosticodao = new DiagnosticoDAO();
     private ConsultaDAO consultaDAO = new ConsultaDAO();
 

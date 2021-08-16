@@ -10,9 +10,6 @@ import vista.inicio_sesion;
 
 public class PaginaPrincipalMedico extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Frm_Principal_Lab
-     */
     CitasAsignadas c = new CitasAsignadas();
     public PaginaPrincipalMedico() {
         initComponents();  

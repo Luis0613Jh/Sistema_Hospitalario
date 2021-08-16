@@ -23,8 +23,8 @@ public class CategoriaDAO {
 
     /**
      * Metodo para agregar una categoria en la base de datos
-     * @param cat
-     * @return
+     * @param cat Objeto que va a ser agregado al sistema
+     * @return Retorna true si se logró agregar la categoria, caso contrario, devuelve false.
      */
     public boolean agregarCat(Categoria cat) {
 
@@ -38,8 +38,8 @@ public class CategoriaDAO {
 
     /**
      * Metodo para editar una categoria en la base de datos
-     * @param cat
-     * @return
+     * @param cat Objeto que contiene los datos actualizados de la categoria.
+     * @return Retorna true si se logró actualizar la categoria, caso contrario, devuelve false.
      */
     public boolean editarCat(Categoria cat) {
 
@@ -52,8 +52,8 @@ public class CategoriaDAO {
     }
     /**
      * Metodo para eliminar una categoria en la base de datos
-     * @param cat
-     * @return
+     * @param cat Objeto a eliminar 
+     * @return Retorna true si se logró eliminar la categoria, caso contrario, devuelve false.
      */
     public boolean eliminarCat(Categoria cat) {
 
@@ -67,8 +67,8 @@ public class CategoriaDAO {
 
     /**
      * Metodo para encontrar una categoria existente en la base de datos
-     * @param cat
-     * @return
+     * @param cat Objeto que contiene el id de la categoria a buscar
+     * @return Retorna la categoria en caso de encontrarlo.
      */
     public Categoria encontrarCat(Categoria cat) {
         Categoria aux = new Categoria();
@@ -82,7 +82,7 @@ public class CategoriaDAO {
 
     /**
      * Metodo que lista todas las categorias en la base de datos
-     * @return
+     * @return  Retorna una lista de todas las categorias existentes en el sistema
      */
     public List TodasCat() {
         List<Categoria> Lcat = new ArrayList<Categoria>();
@@ -97,9 +97,9 @@ public class CategoriaDAO {
     /**
      * Metodo que lista todas las categorias en la base de datos, mediante
      * un intervalo
-     * @param j
-     * @param i
-     * @return
+     * @param j Ultima posición del objeto
+     * @param i Primera posición del objeto
+     * @return Devuelve una lista de categorias dependiendo del intervalo ingresado
      */
     public boolean IntervaloCat(int j, int i) {
 
@@ -113,7 +113,7 @@ public class CategoriaDAO {
 
     /**
      * Metodo que cuenta todas las categorias existentes en la base de datos
-     * @return
+     * @return Retorna la cantidad de categorias que se encuentran en el sistema 
      */
     public int contadorCat() {
         int total = 0;

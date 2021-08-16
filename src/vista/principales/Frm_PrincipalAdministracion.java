@@ -9,9 +9,6 @@ import vista.inicio_sesion;
 
 public class Frm_PrincipalAdministracion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Frm_PrincipalAdministracion
-     */
     gestionar_personal_medico gpm = new gestionar_personal_medico();
 
     public Frm_PrincipalAdministracion() {

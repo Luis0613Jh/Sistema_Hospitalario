@@ -9,9 +9,6 @@ public class Frm_SolicitudPedido extends javax.swing.JFrame {
     private PedidoDAO pedidoDAO = new PedidoDAO();
     private PedidosTabla pedidosTabla = new PedidosTabla();
 
-    /**
-     * Creates new form Frm_SolicitudPedido
-     */
     public Frm_SolicitudPedido() {
         initComponents();
         cargarTabla();

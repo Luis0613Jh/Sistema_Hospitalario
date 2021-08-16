@@ -10,9 +10,6 @@ import modelo.tabla.HistorialClinicoTabla;
 
 public class historial_clinico extends javax.swing.JFrame {
 
-    /**
-     * Creates new form historia_clinica
-     */
     HistorialClinicoDAO hcDAO = new HistorialClinicoDAO();
     PersonaDAO personaDAO = new PersonaDAO();
     DiagnosticoDAO dDAO = new DiagnosticoDAO();
@@ -22,12 +19,7 @@ public class historial_clinico extends javax.swing.JFrame {
     
     Long idPersona;
     public historial_clinico() {
-//        initComponents();
-//        bloquearDatosPersona();
-//        bloquearDatosHC();
-//        cargarTabla();
-//        cargarPersona();
-       // cargarTablaDiagnosticos();
+        initComponents();
     }
     
     public historial_clinico(Long idPersona) {

@@ -10,9 +10,6 @@ import vista.inicio_sesion;
 
 public class Frm_PrincipalAtencion_Cliente extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Frm_PrincipalAtencion_Cliente
-     */
     gestionar_paciente gp = new gestionar_paciente();
     AgendarCita ac = new AgendarCita();
 

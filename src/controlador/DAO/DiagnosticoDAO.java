@@ -92,7 +92,7 @@ public class DiagnosticoDAO {
      * Permite agregar nuevos diagnosticos a la BD, sin preocuparnos por errores en
      * el sistema.
      *
-     * @param consulta
+     * @param diag
      * @return
      */
     public boolean agregarDiagnostico(Diagnostico diag) {

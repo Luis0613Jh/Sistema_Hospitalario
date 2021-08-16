@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package vista;
 
 import controlador.DAO.CategoriaDAO;
@@ -16,15 +12,8 @@ import modelo.Examen;
 import modelo.tabla.ExamenTabla;
 import vista.utilidades.UtilidadesVista;
 
-/**
- *
- * @author Jean Agreda
- */
 public class Frm_Examenes extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Frm_Examenes
-     */
     ExamenDAO examenDAO = new ExamenDAO();
     CategoriaDAO categoriaDAO = new CategoriaDAO();
     LaboratorioDAO laboratorioDAO = new LaboratorioDAO();
